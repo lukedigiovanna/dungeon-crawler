@@ -1,13 +1,16 @@
 #pragma once
 
-#include "../GameObject.h"
 #include <memory>
 
-// class Component {
-// private:
-//     // std::shared_ptr<GameObject> gameObject;
-// public:
-//     Component();
+class GameObject; // Forward declare the GameObject class
 
-//     virtual void update(float dt);
-// };
+class Component {
+private:
+    std::shared_ptr<GameObject> gameObject;
+public:
+    Component();
+    virtual ~Component() = default;
+
+    // May or may not be overwritten
+    void update(float dt);
+};

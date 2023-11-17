@@ -13,6 +13,7 @@ add_executable(dungeon
     src/engine/Scene.cpp
     src/engine/graphics/Window.cpp
     src/engine/components/Component.cpp
+    src/engine/components/Camera.cpp
     src/engine/utils/Math.cpp
 )
 

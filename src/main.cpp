@@ -9,8 +9,7 @@ int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
     Engine engine("Cool");
-    engine.start();
-    engine.join();
+    engine.run();
 
     return 0;
 
@@ -38,23 +37,7 @@ int main(int argc, char* argv[]) {
     // }
 
     // // Main loop
-    // bool running = true;
-    // while (running) {
-    //     SDL_Event event;
-    //     while (SDL_PollEvent(&event)) {
-    //         if (event.type == SDL_QUIT) {
-    //             running = false;
-    //         }
-    //     }
-
-    //     // Clear screen
-    //     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // white
-    //     SDL_RenderClear(renderer);
-
-    //     // Draw a rectangle
-    //     SDL_Rect rect = { 250, 190, 140, 100 };
-    //     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // red
-    //     SDL_RenderFillRect(renderer, &rect);
+    
 
     //     // Update screen
     //     SDL_RenderPresent(renderer);
