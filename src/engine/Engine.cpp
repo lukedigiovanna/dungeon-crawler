@@ -10,13 +10,6 @@
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
     scene = std::make_unique<Scene>();
-    std::shared_ptr<GameObject> obj = std::make_shared<GameObject>(); 
-    obj->position = { 3, 5 };
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>();
-    obj->addComponent(camera);
-    std::shared_ptr<Camera> retrievedCam = obj->getComponent<Camera>();
-    std::cout << retrievedCam->zoomScale << std::endl;
-    scene->addGameObject(obj);
 }
 
 void Engine::renderLoop() {
@@ -28,14 +21,7 @@ void Engine::renderLoop() {
             }
         }
 
-        // Clear screen
-        SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255); // black
-        SDL_RenderClear(window->renderer);
-
-        // Draw a rectangle
-        SDL_Rect rect = { 250, 190, 140, 100 };
-        SDL_SetRenderDrawColor(window->renderer, 255, 0, 0, 255); // red
-        SDL_RenderFillRect(window->renderer, &rect);
+        scene->render(window->renderer);
 
         SDL_RenderPresent(window->renderer);
     }

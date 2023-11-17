@@ -6,8 +6,11 @@
 #include <unordered_map>
 #include <typeindex>
 
-class GameObject {
+class Scene;
+
+class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
+    std::weak_ptr<Scene> scene;
     std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
 public:
     vec2 position;
@@ -18,6 +21,7 @@ public:
     void addComponent(std::shared_ptr<T> component) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
         components[std::type_index(typeid(T))] = component;
+        components[std::type_index(typeid(T))]->setGameObject(shared_from_this());
     }
 
     template<typename T>
@@ -29,4 +33,6 @@ public:
         }
         return nullptr;
     }
+
+    void setScene(std::shared_ptr<Scene> scene);
 };
