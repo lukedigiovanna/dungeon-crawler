@@ -1,20 +1,68 @@
 #include "Camera.h"
 #include "../Scene.h"
+#include "Lifetime.h"
 
-Camera::Camera() : zoomScale(1.0f) {}
+#include <iostream>
+#include <math.h>
 
-void Camera::render(SDL_Renderer* renderer) const {
+Camera::Camera() : scale(10.0f) {}
+
+void Camera::update(float dt) {
+    std::shared_ptr<GameObject> obj = getGameObject();
+    std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
+    float age = lifetime->getAge();
+    obj->position.x = std::cosf(age) * 2.0f;
+    obj->position.y = std::sinf(age) * 2.0f;
+    this->scale = std::cosf(age) * 3 + 5;
+    std::cout << age << std::endl;
+}
+
+void Camera::render(Window* window) const {
     // acquire all game objects
-    std::shared_ptr<GameObject> obj = this->gameObject.lock();
-    if (obj == nullptr)
-        throw std::runtime_error("Cannot render from a camera not attached to a GameObject");
+    std::shared_ptr<GameObject> obj = this->getGameObject();
+    int scWidth = window->width();
+    int scHeight = window->height();
+    float aspectRatio = static_cast<float>(scWidth) / static_cast<float>(scHeight);
+    float worldWidth = this->scale;
+    float worldHeight = 1.0f / aspectRatio * worldWidth;
+
+    float cameraLeftWorldX = obj->position.x - worldWidth / 2.0f,
+          cameraRightWorldX = obj->position.x + worldWidth / 2.0f,
+          cameraBottomWorldY = obj->position.y - worldHeight / 2.0f,
+          cameraTopWorldY = obj->position.y + worldHeight / 2.0f;
 
     std::shared_ptr<Scene> scene = obj->getScene();
     auto gameObjects = scene->getGameObjects();
-    
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+
+    SDL_SetRenderDrawColor(window->renderer, 255, 0, 0, 255);
     for (auto gameObject : gameObjects) {
-        SDL_FRect rect = { gameObject->position.x, gameObject->position.y, 10, 10 };
-        SDL_RenderDrawRectF(renderer, &rect);
+        // Validate this object is in the view of the camera
+        // Off left side
+        if (gameObject->position.x + gameObject->scale.x / 2.0f < cameraLeftWorldX)
+            continue;
+        // Off right side
+        if (gameObject->position.x - gameObject->scale.x / 2.0f > cameraRightWorldX)
+            continue;
+        // Off bottom side
+        if (gameObject->position.y + gameObject->scale.y / 2.0f < cameraBottomWorldY)
+            continue;
+        // Off top side
+        if (gameObject->position.y - gameObject->scale.y / 2.0f > cameraTopWorldY)
+            continue;
+
+        // Perform world -> screen coordinate transformation
+        float wx = (gameObject->position.x - cameraLeftWorldX) / worldWidth,
+              wy = (gameObject->position.y - cameraBottomWorldY) / worldHeight;
+    
+        float sx = wx * scWidth;
+        float sy = scHeight - wy * scHeight;
+
+        float sw = gameObject->scale.x / worldWidth * scWidth;
+        float sh = gameObject->scale.y / worldHeight * scHeight;
+    
+        // printf("w (%.2f, %.2f) s (%.2f, %.2f)\n", wx, wy, sx, sy);
+
+        SDL_FRect rect = { sx - sw / 2, sy - sh / 2, sw, sh };
+        SDL_RenderDrawRectF(window->renderer, &rect);
     }
 }

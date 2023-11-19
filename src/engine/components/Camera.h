@@ -1,13 +1,15 @@
 #pragma once
 
 #include "Component.h"
+#include "../graphics/Window.h"
 #include <SDL.h>
 
 class Camera: public Component {
 private:
-    float zoomScale;
+    float scale;
 public:
     Camera();
 
-    void render(SDL_Renderer* renderer) const;
+    void update(float dt) override;
+    void render(Window* window) const;
 };

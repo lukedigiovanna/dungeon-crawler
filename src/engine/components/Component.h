@@ -5,14 +5,15 @@
 class GameObject; // Forward declare the GameObject class
 
 class Component {
-protected:
+private:
     std::weak_ptr<GameObject> gameObject;
 public:
     Component();
     virtual ~Component() = default;
 
+    std::shared_ptr<GameObject> getGameObject() const;
     void setGameObject(std::shared_ptr<GameObject> gameObject);
 
     // May or may not be overwritten
-    void update(float dt);
+    virtual void update(float dt);
 };

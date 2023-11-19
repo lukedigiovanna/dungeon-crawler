@@ -39,6 +39,7 @@ void Engine::gameLoop() {
         // #### START LOGIC ####
 
         // std::cout << dt << std::endl;
+        this->scene->update(dt);
 
         // #### END LOGIC ####
         

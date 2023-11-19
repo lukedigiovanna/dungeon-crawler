@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject() : position{0.0f, 0.0f} {
+GameObject::GameObject() : position{0.0f, 0.0f}, scale{1.0f, 1.0f} {
 
 }
 
@@ -13,4 +13,10 @@ std::shared_ptr<Scene> GameObject::getScene() const {
     if (scenePtr == nullptr)
         throw std::runtime_error("Cannot acquire scene from a GameObject which is not in a scene");
     return scenePtr;
+}
+
+void GameObject::update(float dt) {
+    for (const auto & [ typeId, component] : this->components) {
+        component->update(dt);
+    }
 }

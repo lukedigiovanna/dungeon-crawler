@@ -22,4 +22,5 @@ public:
     std::vector<std::shared_ptr<GameObject>> const& getGameObjects() const; 
 
     void render(Window* window) const;
+    void update(float dt);
 };

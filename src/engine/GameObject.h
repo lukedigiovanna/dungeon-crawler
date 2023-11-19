@@ -14,6 +14,7 @@ private:
 public:
     std::weak_ptr<Scene> scene;
     vec2 position;
+    vec2 scale;
 
     GameObject();
 
@@ -33,6 +34,8 @@ public:
         }
         return nullptr;
     }
+
+    void update(float dt);
 
     void setScene(std::shared_ptr<Scene> scene);
     
