@@ -10,7 +10,7 @@
 class Engine {
 private:
     std::unique_ptr<Window> window;
-    std::unique_ptr<Scene> scene;    
+    std::shared_ptr<Scene> scene;    
 
     std::unique_ptr<std::thread> gameThread;
 

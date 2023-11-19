@@ -5,7 +5,7 @@
 class GameObject; // Forward declare the GameObject class
 
 class Component {
-private:
+protected:
     std::weak_ptr<GameObject> gameObject;
 public:
     Component();

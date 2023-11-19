@@ -9,7 +9,7 @@
 
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
-    scene = std::make_unique<Scene>();
+    scene = std::make_shared<Scene>();
 }
 
 void Engine::renderLoop() {
@@ -21,7 +21,7 @@ void Engine::renderLoop() {
             }
         }
 
-        scene->render(window->renderer);
+        scene->render(window.get());
 
         SDL_RenderPresent(window->renderer);
     }
@@ -38,7 +38,7 @@ void Engine::gameLoop() {
 
         // #### START LOGIC ####
 
-        std::cout << dt << std::endl;
+        // std::cout << dt << std::endl;
 
         // #### END LOGIC ####
         
@@ -50,9 +50,10 @@ void Engine::gameLoop() {
 }
 
 void Engine::run() {
-    // spin up the thred instances
-    gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
+    // spin up the thread instances
     active = true;
+    scene->init();
+    gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
     renderLoop();
     gameThread->join();
 }

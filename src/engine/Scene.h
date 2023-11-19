@@ -1,6 +1,9 @@
 #pragma once
 
 #include "GameObject.h"
+#include "components/Camera.h"
+#include "graphics/Window.h"
+
 #include <memory>
 #include <vector>
 #include <SDL.h>
@@ -13,7 +16,10 @@ private:
 public:
     Scene();
 
-    void addGameObject(std::shared_ptr<GameObject> gameObject);
+    void init();
 
-    void render(SDL_Renderer* renderer) const;
+    void addGameObject(std::shared_ptr<GameObject> gameObject);
+    std::vector<std::shared_ptr<GameObject>> const& getGameObjects() const; 
+
+    void render(Window* window) const;
 };

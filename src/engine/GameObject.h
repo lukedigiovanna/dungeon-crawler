@@ -10,9 +10,9 @@ class Scene;
 
 class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
-    std::weak_ptr<Scene> scene;
     std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
 public:
+    std::weak_ptr<Scene> scene;
     vec2 position;
 
     GameObject();
@@ -35,4 +35,6 @@ public:
     }
 
     void setScene(std::shared_ptr<Scene> scene);
+    
+    std::shared_ptr<Scene> getScene() const;
 };
