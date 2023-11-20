@@ -20,6 +20,8 @@ public:
 
     Engine(std::string gameName);
 
+    void loadScene(std::shared_ptr<Scene> scene);
+
     // Initiates a render thread and a logic thread
     void run();
     void halt();

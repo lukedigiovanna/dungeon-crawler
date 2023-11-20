@@ -7,13 +7,16 @@
 
 Camera::Camera() : scale(10.0f) {}
 
+void Camera::init() {
+    std::shared_ptr<Lifetime> lifetime = std::make_shared<Lifetime>();
+    this->getGameObject()->addComponent(lifetime); 
+}
+
 void Camera::update(float dt) {
     std::shared_ptr<GameObject> obj = getGameObject();
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
     float age = lifetime->getAge();
-    obj->position.x = std::cosf(age) * 2.0f;
-    obj->position.y = std::sinf(age) * 2.0f;
-    this->scale = std::cosf(age) * 3 + 5;
+    this->scale = std::cosf(age) * 2 + 8;
 }
 
 void Camera::render(Window* window) const {

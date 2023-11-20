@@ -55,3 +55,7 @@ inline float magnitude2(const vec2& vec) {
 inline float magnitude(const vec2& vec) {
     return std::sqrtf(magnitude2(vec));
 }
+
+// random numbers
+
+float random(float a, float b);

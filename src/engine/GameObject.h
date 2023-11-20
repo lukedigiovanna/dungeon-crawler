@@ -20,11 +20,18 @@ public:
 
     GameObject();
 
+    // Initializes any components added before the GameObject was added to a scene
+    void init();
+    void update(float dt);
+
     template<typename T>
     void addComponent(std::shared_ptr<T> component) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
         components[std::type_index(typeid(T))] = component;
         components[std::type_index(typeid(T))]->setGameObject(shared_from_this());
+        if (isInScene()) {
+            components[std::type_index(typeid(T))]->init();
+        }
     }
 
     template<typename T>
@@ -34,6 +41,7 @@ public:
         if (it != components.end()) {
             return std::dynamic_pointer_cast<T>(it->second);
         }
+        throw std::runtime_error("Tried getting a component type which is not on the given game object");
         return nullptr;
     }
 
@@ -41,9 +49,7 @@ public:
     void render(Window* window, float x, float y, float width, float height) const;
     bool hasRenderer() const;
 
-    void update(float dt);
-
     void setScene(std::shared_ptr<Scene> scene);
-    
     std::shared_ptr<Scene> getScene() const;
+    bool isInScene() const;
 };

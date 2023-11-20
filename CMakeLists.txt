@@ -19,6 +19,9 @@ add_executable(dungeon
     src/engine/components/ShapeRenderer.cpp
     src/engine/utils/Math.cpp
     src/engine/utils/Graphics.cpp
+
+    src/game/Scenes.cpp
+    src/game/components/Spawner.cpp
 )
 
 target_link_libraries(

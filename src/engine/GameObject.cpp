@@ -29,6 +29,17 @@ std::shared_ptr<Scene> GameObject::getScene() const {
     return scenePtr;
 }
 
+bool GameObject::isInScene() const {
+    std::shared_ptr<Scene> scene = this->scene.lock();
+    return scene != nullptr;
+}
+
+void GameObject::init() {
+    for (const auto & [ typeId, component] : this->components) {
+        component->init();
+    }
+}
+
 void GameObject::update(float dt) {
     for (const auto & [ typeId, component] : this->components) {
         component->update(dt);

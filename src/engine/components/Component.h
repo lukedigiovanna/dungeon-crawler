@@ -16,4 +16,5 @@ public:
 
     // May or may not be overwritten
     virtual void update(float dt);
+    virtual void init();
 };

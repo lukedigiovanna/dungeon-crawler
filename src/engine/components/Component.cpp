@@ -19,3 +19,7 @@ std::shared_ptr<GameObject> Component::getGameObject() const {
 void Component::update(float dt) {
     // Do nothing
 }
+
+void Component::init() {
+    // Do nothing
+}

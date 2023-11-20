@@ -13,10 +13,12 @@ class Scene: public std::enable_shared_from_this<Scene> {
 private:
     std::shared_ptr<Camera> camera;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
+
+    std::vector<std::shared_ptr<GameObject>> addGameObjectQueue;
 public:
     Scene();
 
-    void init();
+    virtual void init();
 
     void addGameObject(std::shared_ptr<GameObject> gameObject);
     std::vector<std::shared_ptr<GameObject>> const& getGameObjects() const; 

@@ -9,7 +9,13 @@
 
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
-    scene = std::make_shared<Scene>();
+    scene = nullptr;
+}
+
+void Engine::loadScene(std::shared_ptr<Scene> scene) {
+    this->scene = scene;
+    this->scene->init();
+    std::cout << "hello 3" << std::endl;
 }
 
 void Engine::renderLoop() {
@@ -38,8 +44,9 @@ void Engine::gameLoop() {
 
         // #### START LOGIC ####
 
-        // std::cout << dt << std::endl;
+        std::cout << dt << std::endl;
         this->scene->update(dt);
+        std::cout << dt << std::endl;
 
         // #### END LOGIC ####
         
@@ -51,9 +58,11 @@ void Engine::gameLoop() {
 }
 
 void Engine::run() {
+    if (!scene) {
+        throw std::runtime_error("Cannot run engine without having a currently loaded scene");
+    }
     // spin up the thread instances
     active = true;
-    scene->init();
     gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
     renderLoop();
     gameThread->join();

@@ -11,5 +11,8 @@ public:
     Camera();
 
     void update(float dt) override;
+    void init() override;
+    
     void render(Window* window) const;
+
 };
