@@ -1,6 +1,7 @@
 #pragma once
 
 #include "components/Component.h"
+#include "components/RendererComponent.h"
 #include "utils/Math.h"
 
 #include <unordered_map>
@@ -11,6 +12,7 @@ class Scene;
 class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
     std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+    std::shared_ptr<RendererComponent> rendererComponent = nullptr;
 public:
     std::weak_ptr<Scene> scene;
     vec2 position;
@@ -34,6 +36,10 @@ public:
         }
         return nullptr;
     }
+
+    void setRendererComponent(std::shared_ptr<RendererComponent> rendererComponent);
+    void render(Window* window, float x, float y, float width, float height) const;
+    bool hasRenderer() const;
 
     void update(float dt);
 

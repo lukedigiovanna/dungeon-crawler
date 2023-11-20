@@ -14,12 +14,11 @@ void Camera::update(float dt) {
     obj->position.x = std::cosf(age) * 2.0f;
     obj->position.y = std::sinf(age) * 2.0f;
     this->scale = std::cosf(age) * 3 + 5;
-    std::cout << age << std::endl;
 }
 
 void Camera::render(Window* window) const {
     // acquire all game objects
-    std::shared_ptr<GameObject> obj = this->getGameObject();
+    std::shared_ptr<GameObject> obj = getGameObject();
     int scWidth = window->width();
     int scHeight = window->height();
     float aspectRatio = static_cast<float>(scWidth) / static_cast<float>(scHeight);
@@ -34,8 +33,10 @@ void Camera::render(Window* window) const {
     std::shared_ptr<Scene> scene = obj->getScene();
     auto gameObjects = scene->getGameObjects();
 
-    SDL_SetRenderDrawColor(window->renderer, 255, 0, 0, 255);
     for (auto gameObject : gameObjects) {
+        // Validate gameObject has a renderer
+        if (!gameObject->hasRenderer())
+            continue;
         // Validate this object is in the view of the camera
         // Off left side
         if (gameObject->position.x + gameObject->scale.x / 2.0f < cameraLeftWorldX)
@@ -62,7 +63,6 @@ void Camera::render(Window* window) const {
     
         // printf("w (%.2f, %.2f) s (%.2f, %.2f)\n", wx, wy, sx, sy);
 
-        SDL_FRect rect = { sx - sw / 2, sy - sh / 2, sw, sh };
-        SDL_RenderDrawRectF(window->renderer, &rect);
+        gameObject->render(window, sx, sy, sw, sh);
     }
 }

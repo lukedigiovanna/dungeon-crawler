@@ -1,5 +1,7 @@
 #include "Scene.h"
 #include "components/Lifetime.h"
+#include "components/ShapeRenderer.h"
+#include "components/RendererComponent.h"
 
 Scene::Scene() {
     // Do not construct any part of the scene prior to full construction of a scene
@@ -19,6 +21,8 @@ void Scene::init() {
     std::shared_ptr<GameObject> go = std::make_shared<GameObject>();
     go->position.x = 2.0f;
     go->position.y = 2.0f;
+    std::shared_ptr<RendererComponent> re = std::make_shared<ShapeRenderer>(Shape::SQUARE, gfx::COLOR_BLUE);
+    go->setRendererComponent(re);
     this->addGameObject(go);
 }
 

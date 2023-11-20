@@ -2,7 +2,7 @@
 
 #include "GameObject.h"
 #include "components/Camera.h"
-#include "graphics/Window.h"
+#include "Window.h"
 
 #include <memory>
 #include <vector>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Scene.h"
-#include "graphics/Window.h"
+#include "Window.h"
 
 #include <memory>
 #include <thread>

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "../graphics/Window.h"
+#include "../Window.h"
 #include <SDL.h>
 
 class Camera: public Component {
