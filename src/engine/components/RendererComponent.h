@@ -9,6 +9,7 @@ private:
     std::weak_ptr<GameObject> gameObject;
 public:
     RendererComponent();
+    ~RendererComponent();
 
     std::shared_ptr<GameObject> getGameObject() const;
     void setGameObject(std::shared_ptr<GameObject> obj);

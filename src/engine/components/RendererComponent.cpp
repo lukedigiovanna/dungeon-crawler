@@ -4,6 +4,10 @@ RendererComponent::RendererComponent() {
 
 }
 
+RendererComponent::~RendererComponent() {
+
+}
+
 std::shared_ptr<GameObject> RendererComponent::getGameObject() const {
     std::shared_ptr<GameObject> obj = this->gameObject.lock();
     if (obj == nullptr) {

@@ -1,11 +1,13 @@
 #include "GameObject.h"
 
+#include <utility>
+
 GameObject::GameObject() : position{0.0f, 0.0f}, scale{1.0f, 1.0f}, rotation(0.0f) {
 
 }
 
-void GameObject::setRendererComponent(std::shared_ptr<RendererComponent> rendererComponent) {
-    this->rendererComponent = rendererComponent;
+void GameObject::setRendererComponent(std::unique_ptr<RendererComponent> rendererComponent) {
+    this->rendererComponent = std::move(rendererComponent);
     this->rendererComponent->setGameObject(shared_from_this());
 }
 
@@ -16,7 +18,7 @@ void GameObject::render(Window* window, float x, float y, float width, float hei
 }
 
 bool GameObject::hasRenderer() const {
-    return this->rendererComponent.get() != nullptr;
+    return this->rendererComponent != nullptr;
 }
 
 void GameObject::setScene(std::shared_ptr<Scene> scene) {

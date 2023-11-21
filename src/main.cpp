@@ -6,7 +6,7 @@
 
 #include "engine/Engine.h"
 #include "engine/Scene.h"
-#include "game/Scenes.h"
+#include "game/scenes.h"
 
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);

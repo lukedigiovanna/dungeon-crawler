@@ -21,8 +21,10 @@ add_executable(dungeon
     src/engine/utils/Math.cpp
     src/engine/utils/Graphics.cpp
 
-    src/game/Scenes.cpp
+    src/game/scenes.cpp
+    src/game/prefabs.cpp
     src/game/components/Spawner.cpp
+    src/game/components/Spin.cpp
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

@@ -13,6 +13,7 @@ private:
     gfx::color color;
 public:
     ShapeRenderer(Shape shape, gfx::color color);
+    ~ShapeRenderer();
 
     void render(Window* window, float x, float y, float width, float height) const override;
 };
