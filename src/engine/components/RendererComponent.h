@@ -11,6 +11,8 @@ public:
     RendererComponent();
     ~RendererComponent();
 
+    virtual void init();
+
     std::shared_ptr<GameObject> getGameObject() const;
     void setGameObject(std::shared_ptr<GameObject> obj);
 

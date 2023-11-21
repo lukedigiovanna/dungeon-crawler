@@ -26,6 +26,8 @@ public:
     void init();
     void update(float dt);
 
+    void destroy();
+
     template<typename T>
     void addComponent(std::shared_ptr<T> component) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
@@ -43,7 +45,7 @@ public:
         if (it != components.end()) {
             return std::dynamic_pointer_cast<T>(it->second);
         }
-        throw std::runtime_error("Tried getting a component type which is not on the given game object");
+        throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object");
         return nullptr;
     }
 

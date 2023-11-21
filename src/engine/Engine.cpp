@@ -9,31 +9,21 @@
 
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
+    spriteManager = std::make_shared<SpriteManager>(window->renderer);
     scene = nullptr;
+}
+
+std::shared_ptr<SpriteManager> Engine::getSpriteManager() const {
+    return this->spriteManager;
 }
 
 void Engine::loadScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
+    this->scene->setSpriteManager(this->spriteManager);
     this->scene->init();
-    std::cout << "hello 3" << std::endl;
 }
 
 void Engine::renderLoop() {
-    while (this->active) {
-        SDL_Event event;
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                this->halt();
-            }
-        }
-
-        scene->render(window.get());
-
-        SDL_RenderPresent(window->renderer);
-    }
-}
-
-void Engine::gameLoop() {
     auto last = std::chrono::system_clock::now();
     while (this->active) {
         auto start = std::chrono::system_clock::now();
@@ -42,14 +32,18 @@ void Engine::gameLoop() {
 
         float dt = static_cast<float>(elapsed.count()) / 1000000.0f;
 
-        // #### START LOGIC ####
+        SDL_Event event;
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                this->halt();
+            }
+        }
 
-        std::cout << dt << std::endl;
         this->scene->update(dt);
-        std::cout << dt << std::endl;
+        scene->render(window.get());
 
-        // #### END LOGIC ####
-        
+        SDL_RenderPresent(window->renderer);
+
         auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS);
         if (sleepTime.count() > 0) {
             std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
@@ -57,18 +51,46 @@ void Engine::gameLoop() {
     }
 }
 
+void Engine::gameLoop() {
+    // auto last = std::chrono::system_clock::now();
+    // while (this->active) {
+    //     auto start = std::chrono::system_clock::now();
+    //     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(start - last);
+    //     last = start;
+
+    //     float dt = static_cast<float>(elapsed.count()) / 1000000.0f;
+
+    //     // #### START LOGIC ####
+
+    //     std::cout << dt << std::endl;
+    //     this->scene->update(dt);
+    //     std::cout << dt << std::endl;
+
+    //     // #### END LOGIC ####
+        
+    //     auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS);
+    //     if (sleepTime.count() > 0) {
+    //         std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
+    //     }
+    // }
+}
+
 void Engine::run() {
     if (!scene) {
-        throw std::runtime_error("Cannot run engine without having a currently loaded scene");
+        throw std::runtime_error("Engine::run: Cannot run engine without having a currently loaded scene");
     }
     // spin up the thread instances
     active = true;
-    gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
+    // gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
     renderLoop();
-    gameThread->join();
+    // gameThread->join();
 }
 
 void Engine::halt() {
     active = false;
+}
+
+void Engine::destroy() {
+    spriteManager->destroy();
 }
 

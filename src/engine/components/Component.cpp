@@ -11,7 +11,7 @@ void Component::setGameObject(std::shared_ptr<GameObject> gameObject) {
 std::shared_ptr<GameObject> Component::getGameObject() const {
     std::shared_ptr<GameObject> obj = this->gameObject.lock();
     if (!obj) {
-        throw std::runtime_error("Cannot get a game object from a component not attched to one");
+        throw std::runtime_error("Component::getGameObject: Cannot get a game object from a component not attched to one");
     }
     return obj;
 }
