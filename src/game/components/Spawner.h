@@ -5,7 +5,7 @@
 class Spawner: public Component {
 private:
     float timer = 0.0f;
-    float frequency = 0.25f;
+    float frequency = 5.0f;
 public:
     void update(float dt) override;
 };

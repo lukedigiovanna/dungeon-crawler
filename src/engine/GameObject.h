@@ -17,6 +17,7 @@ public:
     std::weak_ptr<Scene> scene;
     vec2 position;
     vec2 scale;
+    float rotation;
 
     GameObject();
 

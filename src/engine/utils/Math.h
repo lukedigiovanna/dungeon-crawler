@@ -59,3 +59,5 @@ inline float magnitude(const vec2& vec) {
 // random numbers
 
 float random(float a, float b);
+
+float degToRad(float degrees);

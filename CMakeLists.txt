@@ -17,6 +17,7 @@ add_executable(dungeon
     src/engine/components/Lifetime.cpp
     src/engine/components/RendererComponent.cpp
     src/engine/components/ShapeRenderer.cpp
+    src/engine/components/SpriteRenderer.cpp
     src/engine/utils/Math.cpp
     src/engine/utils/Graphics.cpp
 
@@ -24,16 +25,18 @@ add_executable(dungeon
     src/game/components/Spawner.cpp
 )
 
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+
 target_link_libraries(
   dungeon PRIVATE
   /Library/Frameworks/SDL2.framework/Versions/A/SDL2
-#   /Library/Frameworks/SDL2_image.framework/Versions/A/SDL2_image
+  /Library/Frameworks/SDL2_image.framework/Versions/A/SDL2_image
 #   /Library/Frameworks/SDL2_ttf.framework/Versions/A/SDL2_ttf
 )
 
 target_include_directories(
   dungeon PRIVATE
   /Library/Frameworks/SDL2.framework/Versions/A/Headers
-#   /Library/Frameworks/SDL2_image.framework/Versions/A/Headers
+  /Library/Frameworks/SDL2_image.framework/Versions/A/Headers
 #   /Library/Frameworks/SDL2_ttf.framework/Versions/A/Headers
 )
