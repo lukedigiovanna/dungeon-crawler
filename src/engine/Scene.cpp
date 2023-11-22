@@ -1,7 +1,5 @@
 #include "Scene.h"
 #include "components/Lifetime.h"
-#include "components/ShapeRenderer.h"
-#include "components/RendererComponent.h"
 
 #include <iostream>
 #include <algorithm>

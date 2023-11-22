@@ -21,8 +21,11 @@ int main(int argc, char* argv[]) {
     
     std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
     std::shared_ptr<AnimationSpriteDeck> walkAnimation = std::make_shared<AnimationSpriteDeck>();
-    walkAnimation->addFrame("character0");
-    animationManager->registerAnimation("player-walk", )
+    walkAnimation->addFrame(spriteManager, "character0");
+    walkAnimation->addFrame(spriteManager, "character1");
+    walkAnimation->addFrame(spriteManager, "character2");
+    walkAnimation->addFrame(spriteManager, "character3");
+    animationManager->registerAnimation("player-walk", walkAnimation);
 
     std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
     engine.loadScene(startingScene);

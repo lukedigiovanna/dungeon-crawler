@@ -22,9 +22,9 @@ size_t AnimationSpriteDeck::getSize() const {
     return this->sprites.size();
 }
 
-Animation::Animation(float fps, std::shared_ptr<AnimationSpriteDeck> spriteDeck) : 
-    fps(fps), 
-    spriteDeck(spriteDeck) {
+Animation::Animation(std::shared_ptr<AnimationSpriteDeck> spriteDeck, float fps) : 
+    spriteDeck(spriteDeck),
+    fps(fps) {
 
 }
 

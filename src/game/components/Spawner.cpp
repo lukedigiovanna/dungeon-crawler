@@ -1,8 +1,6 @@
 #include "Spawner.h"
 
 #include "../../engine/Scene.h"
-#include "../../engine/components/ShapeRenderer.h"
-#include "../../engine/components/SpriteRenderer.h"
 #include "../../engine/utils/Graphics.h"
 #include "../../engine/utils/Math.h"
 #include "../../engine/managers/InputManager.h"

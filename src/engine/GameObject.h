@@ -1,7 +1,7 @@
 #pragma once
 
 #include "components/Component.h"
-#include "components/RendererComponent.h"
+#include "components/renderers/RendererComponent.h"
 #include "utils/Math.h"
 
 #include <functional>

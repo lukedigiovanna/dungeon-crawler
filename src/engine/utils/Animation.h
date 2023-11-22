@@ -23,7 +23,7 @@ private:
     size_t currentFrame = 0;
     bool playing = false;
 public:
-    Animation(float fps, std::shared_ptr<AnimationSpriteDeck> spriteDeck);
+    Animation(std::shared_ptr<AnimationSpriteDeck> spriteDeck, float fps);
 
     const Sprite* getCurrentFrame() const;
 

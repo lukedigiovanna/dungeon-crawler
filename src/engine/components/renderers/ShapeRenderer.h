@@ -1,7 +1,7 @@
 #pragma once
 
 #include "RendererComponent.h"
-#include "../utils/Graphics.h"
+#include "../../utils/Graphics.h"
 
 enum Shape {
     SQUARE

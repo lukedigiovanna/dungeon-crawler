@@ -11,6 +11,7 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
     auto f = textureMap.find(spritePath);
     if (f == textureMap.end()) {
         texture = IMG_LoadTexture(renderer, spritePath.c_str());
+        SDL_SetTextureColorMod(texture, 0, 0, 255);
     }
     else {
         texture = f->second;
