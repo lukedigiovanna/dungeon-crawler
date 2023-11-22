@@ -1,19 +1,19 @@
 #include "SpriteRenderer.h"
 
-#include <SDL_image.h>
-
-#include <cmath>
-#include "../utils/Math.h"
 #include "../GameObject.h"
-#include "../SpriteManager.h"
 #include "../Scene.h"
+#include "../utils/Math.h"
+#include "../managers/Managers.h"
+
+#include <SDL_image.h>
+#include <cmath>
 
 SpriteRenderer::SpriteRenderer(std::string spriteId) : spriteId(spriteId) {
 
 }
 
 void SpriteRenderer::init() {
-    std::shared_ptr<SpriteManager> spriteManager = this->getGameObject()->getScene()->getSpriteManager();
+    std::shared_ptr<SpriteManager> spriteManager = this->getGameObject()->getScene()->getManagers()->spriteManager;
     this->sprite = spriteManager->getSprite(spriteId);
 }
 

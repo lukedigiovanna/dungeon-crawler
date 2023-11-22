@@ -5,4 +5,5 @@
 class prefabs {
 public:
     static PrefabConstructor spinningCatPrefab;
+    static PrefabConstructor playerPrefab;
 };

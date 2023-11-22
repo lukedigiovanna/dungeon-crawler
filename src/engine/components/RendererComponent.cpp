@@ -24,6 +24,10 @@ void RendererComponent::render(Window* window, float x, float y, float width, fl
     
 }
 
+void RendererComponent::update(float dt) {
+    
+}
+
 void RendererComponent::init() {
     
 }

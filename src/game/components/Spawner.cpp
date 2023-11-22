@@ -5,7 +5,7 @@
 #include "../../engine/components/SpriteRenderer.h"
 #include "../../engine/utils/Graphics.h"
 #include "../../engine/utils/Math.h"
-#include "../../engine/InputManager.h"
+#include "../../engine/managers/InputManager.h"
 
 #include "../prefabs.h"
 
@@ -14,7 +14,7 @@
 
 void Spawner::update(float dt) {
     std::shared_ptr<GameObject> obj = this->getGameObject();
-    std::shared_ptr<InputManager> input = obj->getScene()->getInputManager();
+    std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
     
     if (input->isKeyPressed(SDLK_SPACE)) {
         obj->scale = obj->scale * 1.5f;
@@ -33,7 +33,7 @@ void Spawner::update(float dt) {
     if (input->isMouseDown()) {
         this->timer += dt;
         if (this->timer >= this->frequency) {
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
                 std::shared_ptr<GameObject> newObj = prefabs::spinningCatPrefab();
                 newObj->position = { obj->position.x + random(-0.05f, 0.05f), obj->position.y + random(-0.05f, 0.05f) };
                 scene->addGameObject(newObj);

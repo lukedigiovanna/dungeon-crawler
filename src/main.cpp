@@ -13,15 +13,20 @@ int main(int argc, char* argv[]) {
 
     Engine engine("Cool");
     
-    std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
-    engine.loadScene(startingScene);
-    
-    std::shared_ptr<SpriteManager> spriteManager = engine.getSpriteManager();
+    std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
     spriteManager->registerSprite("cat", "assets/image.jpeg");
-    spriteManager->registerSprite("character0", "assets/character.png", 0, 0, 200, 200);
-    spriteManager->registerSprite("character1", "assets/character.png", 50, 50, 50, 50);
+    spriteManager->registerSpriteSheet("character", "assets/character.png", 4, 4);
+    spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     
+    std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
+    std::shared_ptr<AnimationSpriteDeck> walkAnimation = std::make_shared<AnimationSpriteDeck>();
+    walkAnimation->addFrame("character0");
+    animationManager->registerAnimation("player-walk", )
+
+    std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
+    engine.loadScene(startingScene);
+
     engine.run();
     engine.destroy();
 

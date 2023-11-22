@@ -20,20 +20,12 @@ void Scene::init() {
     this->addGameObject(cameraObj);
 }
 
-void Scene::setSpriteManager(std::shared_ptr<SpriteManager> spriteManager) {
-    this->spriteManager = spriteManager;
+void Scene::setManagers(const Managers* managers) {
+    this->managers = managers;
 }
 
-std::shared_ptr<SpriteManager> Scene::getSpriteManager() const {
-    return this->spriteManager;
-}
-
-void Scene::setInputManager(std::shared_ptr<InputManager> inputManager) {
-    this->inputManager = inputManager;
-}
-
-std::shared_ptr<InputManager> Scene::getInputManager() const {
-    return this->inputManager;
+const Managers* Scene::getManagers() const {
+    return this->managers;
 }
 
 void Scene::update(float dt) {

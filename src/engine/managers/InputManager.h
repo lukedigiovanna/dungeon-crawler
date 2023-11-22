@@ -2,7 +2,7 @@
 
 #include <unordered_map>
 #include <SDL.h>
-#include "utils/Math.h"
+#include "../utils/Math.h"
 
 class InputManager {
 private:

@@ -2,8 +2,10 @@
 
 #include "Scene.h"
 #include "Window.h"
-#include "SpriteManager.h"
-#include "InputManager.h"
+#include "managers/Managers.h"
+#include "managers/SpriteManager.h"
+#include "managers/InputManager.h"
+#include "managers/AnimationManager.h"
 
 #include <memory>
 #include <thread>
@@ -12,8 +14,7 @@
 class Engine {
 private:
     // Managers
-    std::shared_ptr<SpriteManager> spriteManager;
-    std::shared_ptr<InputManager> inputManager;
+    Managers managers;
 
     std::unique_ptr<Window> window;
     std::shared_ptr<Scene> scene;
@@ -26,7 +27,7 @@ public:
 
     Engine(std::string gameName);
 
-    std::shared_ptr<SpriteManager> getSpriteManager() const;
+    const Managers* getManagers() const;
 
     void loadScene(std::shared_ptr<Scene> scene);
 

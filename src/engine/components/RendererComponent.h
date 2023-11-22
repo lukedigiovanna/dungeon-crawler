@@ -12,6 +12,7 @@ public:
     ~RendererComponent();
 
     virtual void init();
+    virtual void update(float dt);
 
     std::shared_ptr<GameObject> getGameObject() const;
     void setGameObject(std::shared_ptr<GameObject> obj);

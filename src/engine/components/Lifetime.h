@@ -16,4 +16,8 @@ public:
     inline float getAge() const {
         return this->age;
     }
+
+    inline float getLifetime() const {
+        return this->lifetime;
+    }
 };

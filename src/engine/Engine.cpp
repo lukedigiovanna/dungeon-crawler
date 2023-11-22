@@ -9,19 +9,19 @@
 
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
-    spriteManager = std::make_shared<SpriteManager>(window->renderer);
-    inputManager = std::make_shared<InputManager>();
+    managers.spriteManager = std::make_shared<SpriteManager>(window->renderer);
+    managers.inputManager = std::make_shared<InputManager>();
+    managers.animationManager = std::make_shared<AnimationManager>();
     scene = nullptr;
 }
 
-std::shared_ptr<SpriteManager> Engine::getSpriteManager() const {
-    return this->spriteManager;
+const Managers* Engine::getManagers() const {
+    return &(this->managers);
 }
 
 void Engine::loadScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
-    this->scene->setSpriteManager(this->spriteManager);
-    this->scene->setInputManager(this->inputManager);
+    this->scene->setManagers(&this->managers);
     this->scene->init();
 }
 
@@ -39,7 +39,7 @@ void Engine::renderLoop() {
             if (event.type == SDL_QUIT) {
                 this->halt();
             }
-            this->inputManager->update(event);
+            this->managers.inputManager->update(event);
         }
 
         this->scene->update(dt);
@@ -97,7 +97,7 @@ void Engine::halt() {
 
 void Engine::destroy() {
     std::cout << "destroying engine" << std::endl;
-    spriteManager->destroy();
+    // spriteManager->destroy();
     std::cout << "destroyed engine" << std::endl;
 }
 

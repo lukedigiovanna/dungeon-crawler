@@ -1,13 +1,10 @@
 #pragma once
 
+#include "../utils/Sprite.h"
+
 #include <string>
 #include <unordered_map>
 #include <SDL.h>
-
-struct Sprite {
-    SDL_Texture* texture;
-    SDL_Rect rect;
-};
 
 class SpriteManager {
 private:
@@ -17,6 +14,7 @@ private:
 public:
     SpriteManager(SDL_Renderer* renderer);
 
+    void registerSpriteSheet(std::string idPrefix, std::string spriteSheet, int cellsX, int cellsY);
     void registerSprite(std::string id, std::string spriteSheet, int offX, int offY, int width, int height);
     void registerSprite(std::string id, std::string spritePath);
 

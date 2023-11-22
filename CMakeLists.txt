@@ -12,8 +12,6 @@ add_executable(dungeon
     src/engine/GameObject.cpp
     src/engine/Scene.cpp
     src/engine/Window.cpp
-    src/engine/SpriteManager.cpp
-    src/engine/InputManager.cpp
     src/engine/components/Component.cpp
     src/engine/components/Camera.cpp
     src/engine/components/Lifetime.cpp
@@ -21,12 +19,18 @@ add_executable(dungeon
     src/engine/components/RendererComponent.cpp
     src/engine/components/ShapeRenderer.cpp
     src/engine/components/SpriteRenderer.cpp
+    src/engine/managers/SpriteManager.cpp
+    src/engine/managers/InputManager.cpp
+    src/engine/managers/AnimationManager.cpp
     src/engine/utils/Math.cpp
     src/engine/utils/Graphics.cpp
+    src/engine/utils/Animation.cpp
+    src/engine/utils/AnimationController.cpp
 
     src/game/scenes.cpp
     src/game/prefabs.cpp
     src/game/components/Spawner.cpp
+    src/game/components/Shrink.cpp
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

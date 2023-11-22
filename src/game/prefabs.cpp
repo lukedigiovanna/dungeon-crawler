@@ -6,24 +6,35 @@
 #include "../engine/components/Physics.h"
 #include "../engine/utils/Math.h"
 
+#include "components/Shrink.h"
+#include "components/Spawner.h"
+
 #include <utility>
 #include <cmath>
+#include <string>
 
 PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> cat = std::make_shared<GameObject>();
-    cat->setRendererComponent(std::make_unique<SpriteRenderer>("character0"));
-    // cat->setRendererComponent(std::make_unique<ShapeRenderer>(
-    //     Shape::SQUARE, 
-    //     gfx::color{random(0, 256), random(0, 256), random(0, 256), random(0, 256)}
-    // ));
-    cat->addComponent(std::make_shared<Lifetime>(random(3.0f, 4.0f)));
+    cat->setRendererComponent(
+        std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816))
+    );
+    cat->addComponent(std::make_shared<Lifetime>(random(1.0f, 2.0f)));
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     float angle = random(0.0f, 360.0f);
     float speed = 2.5f;
     physics->velocity = { std::cosf(angle) * speed, std::sinf(angle) * speed };
-    physics->angularVelocity = random(-720.0f, 720.0f);
-    physics->innateDragCoefficient = 0.9f;
+    physics->angularVelocity = 90.0f;
+    physics->innateDragCoefficient = 0.95f;
     cat->addComponent(physics);
-    cat->scale = { 0.1f, 0.1f };
+    cat->addComponent(std::make_shared<Shrink>());
+    cat->scale = { 0.25f, 0.25f };
     return cat;
+};
+
+PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
+    std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
+    player->scale = {0.5f, 0.5f};
+    player->setRendererComponent(std::make_unique<SpriteRenderer>("cat"));
+    player->addComponent(std::make_shared<Spawner>());
+    return player;
 };
