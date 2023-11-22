@@ -5,6 +5,7 @@
 #include "../../engine/components/SpriteRenderer.h"
 #include "../../engine/utils/Graphics.h"
 #include "../../engine/utils/Math.h"
+#include "../../engine/InputManager.h"
 
 #include "../prefabs.h"
 
@@ -29,14 +30,16 @@ void Spawner::update(float dt) {
 
     obj->position = mouseWorldPos;
 
-    this->timer += dt;
-    if (this->timer >= this->frequency) {
-        for (int i = 0; i < 10; i++) {
-            std::shared_ptr<GameObject> newObj = prefabs::spinningCatPrefab();
-            newObj->position = { obj->position.x + random(-0.05f, 0.05f), obj->position.y + random(-0.05f, 0.05f) };
-            scene->addGameObject(newObj);
+    if (input->isMouseDown()) {
+        this->timer += dt;
+        if (this->timer >= this->frequency) {
+            for (int i = 0; i < 100; i++) {
+                std::shared_ptr<GameObject> newObj = prefabs::spinningCatPrefab();
+                newObj->position = { obj->position.x + random(-0.05f, 0.05f), obj->position.y + random(-0.05f, 0.05f) };
+                scene->addGameObject(newObj);
+            }
+            
+            this->timer = std::fmod(this->timer, this->frequency);
         }
-        
-        this->timer = std::fmod(this->timer, this->frequency);
     }
 }

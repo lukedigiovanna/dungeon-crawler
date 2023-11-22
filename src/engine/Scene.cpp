@@ -54,6 +54,9 @@ void Scene::update(float dt) {
         gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), gameObject), gameObjects.end());
     }
 
+    this->destroyGameObjectQueue.clear();
+
+    // Update game objects
     for (auto gameObject : this->gameObjects) {
         gameObject->update(dt);
     }

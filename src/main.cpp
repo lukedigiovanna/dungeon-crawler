@@ -17,8 +17,10 @@ int main(int argc, char* argv[]) {
     engine.loadScene(startingScene);
     
     std::shared_ptr<SpriteManager> spriteManager = engine.getSpriteManager();
-    spriteManager->registerTexture("smile", "assets/smile.png");
-    spriteManager->registerTexture("cat", "assets/image.jpeg");
+    spriteManager->registerSprite("smile", "assets/smile.png");
+    spriteManager->registerSprite("cat", "assets/image.jpeg");
+    spriteManager->registerSprite("character0", "assets/character.png", 0, 0, 200, 200);
+    spriteManager->registerSprite("character1", "assets/character.png", 50, 50, 50, 50);
     
     engine.run();
     engine.destroy();

@@ -1,11 +1,12 @@
 #pragma once
 
 #include "RendererComponent.h"
+#include "../SpriteManager.h"
 
 class SpriteRenderer: public RendererComponent {
 private:
     std::string spriteId;
-    SDL_Texture* texture;
+    const Sprite* sprite;
 public:
     SpriteRenderer(std::string spriteId);
     

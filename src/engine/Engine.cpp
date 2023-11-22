@@ -47,7 +47,9 @@ void Engine::renderLoop() {
 
         SDL_RenderPresent(window->renderer);
 
-        auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS);
+        auto end = std::chrono::system_clock::now();
+        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS) - elapsed;
         if (sleepTime.count() > 0) {
             std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
         }
