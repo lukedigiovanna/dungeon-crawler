@@ -22,7 +22,7 @@ private:
 
     std::atomic<bool> active;
 public:
-    static const unsigned int TARGET_TPS = 20;
+    static const unsigned int TARGET_TPS = 60;
 
     Engine(std::string gameName);
 

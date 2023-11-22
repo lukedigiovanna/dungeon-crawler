@@ -17,6 +17,7 @@ add_executable(dungeon
     src/engine/components/Component.cpp
     src/engine/components/Camera.cpp
     src/engine/components/Lifetime.cpp
+    src/engine/components/Physics.cpp
     src/engine/components/RendererComponent.cpp
     src/engine/components/ShapeRenderer.cpp
     src/engine/components/SpriteRenderer.cpp
@@ -26,7 +27,6 @@ add_executable(dungeon
     src/game/scenes.cpp
     src/game/prefabs.cpp
     src/game/components/Spawner.cpp
-    src/game/components/Spin.cpp
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

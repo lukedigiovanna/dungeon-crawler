@@ -32,20 +32,55 @@ inline vec2 operator+(const vec2& lhs, const vec2& rhs) {
     return { lhs.x + rhs.x, lhs.y + rhs.y};
 }
 
+inline void operator+=(vec2& lhs, const vec2& rhs) {
+    lhs.x += rhs.x;
+    lhs.y += rhs.y;
+}
+
+
 inline vec2 operator-(const vec2& lhs, const vec2& rhs) {
     return { lhs.x - rhs.x, lhs.y - rhs.y};
+}
+
+inline void operator-=(vec2& lhs, const vec2& rhs) {
+    lhs.x -= rhs.x;
+    lhs.y -= rhs.y;
 }
 
 inline vec2 operator*(const vec2& lhs, float rhs) {
     return { lhs.x * rhs, lhs.y * rhs};
 }
 
+inline void operator*=(vec2& lhs, float rhs) {
+    lhs.x *= rhs;
+    lhs.y *= rhs;
+}
+
+inline vec2 operator*(const vec2& lhs, const vec2& rhs) {
+    return { lhs.x * rhs.x, lhs.y * rhs.y };
+}
+
+inline void operator*=(vec2& lhs, const vec2& rhs) {
+    lhs.x *= rhs.x;
+    lhs.y *= rhs.y;
+}
+
 inline vec2 operator/(const vec2& lhs, float rhs) {
     return { lhs.x / rhs, lhs.y / rhs};
 }
 
+inline void operator/=(vec2& lhs, float rhs) {
+    lhs.x /= rhs;
+    lhs.y /= rhs;
+}
+
 inline vec2 operator/(const vec2& lhs, const vec2& rhs) {
     return { lhs.x / rhs.x, lhs.y / rhs.y };
+}
+
+inline void operator/=(vec2& lhs, const vec2& rhs) {
+    lhs.x /= rhs.x;
+    lhs.y /= rhs.y;
 }
 
 inline float dot(const vec2& lhs, const vec2& rhs) {

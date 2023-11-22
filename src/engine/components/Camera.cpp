@@ -15,10 +15,7 @@ void Camera::init() {
 }
 
 void Camera::update(float dt) {
-    std::shared_ptr<GameObject> obj = getGameObject();
-    std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
-    float age = lifetime->getAge();
-    this->scale = std::cosf(age) * 2 + 8;
+    
 }
 
 vec2 Camera::screenPositionToWorldPosition(vec2 screenPosition) const {
