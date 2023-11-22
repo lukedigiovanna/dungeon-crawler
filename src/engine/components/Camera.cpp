@@ -5,7 +5,9 @@
 #include <iostream>
 #include <math.h>
 
-Camera::Camera() : scale(10.0f) {}
+Camera::Camera() : scale(10.0f), windowDimension{640.0f, 480.0f} {
+    aspectRatio = windowDimension.x / windowDimension.y;
+}
 
 void Camera::init() {
     std::shared_ptr<Lifetime> lifetime = std::make_shared<Lifetime>();
@@ -19,12 +21,23 @@ void Camera::update(float dt) {
     this->scale = std::cosf(age) * 2 + 8;
 }
 
-void Camera::render(Window* window) const {
+vec2 Camera::screenPositionToWorldPosition(vec2 screenPosition) const {
+    std::shared_ptr<GameObject> obj = getGameObject();
+    vec2 normPos = screenPosition / windowDimension;
+    float worldWidth = this->scale;
+    float worldHeight = 1.0f / aspectRatio * worldWidth;
+    float cameraLeftWorldX = obj->position.x - worldWidth / 2.0f,
+          cameraTopWorldY = obj->position.y + worldHeight / 2.0f;
+    float worldX = normPos.x * worldWidth + cameraLeftWorldX,
+          worldY = cameraTopWorldY - normPos.y * worldHeight;
+    return { worldX, worldY };
+}
+
+void Camera::render(Window* window) {
     // acquire all game objects
     std::shared_ptr<GameObject> obj = getGameObject();
-    int scWidth = window->width();
-    int scHeight = window->height();
-    float aspectRatio = static_cast<float>(scWidth) / static_cast<float>(scHeight);
+    windowDimension = { static_cast<float>(window->width()), static_cast<float>(window->height()) };
+    aspectRatio = windowDimension.x / windowDimension.y;
     float worldWidth = this->scale;
     float worldHeight = 1.0f / aspectRatio * worldWidth;
 
@@ -58,11 +71,11 @@ void Camera::render(Window* window) const {
         float wx = (gameObject->position.x - cameraLeftWorldX) / worldWidth,
               wy = (gameObject->position.y - cameraBottomWorldY) / worldHeight;
     
-        float sx = wx * scWidth;
-        float sy = scHeight - wy * scHeight;
+        float sx = wx * windowDimension.x;
+        float sy = windowDimension.y - wy * windowDimension.y;
 
-        float sw = gameObject->scale.x / worldWidth * scWidth;
-        float sh = gameObject->scale.y / worldHeight * scHeight;
+        float sw = gameObject->scale.x / worldWidth * windowDimension.x;
+        float sh = gameObject->scale.y / worldHeight * windowDimension.y;
     
         // printf("w (%.2f, %.2f) s (%.2f, %.2f)\n", wx, wy, sx, sy);
 

@@ -28,6 +28,14 @@ std::shared_ptr<SpriteManager> Scene::getSpriteManager() const {
     return this->spriteManager;
 }
 
+void Scene::setInputManager(std::shared_ptr<InputManager> inputManager) {
+    this->inputManager = inputManager;
+}
+
+std::shared_ptr<InputManager> Scene::getInputManager() const {
+    return this->inputManager;
+}
+
 void Scene::update(float dt) {
     // Manage addGameObject queue
     for (auto gameObject : this->addGameObjectQueue) {
@@ -68,4 +76,8 @@ void Scene::render(Window* window) const {
     SDL_RenderClear(window->renderer);
 
     this->camera->render(window);
+}
+
+std::shared_ptr<Camera> Scene::getCamera() const {
+    return this->camera;
 }

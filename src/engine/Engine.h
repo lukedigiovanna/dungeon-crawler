@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Window.h"
 #include "SpriteManager.h"
+#include "InputManager.h"
 
 #include <memory>
 #include <thread>
@@ -10,7 +11,10 @@
 
 class Engine {
 private:
+    // Managers
     std::shared_ptr<SpriteManager> spriteManager;
+    std::shared_ptr<InputManager> inputManager;
+
     std::unique_ptr<Window> window;
     std::shared_ptr<Scene> scene;
 
