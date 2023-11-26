@@ -1,17 +1,34 @@
 #include "Engine.h"
-#include "components/Camera.h"
+
 #include "GameObject.h"
+#include "components/Camera.h"
+#include "utils/meshes.h"
 
 #include <unistd.h>
 #include <iostream>
 #include <chrono>
 #include <algorithm>
 
+#include <glad/glad.h>
+
 Engine::Engine(std::string gameName) {
     window = std::make_unique<Window>(gameName);
-    managers.spriteManager = std::make_shared<SpriteManager>(window->renderer);
+    
+    if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
+    {
+        throw std::runtime_error("Failed to initialize GLAD");
+    }
+    
+    meshes::init();
+
+    managers.spriteManager = std::make_shared<SpriteManager>();
     managers.inputManager = std::make_shared<InputManager>();
     managers.animationManager = std::make_shared<AnimationManager>();
+    managers.shaderManager = std::make_shared<ShaderManager>();
+    std::shared_ptr<Shader> shader = managers.shaderManager->loadShader("engine_main", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
+
+    shader->use();
+
     scene = nullptr;
 }
 
@@ -42,10 +59,10 @@ void Engine::renderLoop() {
             this->managers.inputManager->update(event);
         }
 
-        this->scene->update(dt);
+        // this->scene->update(dt);
         scene->render(window.get());
 
-        SDL_RenderPresent(window->renderer);
+        SDL_GL_SwapWindow(window->window);
 
         auto end = std::chrono::system_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);

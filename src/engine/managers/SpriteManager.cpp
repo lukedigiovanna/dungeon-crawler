@@ -2,7 +2,7 @@
 
 #include <SDL_image.h>
 
-SpriteManager::SpriteManager(SDL_Renderer* renderer) : renderer(renderer) {
+SpriteManager::SpriteManager() {
 
 }
 
@@ -10,8 +10,7 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
     SDL_Texture* texture;
     auto f = textureMap.find(spritePath);
     if (f == textureMap.end()) {
-        texture = IMG_LoadTexture(renderer, spritePath.c_str());
-        SDL_SetTextureColorMod(texture, 0, 0, 255);
+        // texture = IMG_LoadTexture(renderer, spritePath.c_str());
     }
     else {
         texture = f->second;
@@ -30,8 +29,8 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
                 throw std::runtime_error("SpriteManager::registerSpriteSheet: Sprite id '" + id + "' already used");
             }
             spriteMap[id] = {
-                texture,
-                { x, y, cellWidth, cellHeight }
+                // texture,
+                // { x, y, cellWidth, cellHeight }
             };
         }
     }
@@ -41,7 +40,7 @@ void SpriteManager::registerSprite(std::string id, std::string spritePath, int o
     SDL_Texture* texture;
     auto f = textureMap.find(spritePath);
     if (f == textureMap.end()) {
-        texture = IMG_LoadTexture(renderer, spritePath.c_str());
+        // texture = IMG_LoadTexture(renderer, spritePath.c_str());
     }
     else {
         texture = f->second;
@@ -51,22 +50,22 @@ void SpriteManager::registerSprite(std::string id, std::string spritePath, int o
         throw std::runtime_error("SpriteManager::registerSprite: Sprite id '" + id + "' already used");
     }
     spriteMap[id] = {
-        texture,
-        SDL_Rect{offX, offY, width, height}
+        // texture,
+        // SDL_Rect{offX, offY, width, height}
     };
 }
 
 void SpriteManager::registerSprite(std::string id, std::string spritePath) {
-    SDL_Texture* texture = IMG_LoadTexture(renderer, spritePath.c_str());
+    // SDL_Texture* texture = IMG_LoadTexture(renderer, spritePath.c_str());
     if (spriteMap.find(id) != spriteMap.end()) {
         throw std::runtime_error("SpriteManager::registerSprite: Sprite id '" + id + "' already used");
     }
-    textureMap[spritePath] = texture;
+    // textureMap[spritePath] = texture;
     int width, height;
-    SDL_QueryTexture(texture, NULL, NULL, &width, &height);
+    // SDL_QueryTexture(texture, NULL, NULL, &width, &height);
     spriteMap[id] = {
-        texture,
-        SDL_Rect{0, 0, width, height}
+        // texture,
+        // SDL_Rect{0, 0, width, height}
     };
 }
 
@@ -79,8 +78,8 @@ const Sprite* SpriteManager::getSprite(std::string id) const {
 }
 
 void SpriteManager::destroy() {
-    for (const auto & [id, sprite] : spriteMap) {
-        SDL_DestroyTexture(sprite.texture);
-        spriteMap.erase(id);
-    }
+    // for (const auto & [id, sprite] : spriteMap) {
+    //     SDL_DestroyTexture(sprite.texture);
+    //     spriteMap.erase(id);
+    // }
 }

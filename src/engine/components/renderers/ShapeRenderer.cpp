@@ -11,7 +11,7 @@ ShapeRenderer::~ShapeRenderer() {
 }
 
 void ShapeRenderer::render(Window* window, float x, float y, float width, float height) const {
-    gfx::setSDLColor(window->renderer, this->color);
-    SDL_FRect rect = { x - width / 2, y - height / 2, width, height };
-    SDL_RenderFillRectF(window->renderer, &rect);
+    // gfx::setSDLColor(window->renderer, this->color);
+    // SDL_FRect rect = { x - width / 2, y - height / 2, width, height };
+    // SDL_RenderFillRectF(window->renderer, &rect);
 }

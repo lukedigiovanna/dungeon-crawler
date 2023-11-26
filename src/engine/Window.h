@@ -5,11 +5,11 @@
 
 class Window {
 private:
-    SDL_Window* window;
     int scWidth, scHeight;
     static int resizeEventWatcher(void* data, SDL_Event* event);
 public:
-    SDL_Renderer* renderer;
+    SDL_Window* window;
+    SDL_GLContext gl;
     Window(std::string name);
     ~Window();
 

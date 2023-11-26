@@ -5,13 +5,13 @@
 Window::Window(std::string name) {
     scWidth = 640;
     scHeight = 480;
-    window = SDL_CreateWindow(name.c_str(), 120, 120, scWidth, scHeight, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    gl = SDL_GL_CreateContext(window);
     SDL_AddEventWatch(Window::resizeEventWatcher, this);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 }
 
 Window::~Window() {
-    SDL_DestroyRenderer(this->renderer);
+    SDL_GL_DeleteContext(this->gl);
     SDL_DestroyWindow(this->window);
 }
 
