@@ -1,0 +1,109 @@
+Date : 2023-11-26 02:42:01
+Directory : /Users/lukedigiovanna/Programming/cpp/dungeon-crawler
+Total : 66 files,  1452 codes, 136 comments, 444 blanks, all 2032 lines
+
+Languages
++--------------+------------+------------+------------+------------+------------+
+| language     | files      | code       | comment    | blank      | total      |
++--------------+------------+------------+------------+------------+------------+
+| C++          |         61 |      1,366 |        129 |        418 |      1,913 |
+| CMake        |          1 |         51 |          2 |          8 |         61 |
+| GLSL         |          2 |         23 |          5 |         15 |         43 |
+| Shell Script |          1 |          8 |          0 |          1 |          9 |
+| Markdown     |          1 |          4 |          0 |          2 |          6 |
++--------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                             | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                |         66 |      1,452 |        136 |        444 |      2,032 |
+| . (Files)                                                                                                        |          3 |         63 |          2 |         11 |         76 |
+| assets                                                                                                           |          2 |         23 |          5 |         15 |         43 |
+| assets/shaders                                                                                                   |          2 |         23 |          5 |         15 |         43 |
+| src                                                                                                              |         61 |      1,366 |        129 |        418 |      1,913 |
+| src (Files)                                                                                                      |          1 |         26 |         12 |         14 |         52 |
+| src/engine                                                                                                       |         52 |      1,222 |        117 |        375 |      1,714 |
+| src/engine (Files)                                                                                               |          8 |        324 |         35 |        103 |        462 |
+| src/engine/components                                                                                            |         16 |        266 |         23 |         98 |        387 |
+| src/engine/components (Files)                                                                                    |          8 |        160 |         15 |         50 |        225 |
+| src/engine/components/renderers                                                                                  |          8 |        106 |          8 |         48 |        162 |
+| src/engine/managers                                                                                              |          9 |        212 |         18 |         47 |        277 |
+| src/engine/utils                                                                                                 |         19 |        420 |         41 |        127 |        588 |
+| src/game                                                                                                         |          8 |        118 |          0 |         29 |        147 |
+| src/game (Files)                                                                                                 |          4 |         56 |          0 |         12 |         68 |
+| src/game/components                                                                                              |          4 |         62 |          0 |         17 |         79 |
++------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
+| filename                                                                                                         | language     | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/CMakeLists.txt                                             | CMake        |         51 |          2 |          8 |         61 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/README.md                                                  | Markdown     |          4 |          0 |          2 |          6 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/assets/shaders/fs.glsl                                     | GLSL         |         10 |          4 |          8 |         22 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/assets/shaders/vs.glsl                                     | GLSL         |         13 |          1 |          7 |         21 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/run.sh                                                     | Shell Script |          8 |          0 |          1 |          9 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Engine.cpp                                      | C++          |         72 |         21 |         28 |        121 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Engine.h                                        | C++          |         28 |          2 |         11 |         41 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/GameObject.cpp                                  | C++          |         52 |          0 |         13 |         65 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/GameObject.h                                    | C++          |         48 |          1 |         12 |         61 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Scene.cpp                                       | C++          |         54 |         10 |         18 |         82 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Scene.h                                         | C++          |         27 |          1 |         11 |         39 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Window.cpp                                      | C++          |         23 |          0 |          6 |         29 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/Window.h                                        | C++          |         20 |          0 |          4 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Camera.cpp                           | C++          |         57 |          9 |         15 |         81 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Camera.h                             | C++          |         17 |          0 |          5 |         22 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Component.cpp                        | C++          |         17 |          2 |          6 |         25 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Component.h                          | C++          |         14 |          1 |          5 |         20 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Lifetime.cpp                         | C++          |         13 |          0 |          6 |         19 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Lifetime.h                           | C++          |         17 |          1 |          5 |         23 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Physics.cpp                          | C++          |         14 |          2 |          4 |         20 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/Physics.h                            | C++          |         11 |          0 |          4 |         15 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/AnimatedSpriteRenderer.cpp | C++          |          9 |          0 |          7 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/AnimatedSpriteRenderer.h   | C++          |         11 |          0 |          5 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/RendererComponent.cpp      | C++          |         21 |          0 |         12 |         33 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/RendererComponent.h        | C++          |         15 |          0 |          6 |         21 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/ShapeRenderer.cpp          | C++          |          8 |          3 |          6 |         17 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/ShapeRenderer.h            | C++          |         15 |          0 |          4 |         19 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/SpriteRenderer.cpp         | C++          |         14 |          5 |          5 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/components/renderers/SpriteRenderer.h           | C++          |         13 |          0 |          3 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/AnimationManager.cpp                   | C++          |         16 |          0 |          4 |         20 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/AnimationManager.h                     | C++          |         12 |          0 |          4 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/InputManager.cpp                       | C++          |         44 |          0 |          7 |         51 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/InputManager.h                         | C++          |         18 |          0 |          6 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/Managers.h                             | C++          |         12 |          2 |          3 |         17 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/ShaderManager.cpp                      | C++          |         19 |          0 |          5 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/ShaderManager.h                        | C++          |         12 |          0 |          4 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/SpriteManager.cpp                      | C++          |         62 |         15 |          8 |         85 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/managers/SpriteManager.h                        | C++          |         17 |          1 |          6 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Animation.cpp                             | C++          |         39 |          0 |         13 |         52 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Animation.h                               | C++          |         26 |          0 |          6 |         32 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/AnimationController.cpp                   | C++          |          1 |          0 |          1 |          2 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/AnimationController.h                     | C++          |         10 |          3 |          4 |         17 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Graphics.cpp                              | C++          |         14 |          0 |          4 |         18 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Graphics.h                                | C++          |         12 |          0 |          4 |         16 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Math.cpp                                  | C++          |         10 |          0 |          3 |         13 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Math.h                                    | C++          |         59 |         17 |         26 |        102 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Mesh.cpp                                  | C++          |         51 |          9 |         12 |         72 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Mesh.h                                    | C++          |         14 |          0 |          3 |         17 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Shader.cpp                                | C++          |         74 |          3 |         15 |         92 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Shader.h                                  | C++          |         19 |          0 |          5 |         24 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Sprite.h                                  | C++          |          3 |          0 |          2 |          5 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Texture.cpp                               | C++          |         33 |          7 |          9 |         49 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/Texture.h                                 | C++          |         15 |          1 |          5 |         21 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/io.cpp                                    | C++          |          9 |          1 |          2 |         12 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/io.h                                      | C++          |          3 |          0 |          2 |          5 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/meshes.cpp                                | C++          |         19 |          0 |          6 |         25 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/engine/utils/meshes.h                                  | C++          |          9 |          0 |          5 |         14 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/components/Shrink.cpp                             | C++          |         10 |          0 |          3 |         13 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/components/Shrink.h                               | C++          |         10 |          0 |          2 |         12 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/components/Spawner.cpp                            | C++          |         33 |          0 |         10 |         43 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/components/Spawner.h                              | C++          |          9 |          0 |          2 |         11 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/prefabs.cpp                                       | C++          |         36 |          0 |          6 |         42 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/prefabs.h                                         | C++          |          7 |          0 |          2 |          9 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/scenes.cpp                                        | C++          |          6 |          0 |          2 |          8 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/game/scenes.h                                          | C++          |          7 |          0 |          2 |          9 |
+| /Users/lukedigiovanna/Programming/cpp/dungeon-crawler/src/main.cpp                                               | C++          |         26 |         12 |         14 |         52 |
+| Total                                                                                                            |              |      1,452 |        136 |        444 |      2,032 |
++------------------------------------------------------------------------------------------------------------------+--------------+------------+------------+------------+------------+

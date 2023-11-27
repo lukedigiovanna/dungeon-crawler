@@ -10,7 +10,6 @@
 
 #include "engine/Engine.h"
 #include "engine/Scene.h"
-#include "engine/utils/meshes.h"
 #include "game/scenes.h"
 
 int main(int argc, char* argv[]) {
@@ -21,8 +20,6 @@ int main(int argc, char* argv[]) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     Engine engine("Cool");
-
-    meshes::init();
     
     // std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
     // spriteManager->registerSprite("smile", "assets/smile.png");
@@ -45,7 +42,6 @@ int main(int argc, char* argv[]) {
     engine.destroy();
 
     SDL_Quit();
-    meshes::destroy();
 
     return 0;
 }

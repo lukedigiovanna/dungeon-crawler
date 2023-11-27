@@ -113,6 +113,7 @@ void Engine::halt() {
 }
 
 void Engine::destroy() {
+    meshes::destroy();
     std::cout << "destroying engine" << std::endl;
     // spriteManager->destroy();
     std::cout << "destroyed engine" << std::endl;
