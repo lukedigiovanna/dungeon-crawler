@@ -1,7 +1,9 @@
 #pragma once
 
-#include <vector>
 #include "../managers/SpriteManager.h"
+
+#include <vector>
+#include <memory>
 
 class AnimationSpriteDeck {
 private:

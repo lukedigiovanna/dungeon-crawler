@@ -1,5 +1,7 @@
 #include "Component.h"
 
+#include <stdexcept>
+
 Component::Component() {
     
 }

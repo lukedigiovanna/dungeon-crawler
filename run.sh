@@ -5,5 +5,5 @@ fi
 cd build
 cmake ..
 make
-./dungeon
-rm dungeon
+# ./dungeon
+# rm dungeon

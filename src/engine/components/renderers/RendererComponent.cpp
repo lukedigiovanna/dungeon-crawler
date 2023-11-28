@@ -1,5 +1,7 @@
 #include "RendererComponent.h"
 
+#include <stdexcept>
+
 RendererComponent::RendererComponent() {
 
 }

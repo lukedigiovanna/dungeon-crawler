@@ -23,7 +23,7 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     float angle = random(0.0f, 360.0f);
     float speed = 2.5f;
-    physics->velocity = { std::cosf(angle) * speed, std::sinf(angle) * speed };
+    physics->velocity = { std::cos(angle) * speed, std::sin(angle) * speed };
     physics->angularVelocity = 90.0f;
     physics->innateDragCoefficient = 0.95f;
     cat->addComponent(physics);

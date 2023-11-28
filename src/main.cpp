@@ -12,7 +12,7 @@
 #include "engine/Scene.h"
 #include "game/scenes.h"
 
-int main(int argc, char* argv[]) {
+int program() {
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // For example, OpenGL 3.3
@@ -45,3 +45,15 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
+
+#ifdef _WIN32
+    #include <windows.h>
+    int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+        return program();
+    }
+#else
+    int main(int argc, char* argv[]) {
+        return program();
+    }
+#endif
+    

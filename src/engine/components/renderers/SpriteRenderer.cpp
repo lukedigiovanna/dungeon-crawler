@@ -5,7 +5,7 @@
 #include "../../utils/Math.h"
 #include "../../managers/Managers.h"
 
-#include <SDL_image.h>
+// #include <SDL_image.h>
 #include <cmath>
 
 SpriteRenderer::SpriteRenderer(std::string spriteId) : spriteId(spriteId) {

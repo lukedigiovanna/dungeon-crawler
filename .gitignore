@@ -2,6 +2,7 @@
 
 /build
 /dependencies
+/.VSCodeCounter
 
 src/engine/glad.c
 src/engine/stb_image.h
