@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <glad/glad.h>
+
 Window::Window(std::string name) {
     scWidth = 640;
     scHeight = 480;
@@ -17,6 +19,7 @@ Window::~Window() {
 
 void Window::updateWindowSize() {
     SDL_GetWindowSize(window, &scWidth, &scHeight);
+    glViewport(0, 0, scWidth, scHeight);
 }
 
 int Window::resizeEventWatcher(void* data, SDL_Event* event) {

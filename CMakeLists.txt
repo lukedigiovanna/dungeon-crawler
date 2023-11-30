@@ -60,7 +60,7 @@ if (WIN32)
     dependencies/include/SDL2
   )
 
-  set_target_properties(dungeon PROPERTIES LINK_FLAGS "-mwindows")
+  # set_target_properties(dungeon PROPERTIES LINK_FLAGS "-mwindows")
 else()
   target_link_libraries(
     dungeon PRIVATE

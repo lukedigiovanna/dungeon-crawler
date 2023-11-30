@@ -18,7 +18,10 @@ Engine::Engine(std::string gameName) {
     {
         throw std::runtime_error("Failed to initialize GLAD");
     }
-    
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     meshes::init();
 
     managers.spriteManager = std::make_shared<SpriteManager>();
