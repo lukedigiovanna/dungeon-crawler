@@ -3,10 +3,12 @@
 #include "components/Component.h"
 #include "components/renderers/RendererComponent.h"
 #include "utils/Math.h"
+#include "utils/Shader.h"
 
 #include <functional>
 #include <unordered_map>
 #include <typeindex>
+#include <stdexcept>
 
 class Scene;
 
@@ -50,7 +52,7 @@ public:
     }
 
     void setRendererComponent(std::unique_ptr<RendererComponent> rendererComponent);
-    void render(Window* window, float x, float y, float width, float height) const;
+    void render(std::shared_ptr<Shader> shader) const;
     bool hasRenderer() const;
 
     void setScene(std::shared_ptr<Scene> scene);

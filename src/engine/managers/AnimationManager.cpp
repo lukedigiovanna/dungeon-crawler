@@ -1,5 +1,7 @@
 #include "AnimationManager.h"
 
+#include <stdexcept>
+
 AnimationManager::AnimationManager() {
 
 }

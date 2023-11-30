@@ -2,18 +2,15 @@
 
 #include "RendererComponent.h"
 #include "../../utils/Graphics.h"
-
-enum Shape {
-    SQUARE
-};
+#include "../../utils/Mesh.h"
 
 class ShapeRenderer: public RendererComponent {
 private:
-    Shape shape;
+    const Mesh* mesh;
     gfx::color color;
 public:
-    ShapeRenderer(Shape shape, gfx::color color);
+    ShapeRenderer(const Mesh* mesh, gfx::color color);
     ~ShapeRenderer();
 
-    void render(Window* window, float x, float y, float width, float height) const override;
+    void render(std::shared_ptr<Shader> shader) const override;
 };

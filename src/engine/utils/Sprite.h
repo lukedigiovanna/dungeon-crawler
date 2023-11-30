@@ -1,8 +1,10 @@
 #pragma once
 
-#include <SDL.h>
+#include "Texture.h"
+
+#include <glm/glm.hpp>
 
 struct Sprite {
-    SDL_Texture* texture;
-    SDL_Rect rect;
+    Texture* texture;
+    glm::vec4 clip;
 };

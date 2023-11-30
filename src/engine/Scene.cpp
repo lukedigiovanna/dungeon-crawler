@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include "components/Lifetime.h"
+#include "utils/meshes.h"
 
+#include <glad/glad.h>
 #include <iostream>
 #include <algorithm>
 
@@ -65,9 +67,6 @@ std::vector<std::shared_ptr<GameObject>> const& Scene::getGameObjects() const {
 }
 
 void Scene::render(Window* window) const {
-    SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255); // black
-    SDL_RenderClear(window->renderer);
-
     this->camera->render(window);
 }
 

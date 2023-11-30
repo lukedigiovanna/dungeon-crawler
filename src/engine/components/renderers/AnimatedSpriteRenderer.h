@@ -10,6 +10,6 @@ public:
     AnimatedSpriteRenderer(std::unique_ptr<AnimationController> animationController);
 
     void update(float dt) override;
-    void render(Window* window, float x, float y, float width, float height) const override;
+    void render(std::shared_ptr<Shader> shader) const override;
 };
 

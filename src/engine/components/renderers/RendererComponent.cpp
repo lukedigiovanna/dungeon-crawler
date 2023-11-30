@@ -1,4 +1,8 @@
 #include "RendererComponent.h"
+#include "../../GameObject.h"
+#include "../../Scene.h"
+
+#include <stdexcept>
 
 RendererComponent::RendererComponent() {
 
@@ -6,6 +10,10 @@ RendererComponent::RendererComponent() {
 
 RendererComponent::~RendererComponent() {
 
+}
+
+std::shared_ptr<Shader> RendererComponent::getShader(std::string const& shaderId) const {
+    return getGameObject()->getScene()->getManagers()->shaderManager->getShader(shaderId);
 }
 
 std::shared_ptr<GameObject> RendererComponent::getGameObject() const {
@@ -20,7 +28,7 @@ void RendererComponent::setGameObject(std::shared_ptr<GameObject> gameObject) {
     this->gameObject = gameObject;
 }
 
-void RendererComponent::render(Window* window, float x, float y, float width, float height) const {
+void RendererComponent::render(std::shared_ptr<Shader> shader) const {
     
 }
 

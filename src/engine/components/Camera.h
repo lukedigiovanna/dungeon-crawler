@@ -8,6 +8,7 @@
 class Camera: public Component {
 private:
     float scale;
+    float rotation;
     vec2 windowDimension;
     float aspectRatio;
 public:
