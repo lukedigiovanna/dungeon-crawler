@@ -6,8 +6,6 @@ SpriteManager::SpriteManager() {
 
 }
 
-#include <iostream>
-
 void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string spritePath, int cellsX, int cellsY) {
     if (textureMap.find(spritePath) == textureMap.end()) {
         textureMap[spritePath] = std::make_unique<Texture>(spritePath);
@@ -27,7 +25,6 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
                 texture,
                 { x, y, cellWidth, cellHeight }
             };
-            std::cout << id << ": " << x << ", " << y << " : " << cellWidth << ", " << cellHeight << "\n";
         }
     }
 }
