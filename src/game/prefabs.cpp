@@ -18,11 +18,8 @@
 
 PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> cat = std::make_shared<GameObject>();
-    // cat->setRendererComponent(
-    //     std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816))
-    // );
     cat->setRendererComponent(
-        std::make_unique<ShapeRenderer>(meshes::SQUARE, gfx::color{random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f)})
+        std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816), gfx::color{random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f)})
     );
     cat->addComponent(std::make_shared<Lifetime>(random(1.0f, 2.0f)));
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
@@ -40,8 +37,7 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
 PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
     player->scale = {0.5f, 0.5f};
-    // std::shared_ptr<AnimationController> animController = std::make_shared<AnimationController>();
-    player->setRendererComponent(std::make_unique<ShapeRenderer>(meshes::SQUARE, gfx::COLOR_GREEN));
+    player->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft3"));
     player->addComponent(std::make_shared<Spawner>());
     return player;
 };

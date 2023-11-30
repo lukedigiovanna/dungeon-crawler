@@ -21,11 +21,11 @@ int program() {
 
     Engine engine("Cool");
     
-    // std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
-    // spriteManager->registerSprite("smile", "assets/smile.png");
-    // spriteManager->registerSprite("cat", "assets/image.jpeg");
+    std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
+    spriteManager->registerSprite("smile", "assets/smile.png");
+    spriteManager->registerSprite("cat", "assets/minecraft.png");
     // spriteManager->registerSpriteSheet("character", "assets/character.png", 4, 4);
-    // spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
+    spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     
     // std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
     // std::shared_ptr<AnimationSpriteDeck> walkAnimation = std::make_shared<AnimationSpriteDeck>();

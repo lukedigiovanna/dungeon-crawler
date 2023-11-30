@@ -1,22 +1,22 @@
 #version 330 core
 
-uniform vec3 viewPosition;
-
 in vec2 TexCoord;
 
 in vec3 FragPos;
 
 uniform sampler2D ourTexture;
+uniform vec4 clipRect;
 
 uniform vec4 objectColor;
 
 out vec4 FragColor;
 void main() {
-    // vec4 texColor = texture(ourTexture, TexCoord);
+    // transform the texture coord to be relative to the clip rect
+    vec2 transformedTexCoord = clipRect.xy + TexCoord * clipRect.zw;
+    vec4 texColor = texture(ourTexture, transformedTexCoord);
 
-    // if (texColor.a < 0.1) 
-    //     discard;
+    if (texColor.a < 0.1) 
+        discard;
 
-    // FragColor = texColor * vec4(objectColor, 1.0);
-    FragColor = objectColor;
+    FragColor = texColor * objectColor;
 }

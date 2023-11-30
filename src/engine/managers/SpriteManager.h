@@ -1,15 +1,17 @@
 #pragma once
 
 #include "../utils/Sprite.h"
+#include "../utils/Texture.h"
 
 #include <string>
 #include <unordered_map>
+#include <memory>
 
 #include <SDL.h>
 
 class SpriteManager {
 private:
-    std::unordered_map<std::string, SDL_Texture*> textureMap;
+    std::unordered_map<std::string, std::unique_ptr<Texture>> textureMap;
     std::unordered_map<std::string, Sprite> spriteMap;
 public:
     SpriteManager();
