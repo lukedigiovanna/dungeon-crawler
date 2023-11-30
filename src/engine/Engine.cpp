@@ -25,9 +25,7 @@ Engine::Engine(std::string gameName) {
     managers.inputManager = std::make_shared<InputManager>();
     managers.animationManager = std::make_shared<AnimationManager>();
     managers.shaderManager = std::make_shared<ShaderManager>();
-    std::shared_ptr<Shader> shader = managers.shaderManager->loadShader("engine_main", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
-
-    shader->use();
+    std::shared_ptr<Shader> shader = managers.shaderManager->loadShader("_scene", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
 
     scene = nullptr;
 }
@@ -59,7 +57,7 @@ void Engine::renderLoop() {
             this->managers.inputManager->update(event);
         }
 
-        // this->scene->update(dt);
+        this->scene->update(dt);
         scene->render(window.get());
 
         SDL_GL_SwapWindow(window->window);

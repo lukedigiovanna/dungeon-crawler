@@ -1,6 +1,7 @@
 #include "prefabs.h"
 
 #include "../engine/components/renderers/SpriteRenderer.h"
+#include "../engine/components/renderers/ShapeRenderer.h"
 #include "../engine/components/renderers/AnimatedSpriteRenderer.h"
 #include "../engine/components/Lifetime.h"
 #include "../engine/components/Physics.h"
@@ -16,8 +17,11 @@
 
 PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> cat = std::make_shared<GameObject>();
+    // cat->setRendererComponent(
+    //     std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816))
+    // );
     cat->setRendererComponent(
-        std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816))
+        std::make_unique<ShapeRenderer>(Shape::SQUARE, gfx::COLOR_BLUE)
     );
     cat->addComponent(std::make_shared<Lifetime>(random(1.0f, 2.0f)));
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
@@ -35,7 +39,7 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
 PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
     player->scale = {0.5f, 0.5f};
-    std::shared_ptr<AnimationController> animController = std::make_shared<AnimationController>();
+    // std::shared_ptr<AnimationController> animController = std::make_shared<AnimationController>();
     
     player->addComponent(std::make_shared<Spawner>());
     return player;

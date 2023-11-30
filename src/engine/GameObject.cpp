@@ -16,9 +16,9 @@ void GameObject::setRendererComponent(std::unique_ptr<RendererComponent> rendere
     }
 }
 
-void GameObject::render(Window* window, float x, float y, float width, float height) const {
+void GameObject::render(std::shared_ptr<Shader> shader) const {
     if (this->rendererComponent) {
-        this->rendererComponent->render(window, x, y, width, height);
+        this->rendererComponent->render(shader);
     }
 }
 

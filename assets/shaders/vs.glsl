@@ -12,9 +12,9 @@ uniform mat4 view;
 uniform mat4 model;
 
 void main() {
-    // vec4 pos = projection * view * model * vec4(inPos, 1.0);
+    vec4 pos = projection * view * model * vec4(inPos.xy, 0.0, 1.0);
 
-    gl_Position = vec4(inPos.xy, 0.0, 1.0);
+    gl_Position = pos;
 
     TexCoord = inTexCoord;
     FragPos = vec3(vec4(inPos, 0.0, 1.0));

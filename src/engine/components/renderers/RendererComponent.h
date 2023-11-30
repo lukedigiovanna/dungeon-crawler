@@ -1,13 +1,18 @@
 #pragma once
 
 #include "../../Window.h"
+#include "../../utils/Shader.h"
+
 #include <memory>
+#include <string>
 
 class GameObject;
 
 class RendererComponent {
 private:
     std::weak_ptr<GameObject> gameObject;
+
+    std::shared_ptr<Shader> getShader(std::string const& shaderId) const;
 public:
     RendererComponent();
     ~RendererComponent();
@@ -18,5 +23,5 @@ public:
     std::shared_ptr<GameObject> getGameObject() const;
     void setGameObject(std::shared_ptr<GameObject> obj);
 
-    virtual void render(Window* window, float x, float y, float width, float height) const;
+    virtual void render(std::shared_ptr<Shader> shader) const;
 };

@@ -9,7 +9,7 @@
 #include <cmath>
 
 SpriteRenderer::SpriteRenderer(std::string spriteId) : spriteId(spriteId) {
-    throw std::runtime_error("SpriteRenderer::SpriteRenderer: not implemented");
+    // throw std::runtime_error("SpriteRenderer::SpriteRenderer: not implemented");
 }
 
 void SpriteRenderer::init() {
@@ -17,7 +17,7 @@ void SpriteRenderer::init() {
     // this->sprite = spriteManager->getSprite(spriteId);
 }
 
-void SpriteRenderer::render(Window* window, float x, float y, float width, float height) const {
+void SpriteRenderer::render(std::shared_ptr<Shader> shader) const {
     // std::shared_ptr<GameObject> obj = this->getGameObject();
     // SDL_FRect dstrect = { x - width / 2.0f, y - height / 2.0f, width, height };
     // SDL_RenderCopyExF(window->renderer, sprite->texture, &sprite->rect, &dstrect, obj->rotation, NULL, SDL_FLIP_NONE);

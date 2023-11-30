@@ -15,5 +15,5 @@ public:
     ShapeRenderer(Shape shape, gfx::color color);
     ~ShapeRenderer();
 
-    void render(Window* window, float x, float y, float width, float height) const override;
+    void render(std::shared_ptr<Shader> shader) const override;
 };

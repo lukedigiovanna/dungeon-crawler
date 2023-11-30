@@ -67,14 +67,7 @@ std::vector<std::shared_ptr<GameObject>> const& Scene::getGameObjects() const {
 }
 
 void Scene::render(Window* window) const {
-    // SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255); // black
-    // SDL_RenderClear(window->renderer);
-    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    meshes::SQUARE->render();
-
-    // this->camera->render(window);
+    this->camera->render(window);
 }
 
 std::shared_ptr<Camera> Scene::getCamera() const {

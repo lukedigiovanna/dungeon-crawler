@@ -46,7 +46,6 @@ add_executable(dungeon
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 
 if (WIN32)
-  # target_link_libraries(dungeon PRIVATE user32 gdi32 winmm imm32 ole32 oleaut32 version uuid)
   target_link_libraries(dungeon PRIVATE 
     "${CMAKE_SOURCE_DIR}/dependencies/lib/libSDL2.a"
     imm32
@@ -62,17 +61,15 @@ if (WIN32)
   )
 
   set_target_properties(dungeon PROPERTIES LINK_FLAGS "-mwindows")
+else()
+  target_link_libraries(
+    dungeon PRIVATE
+    /Library/Frameworks/SDL2.framework/Versions/A/SDL2
+  )
+
+  target_include_directories(
+    dungeon PRIVATE
+    /Library/Frameworks/SDL2.framework/Versions/A/Headers
+    dependencies/include
+  )
 endif()
-
-# target_link_libraries(
-#   dungeon PRIVATE
-#   # /Library/Frameworks/SDL2.framework/Versions/A/SDL2
-#   "${CMAKE_SOURCE_DIR}/dependencies/lib/libSDL2.a"
-# )
-
-# target_include_directories(
-#   dungeon PRIVATE
-#   # /Library/Frameworks/SDL2.framework/Versions/A/Headers
-#   dependencies/include
-#   dependencies/include/SDL2
-# )

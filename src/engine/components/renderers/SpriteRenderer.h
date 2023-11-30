@@ -12,5 +12,5 @@ public:
     SpriteRenderer(std::string spriteId);
     
     void init() override;
-    void render(Window* window, float x, float y, float width, float height) const override;
+    void render(std::shared_ptr<Shader> shader) const override;
 };
