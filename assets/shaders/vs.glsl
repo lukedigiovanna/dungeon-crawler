@@ -4,6 +4,7 @@ layout (location = 0) in vec2 inPos;
 layout (location = 1) in vec2 inTexCoord;
 
 out vec2 TexCoord;
+out vec2 FragPos;
 
 uniform mat4 projection;
 uniform mat4 view;
@@ -15,4 +16,5 @@ void main() {
     gl_Position = pos;
 
     TexCoord = inTexCoord;
+    FragPos = pos.xy;
 }

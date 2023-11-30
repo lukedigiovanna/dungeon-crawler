@@ -69,6 +69,10 @@ void Camera::render(Window* window) {
     shader->setMatrix4("projection", proj);
     shader->setMatrix4("view", view);
 
+    shader->setVec2("light.position", 0.0f, 0.0f);
+    shader->setFloat("light.luminance", 0.6f);
+    shader->setVec3("light.color", 1.0f, 1.0f, 1.0f);
+
     for (auto gameObject : gameObjects) {
         gameObject->render(shader);
     }

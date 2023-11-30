@@ -7,11 +7,11 @@
 
 class Camera: public Component {
 private:
-    float scale;
-    float rotation;
     vec2 windowDimension;
     float aspectRatio;
 public:
+    float scale;
+    float rotation;
     Camera();
 
     void update(float dt) override;

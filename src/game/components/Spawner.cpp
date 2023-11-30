@@ -13,6 +13,7 @@
 void Spawner::update(float dt) {
     std::shared_ptr<GameObject> obj = this->getGameObject();
     std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
+    std::shared_ptr<Scene> scene = obj->getScene();    
     
     if (input->isKeyPressed(SDLK_SPACE)) {
         obj->scale = obj->scale * 1.5f;
@@ -21,7 +22,13 @@ void Spawner::update(float dt) {
         obj->scale = obj->scale / 1.5f;
     }
 
-    std::shared_ptr<Scene> scene = obj->getScene();    
+    if (input->isKeyDown(SDLK_UP)) {
+        scene->getCamera()->scale /= 1.1f;
+    }
+    if (input->isKeyDown(SDLK_DOWN)) {
+        scene->getCamera()->scale *= 1.1f;
+    }
+
     
     vec2 mousePos = input->getMousePosition();
     vec2 mouseWorldPos = scene->getCamera()->screenPositionToWorldPosition(mousePos);

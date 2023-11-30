@@ -26,6 +26,7 @@ int program() {
     spriteManager->registerSprite("cat", "assets/minecraft.png");
     // spriteManager->registerSpriteSheet("character", "assets/character.png", 4, 4);
     spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
+    spriteManager->registerSprite("background", "assets/topdown.png");
     
     // std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
     // std::shared_ptr<AnimationSpriteDeck> walkAnimation = std::make_shared<AnimationSpriteDeck>();
