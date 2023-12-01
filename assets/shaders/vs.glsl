@@ -11,10 +11,11 @@ uniform mat4 view;
 uniform mat4 model;
 
 void main() {
-    vec4 pos = projection * view * model * vec4(inPos.xy, 0.0, 1.0);
+    vec4 worldPos = model * vec4(inPos.xy, 0.0, 1.0);
+    vec4 pos = projection * view * worldPos;
 
     gl_Position = pos;
 
     TexCoord = inTexCoord;
-    FragPos = pos.xy;
+    FragPos = worldPos.xy;
 }

@@ -26,7 +26,7 @@ void main() {
 
     // Light calculations
     float dist = length(light.position - FragPos);
-    float attenuation = 1.0 / dist; // Simple distance-based attenuation
+    float attenuation = min(1.0, 1.0 / dist); // Simple distance-based attenuation
     vec3 lightEffect = light.color * light.luminance * attenuation;
 
     FragColor = texColor * objectColor * vec4(lightEffect, 1.0);

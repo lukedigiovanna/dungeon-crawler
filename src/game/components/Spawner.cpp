@@ -14,21 +14,26 @@ void Spawner::update(float dt) {
     std::shared_ptr<GameObject> obj = this->getGameObject();
     std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
     std::shared_ptr<Scene> scene = obj->getScene();    
-    
-    if (input->isKeyPressed(SDLK_SPACE)) {
-        obj->scale = obj->scale * 1.5f;
-    }
-    if (input->isKeyPressed(SDLK_LSHIFT)) {
-        obj->scale = obj->scale / 1.5f;
-    }
 
-    if (input->isKeyDown(SDLK_UP)) {
+    if (input->isKeyDown(SDLK_LSHIFT)) {
         scene->getCamera()->scale /= 1.1f;
     }
-    if (input->isKeyDown(SDLK_DOWN)) {
+    if (input->isKeyDown(SDLK_SPACE)) {
         scene->getCamera()->scale *= 1.1f;
     }
-
+    float camSpeed = 5.0f;
+    if (input->isKeyDown(SDLK_w)) {
+        scene->getCamera()->getGameObject()->position.y += camSpeed * dt;
+    }
+    if (input->isKeyDown(SDLK_s)) {
+        scene->getCamera()->getGameObject()->position.y -= camSpeed * dt;
+    }
+    if (input->isKeyDown(SDLK_a)) {
+        scene->getCamera()->getGameObject()->position.x -= camSpeed * dt;
+    }
+    if (input->isKeyDown(SDLK_d)) {
+        scene->getCamera()->getGameObject()->position.x += camSpeed * dt;
+    }
     
     vec2 mousePos = input->getMousePosition();
     vec2 mouseWorldPos = scene->getCamera()->screenPositionToWorldPosition(mousePos);
