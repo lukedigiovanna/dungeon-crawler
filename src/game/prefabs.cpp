@@ -41,7 +41,7 @@ PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
     player->scale = {1.0f, 1.0f};
     player->setRendererComponent(std::make_unique<SpriteRenderer>("character0"));
-    player->addComponent(std::make_shared<SpriteAnimator>("player-walk-down"));
+    player->addComponent(std::make_shared<SpriteAnimator>("player-walk-right"));
     player->addComponent(std::make_shared<Spawner>());
     player->addComponent(std::make_shared<LightSource>(gfx::COLOR_WHITE, 1.5f));
     player->addComponent(std::make_shared<PlayerMovement>(2.0f));

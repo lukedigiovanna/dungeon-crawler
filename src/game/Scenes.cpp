@@ -31,6 +31,16 @@ void scenes::SampleScene::init() {
 
     int i = 0;
 
+    // for (float y = -7.0f; y >= -10.0f; y -= 1.0f) {
+    //     for (float x = -6.0f; x <= 5.0f; x += 1.0f) {
+    //         obj = std::make_shared<GameObject>();
+    //         obj->scale = { 1.0f, 1.0f };
+    //         obj->position = { x, y };
+    //         obj->setRendererComponent(std::make_unique<SpriteRenderer>("character" + std::to_string(i++)));
+    //         addGameObject(obj);
+    //     }
+    // }
+
     // for (float y = 14.0f; y >= -14.0f; y -= 0.5f) {
     //     for (float x = -14.0f; x <= 14.0f; x += 0.5f) {
     //         obj = std::make_shared<GameObject>();

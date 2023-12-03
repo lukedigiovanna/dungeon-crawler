@@ -14,8 +14,10 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
     float cellWidth = 1.0f / cellsX;
     float cellHeight = 1.0f / cellsY;
     int i = 0;
-    for (float y = 0.0f; y < 1.0f; y += cellHeight) {
-        for (float x = 0.0f; x < 1.0f; x += cellWidth) {
+    for (int yi = 0; yi < cellsY; yi++) {
+        for (int xi = 0; xi < cellsX; xi++) {
+            float y = static_cast<float>(yi) / cellsY;
+            float x = static_cast<float>(xi) / cellsX;
             std::string id = idPrefix + std::to_string(i);
             ++i;
             if (spriteMap.find(id) != spriteMap.end()) {
