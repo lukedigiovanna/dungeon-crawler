@@ -14,7 +14,7 @@
 class Engine {
 private:
     // Managers
-    Managers managers;
+    std::shared_ptr<Managers> managers;
 
     std::unique_ptr<Window> window;
     std::shared_ptr<Scene> scene;
@@ -27,7 +27,7 @@ public:
 
     Engine(std::string gameName);
 
-    const Managers* getManagers() const;
+    std::shared_ptr<Managers> getManagers() const;
 
     void loadScene(std::shared_ptr<Scene> scene);
 

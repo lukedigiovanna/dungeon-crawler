@@ -77,8 +77,6 @@ void Camera::render(Window* window) {
 
     shader->setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
 
-    shader->setInt("numLights", 0);
-
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {
         if (gameObject->hasComponent<LightSource>()) {
@@ -93,6 +91,10 @@ void Camera::render(Window* window) {
         }
     }
     shader->setInt("numLights", lightIndex);
+
+    if (scene->hasTilemap()) {
+        scene->getTilemap().render(*shader);
+    }
 
     for (auto gameObject : gameObjects) {
         gameObject->render(shader);

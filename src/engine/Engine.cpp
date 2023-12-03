@@ -24,22 +24,25 @@ Engine::Engine(std::string gameName) {
 
     meshes::init();
 
-    managers.spriteManager = std::make_shared<SpriteManager>();
-    managers.inputManager = std::make_shared<InputManager>();
-    managers.animationManager = std::make_shared<AnimationManager>();
-    managers.shaderManager = std::make_shared<ShaderManager>();
-    std::shared_ptr<Shader> shader = managers.shaderManager->loadShader("_scene", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
+    managers = std::make_shared<Managers>();
+
+    managers->spriteManager = std::make_shared<SpriteManager>();
+    managers->inputManager = std::make_shared<InputManager>();
+    managers->animationManager = std::make_shared<AnimationManager>();
+    managers->shaderManager = std::make_shared<ShaderManager>();
+
+    std::shared_ptr<Shader> shader = managers->shaderManager->loadShader("_scene", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
 
     scene = nullptr;
 }
 
-const Managers* Engine::getManagers() const {
-    return &(this->managers);
+std::shared_ptr<Managers> Engine::getManagers() const {
+    return managers;
 }
 
 void Engine::loadScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
-    this->scene->setManagers(&this->managers);
+    this->scene->setManagers(this->managers);
     this->scene->init();
 }
 
@@ -57,7 +60,7 @@ void Engine::renderLoop() {
             if (event.type == SDL_QUIT) {
                 this->halt();
             }
-            this->managers.inputManager->update(event);
+            this->managers->inputManager->update(event);
         }
 
         this->scene->update(dt);

@@ -23,31 +23,14 @@ void SpriteManager::registerSpriteSheet(std::string idPrefix, std::string sprite
             if (spriteMap.find(id) != spriteMap.end()) {
                 throw std::runtime_error("SpriteManager::registerSpriteSheet: Sprite id '" + id + "' already used");
             }
-            spriteMap[id] = {
+            Sprite s{
                 texture,
-                { x, y, cellWidth, cellHeight }
+                glm::vec4{ x, y, cellWidth, cellHeight }
             };
+            spriteMap[id] = sprites.size();
+            sprites.push_back(s);
         }
     }
-}
-
-void SpriteManager::registerSprite(std::string id, std::string spritePath, int offX, int offY, int width, int height) {
-    // SDL_Texture* texture;
-    // auto f = textureMap.find(spritePath);
-    // if (f == textureMap.end()) {
-    //     // texture = IMG_LoadTexture(renderer, spritePath.c_str());
-    // }
-    // else {
-    //     texture = f->second;
-    // }
-    // textureMap[spritePath] = texture;
-    // if (spriteMap.find(id) != spriteMap.end()) {
-    //     throw std::runtime_error("SpriteManager::registerSprite: Sprite id '" + id + "' already used");
-    // }
-    // spriteMap[id] = {
-    //     // texture,
-    //     // SDL_Rect{offX, offY, width, height}
-    // };
 }
 
 void SpriteManager::registerSprite(std::string id, std::string spritePath) {
@@ -58,18 +41,31 @@ void SpriteManager::registerSprite(std::string id, std::string spritePath) {
         textureMap[spritePath] = std::make_unique<Texture>(spritePath);
     }
     Texture* texture = textureMap[spritePath].get();
-    spriteMap[id] = {
+    Sprite s{
         texture,
         glm::vec4{0.0f, 0.0f, 1.0f, 1.0f}
     };
+    spriteMap[id] = sprites.size();
+    sprites.push_back(s);
 }
 
-const Sprite* SpriteManager::getSprite(std::string id) const {
+const Sprite* SpriteManager::getSprite(std::string const& id) const {
     auto f = spriteMap.find(id);
     if (f == spriteMap.end()) {
         throw std::runtime_error("SpriteManager::getTexture: No sprite in sprite manager with id '" + id + "'");
     }
-    return &(f->second);
+    return &sprites[f->second];
+}
+
+const Sprite* SpriteManager::getSpriteByIndex(int index) const {
+    if (index < 0 || index >= sprites.size()) {
+        throw std::runtime_error("SpriteManager::getSprie: Index out of range: " + std::to_string(index));
+    }
+    return &sprites[index];
+}
+
+size_t SpriteManager::getNumSprites() const {
+    return sprites.size();
 }
 
 void SpriteManager::destroy() {

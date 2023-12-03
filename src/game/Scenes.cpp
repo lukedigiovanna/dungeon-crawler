@@ -5,12 +5,29 @@
 
 #include "prefabs.h"
 
+#include <iostream>
+
 void scenes::SampleScene::init() {
     Scene::init();
+
+    int s = 100;
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 0.25f);
+    int si = 0;
+    std::shared_ptr<SpriteManager> sm = getManagers()->spriteManager;
+    int ns = sm->getNumSprites();
+    for (int i = 0; i < s; i++) {
+        for (int j = 0; j < s; j++) {
+            tilemap->setTile(i, j, si, false);
+            si = (si + 1) % ns;
+            std::cout << si << "\n";
+        }
+    }
+    setTilemap(std::move(tilemap));
+
     std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
-    obj->scale = {20.0f, 11.78f};
-    obj->setRendererComponent(std::make_unique<SpriteRenderer>("background"));
-    this->addGameObject(obj);
+    // obj->scale = {20.0f, 11.78f};
+    // obj->setRendererComponent(std::make_unique<SpriteRenderer>("background"));
+    // this->addGameObject(obj);
 
     float x = -3.0f;
     for (int i = 128; i < 136; i++) {

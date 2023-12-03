@@ -20,12 +20,28 @@ void Scene::init() {
     this->addGameObject(cameraObj);
 }
 
-void Scene::setManagers(const Managers* managers) {
+bool Scene::hasTilemap() const {
+    return tilemap != nullptr;
+}
+
+void Scene::setTilemap(std::unique_ptr<Tilemap> tilemap) {
+    this->tilemap = std::move(tilemap);
+    this->tilemap->setScene(shared_from_this());
+}
+
+Tilemap& Scene::getTilemap() const {
+    if (tilemap == nullptr) {
+        throw std::runtime_error("Scene::getTilemap: Cannot get tilemap because there is no tilemap present.");
+    }
+    return *tilemap;
+}
+
+void Scene::setManagers(std::shared_ptr<Managers> managers) {
     this->managers = managers;
 }
 
-const Managers* Scene::getManagers() const {
-    return this->managers;
+std::shared_ptr<Managers> Scene::getManagers() const {
+    return managers;
 }
 
 void Scene::update(float dt) {

@@ -40,10 +40,8 @@ int program() {
     // std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
     int walkIndex = 0;
     for (std::string const& dir : dirs) {
-        std::cout << dir << "\n";
         std::shared_ptr<Animation> ani = std::make_shared<Animation>(14.0f);
         for (int i = 0; i < nf; i++) {
-            std::cout << walkIndex << "\n";
             ani->addFrame(spriteManager, "character" + std::to_string(walkIndex++));
         }
         animationManager->registerAnimation("player-walk-" + dir, ani);
