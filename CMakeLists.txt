@@ -20,10 +20,10 @@ add_executable(dungeon
   src/engine/components/Lifetime.cpp
   src/engine/components/Physics.cpp
   src/engine/components/LightSource.cpp
+  src/engine/components/SpriteAnimator.cpp
   src/engine/components/renderers/RendererComponent.cpp
   src/engine/components/renderers/ShapeRenderer.cpp
   src/engine/components/renderers/SpriteRenderer.cpp
-  src/engine/components/renderers/AnimatedSpriteRenderer.cpp
   src/engine/managers/AnimationManager.cpp
   src/engine/managers/ShaderManager.cpp
   src/engine/managers/SpriteManager.cpp
@@ -31,7 +31,6 @@ add_executable(dungeon
   src/engine/utils/Math.cpp
   src/engine/utils/Graphics.cpp
   src/engine/utils/Animation.cpp
-  src/engine/utils/AnimationController.cpp
   src/engine/utils/io.cpp
   src/engine/utils/Mesh.cpp
   src/engine/utils/meshes.cpp
@@ -41,6 +40,7 @@ add_executable(dungeon
   src/game/scenes.cpp
   src/game/prefabs.cpp
   src/game/components/Spawner.cpp
+  src/game/components/PlayerMovement.cpp
   src/game/components/Shrink.cpp
 )
 

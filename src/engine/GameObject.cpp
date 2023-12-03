@@ -26,6 +26,13 @@ bool GameObject::hasRenderer() const {
     return this->rendererComponent != nullptr;
 }
 
+RendererComponent* GameObject::getRendererComponent() const {
+    if (this->rendererComponent == nullptr) {
+        throw std::runtime_error("GameObject::getRendererComponent: Cannot get the renderer component when there is not one attached to this Game Object.");
+    }
+    return this->rendererComponent.get();
+}
+
 void GameObject::setScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
 }

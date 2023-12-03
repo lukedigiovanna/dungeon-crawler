@@ -1,6 +1,7 @@
 #include "Spawner.h"
 
 #include "../../engine/Scene.h"
+#include "../../engine/components/SpriteAnimator.h"
 #include "../../engine/utils/Graphics.h"
 #include "../../engine/utils/Math.h"
 #include "../../engine/managers/InputManager.h"
@@ -21,24 +22,24 @@ void Spawner::update(float dt) {
     if (input->isKeyDown(SDLK_SPACE)) {
         scene->getCamera()->scale *= 1.1f;
     }
-    float camSpeed = 5.0f;
-    if (input->isKeyDown(SDLK_w)) {
-        scene->getCamera()->getGameObject()->position.y += camSpeed * dt;
-    }
-    if (input->isKeyDown(SDLK_s)) {
-        scene->getCamera()->getGameObject()->position.y -= camSpeed * dt;
-    }
-    if (input->isKeyDown(SDLK_a)) {
-        scene->getCamera()->getGameObject()->position.x -= camSpeed * dt;
-    }
-    if (input->isKeyDown(SDLK_d)) {
-        scene->getCamera()->getGameObject()->position.x += camSpeed * dt;
-    }
+    // float camSpeed = 5.0f;
+    // if (input->isKeyDown(SDLK_w)) {
+    //     scene->getCamera()->getGameObject()->position.y += camSpeed * dt;
+    // }
+    // if (input->isKeyDown(SDLK_s)) {
+    //     scene->getCamera()->getGameObject()->position.y -= camSpeed * dt;
+    // }
+    // if (input->isKeyDown(SDLK_a)) {
+    //     scene->getCamera()->getGameObject()->position.x -= camSpeed * dt;
+    // }
+    // if (input->isKeyDown(SDLK_d)) {
+    //     scene->getCamera()->getGameObject()->position.x += camSpeed * dt;
+    // }
     
-    vec2 mousePos = input->getMousePosition();
-    vec2 mouseWorldPos = scene->getCamera()->screenPositionToWorldPosition(mousePos);
+    // vec2 mousePos = input->getMousePosition();
+    // vec2 mouseWorldPos = scene->getCamera()->screenPositionToWorldPosition(mousePos);
 
-    obj->position = mouseWorldPos;
+    // obj->position = mouseWorldPos;
 
     if (input->isMouseDown()) {
         this->timer += dt;
@@ -52,4 +53,10 @@ void Spawner::update(float dt) {
             this->timer = std::fmod(this->timer, this->frequency);
         }
     }
+}
+
+void Spawner::init() {
+    // std::shared_ptr<SpriteAnimator> animator = getGameObject()->getComponent<SpriteAnimator>();
+
+    // animator->stop();
 }

@@ -7,10 +7,10 @@
 
 class AnimationManager {
 private:
-    std::unordered_map<std::string, std::shared_ptr<AnimationSpriteDeck>> spriteDecks;
+    std::unordered_map<std::string, std::shared_ptr<Animation>> spriteDecks;
 public:
     AnimationManager();
 
-    void registerAnimation(std::string id, std::shared_ptr<AnimationSpriteDeck> spriteDeck);
-    std::shared_ptr<AnimationSpriteDeck> getAnimation(std::string id) const;
+    void registerAnimation(std::string id, std::shared_ptr<Animation> spriteDeck);
+    std::shared_ptr<Animation> getAnimation(std::string id) const;
 };

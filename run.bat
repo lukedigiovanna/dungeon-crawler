@@ -8,5 +8,5 @@ if not exist "build" (
 cd build
 
 del dungeon.exe
-cmake ..
+cmake -G "Unix Makefiles" ..
 make

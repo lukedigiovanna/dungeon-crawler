@@ -4,9 +4,12 @@
 #include "engine/stb_image.h"
 
 #include <SDL.h>
+#include <glad/glad.h>
+
 #include <iostream>
 #include <memory>
-#include <glad/glad.h>
+#include <array>
+#include <string>
 
 #include "engine/Engine.h"
 #include "engine/Scene.h"
@@ -24,17 +27,38 @@ int program() {
     std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
     spriteManager->registerSprite("cat", "assets/minecraft.png");
-    // spriteManager->registerSpriteSheet("character", "assets/character.png", 4, 4);
+    int nf = 12;
+    spriteManager->registerSpriteSheet("character", "assets/character3.png", nf, 4);
+    // int nf = 9;
+    // spriteManager->registerSpriteSheet("character", "assets/character2.png", nf, 4);
     spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     spriteManager->registerSprite("background", "assets/topdown.png");
     
-    // std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
-    // std::shared_ptr<AnimationSpriteDeck> walkAnimation = std::make_shared<AnimationSpriteDeck>();
-    // walkAnimation->addFrame(spriteManager, "character0");
-    // walkAnimation->addFrame(spriteManager, "character1");
-    // walkAnimation->addFrame(spriteManager, "character2");
-    // walkAnimation->addFrame(spriteManager, "character3");
-    // animationManager->registerAnimation("player-walk", walkAnimation);
+    std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
+    
+    // std::array<std::string, 4> dirs = {"up", "left", "down", "right"};
+    std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
+    int walkIndex = 0;
+    for (std::string const& dir : dirs) {
+        std::cout << dir << "\n";
+        std::shared_ptr<Animation> ani = std::make_shared<Animation>(14.0f);
+        for (int i = 0; i < nf; i++) {
+            std::cout << walkIndex << "\n";
+            ani->addFrame(spriteManager, "character" + std::to_string(walkIndex++));
+        }
+        animationManager->registerAnimation("player-walk-" + dir, ani);
+    }
+
+    std::shared_ptr<Animation> minecraftAnimation = std::make_shared<Animation>(20.0f);
+    for (int i = 0; i < 800; i++) {
+        minecraftAnimation->addFrame(spriteManager, "minecraft" + std::to_string(i));
+    }
+    animationManager->registerAnimation("minecraft", minecraftAnimation);
+    std::shared_ptr<Animation> wheatGrow = std::make_shared<Animation>(2.0f);
+    for (int i = 128; i < 136; i++) {
+        wheatGrow->addFrame(spriteManager, "minecraft" + std::to_string(i));
+    }
+    animationManager->registerAnimation("wheat-grow", wheatGrow);
 
     std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
     engine.loadScene(startingScene);

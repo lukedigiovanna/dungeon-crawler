@@ -8,4 +8,5 @@ private:
     float frequency = 0.01f;
 public:
     void update(float dt) override;
+    void init() override;
 };

@@ -62,6 +62,8 @@ public:
     }
 
     void setRendererComponent(std::unique_ptr<RendererComponent> rendererComponent);
+    RendererComponent* getRendererComponent() const;
+
     void render(std::shared_ptr<Shader> shader) const;
     bool hasRenderer() const;
 

@@ -9,17 +9,30 @@
 #include <cmath>
 #include <glm/gtc/matrix_transform.hpp>
 
-SpriteRenderer::SpriteRenderer(std::string spriteId) : spriteId(spriteId), color{1.0f, 1.0f, 1.0f, 1.0f} {
+SpriteRenderer::SpriteRenderer(std::string const& spriteId) : spriteId(spriteId), color{1.0f, 1.0f, 1.0f, 1.0f} {
 
 }
 
-SpriteRenderer::SpriteRenderer(std::string spriteId, gfx::color const& color) : spriteId(spriteId), color(color) {
+SpriteRenderer::SpriteRenderer(std::string const& spriteId, gfx::color const& color) : spriteId(spriteId), color(color) {
 
+}
+
+void SpriteRenderer::setSprite(std::string const& spriteId) {
+    if (!initialized) {
+        throw std::runtime_error("SpriteRenderer::setSprite: Cannot set the sprite of a sprite renderer which hasn't been initialized");
+    }
+    std::shared_ptr<SpriteManager> spriteManager = this->getGameObject()->getScene()->getManagers()->spriteManager;
+    this->sprite = spriteManager->getSprite(spriteId);
+}
+
+void SpriteRenderer::setSprite(const Sprite* sprite) {
+    this->sprite = sprite;
 }
 
 void SpriteRenderer::init() {
     std::shared_ptr<SpriteManager> spriteManager = this->getGameObject()->getScene()->getManagers()->spriteManager;
     this->sprite = spriteManager->getSprite(spriteId);
+    initialized = true;
 }
 
 void SpriteRenderer::render(std::shared_ptr<Shader> shader) const {

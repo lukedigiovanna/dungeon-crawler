@@ -5,30 +5,18 @@
 #include <vector>
 #include <memory>
 
-class AnimationSpriteDeck {
-private:
-    std::vector<const Sprite*> sprites;
-public:
-    AnimationSpriteDeck();
-
-    void addFrame(const Sprite* sprite);
-    void addFrame(std::shared_ptr<SpriteManager> spriteManager, std::string spriteId);
-    const Sprite* getFrame(int frameIndex) const;
-    size_t getSize() const;
-};
-
 class Animation {
 private:
-    std::shared_ptr<AnimationSpriteDeck> spriteDeck;
+    std::vector<const Sprite*> sprites;
     float fps;
-    float timer = 0;
-    size_t currentFrame = 0;
-    bool playing = false;
 public:
-    Animation(std::shared_ptr<AnimationSpriteDeck> spriteDeck, float fps);
+    Animation(float fps);
 
-    const Sprite* getCurrentFrame() const;
+    float getFps() const;
 
-    void play();
-    void update(float dt);
+    void addFrame(const Sprite* sprite);
+    void addFrame(std::shared_ptr<SpriteManager> spriteManager, std::string const& spriteId);
+
+    const Sprite* getFrame(int frameIndex) const;
+    size_t getNumberOfFrames() const;
 };
