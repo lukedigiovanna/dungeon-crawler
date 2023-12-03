@@ -13,7 +13,12 @@ uniform sampler2D ourTexture;
 uniform vec4 clipRect;
 
 uniform vec4 objectColor;
-uniform Light light;
+
+#define MAX_NUM_LIGHTS 64
+uniform int numLights;
+uniform Light[MAX_NUM_LIGHTS] lights;
+
+uniform vec3 ambientLight;
 
 out vec4 FragColor;
 void main() {
@@ -25,9 +30,13 @@ void main() {
         discard;
 
     // Light calculations
-    float dist = length(light.position - FragPos);
-    float attenuation = min(1.0, 1.0 / dist); // Simple distance-based attenuation
-    vec3 lightEffect = light.color * light.luminance * attenuation;
+    vec3 lightEffect = ambientLight;
+    for (int i = 0; i < numLights; i++) {
+        Light light = lights[i];
+        float dist = length(light.position - FragPos);
+        float attenuation = min(1.0, 1.0 / (dist + 0.6)); // Simple distance-based attenuation
+        lightEffect += light.color * light.luminance * attenuation;
+    }
 
     FragColor = texColor * objectColor * vec4(lightEffect, 1.0);
 }

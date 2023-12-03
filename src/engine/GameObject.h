@@ -51,6 +51,16 @@ public:
         return nullptr;
     }
 
+    template<typename T>
+    bool hasComponent() const {
+        static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
+        auto it = components.find(std::type_index(typeid(T)));
+        if (it != components.end()) {
+            return true;
+        }
+        return false;
+    }
+
     void setRendererComponent(std::unique_ptr<RendererComponent> rendererComponent);
     void render(std::shared_ptr<Shader> shader) const;
     bool hasRenderer() const;

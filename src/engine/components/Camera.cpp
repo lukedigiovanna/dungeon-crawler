@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Lifetime.h"
+#include "LightSource.h"
 #include "../Scene.h"
 #include "../utils/Shader.h"
 #include "../utils/meshes.h"
@@ -10,6 +11,9 @@
 
 #include <iostream>
 #include <math.h>
+#include <string>
+
+#define MAX_NUM_LIGHTS 64
 
 Camera::Camera() : scale(10.0f), rotation(0.0f), windowDimension{640.0f, 480.0f} {
     aspectRatio = windowDimension.x / windowDimension.y;
@@ -71,9 +75,24 @@ void Camera::render(Window* window) {
 
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
 
-    shader->setVec2("light.position", 0.0f, 0.0f);
-    shader->setFloat("light.luminance", (std::cos(lifetime->getAge()) * 0.5f + 0.5f) * 5.0f + 2.0f);
-    shader->setVec3("light.color", 1.0f, 1.0f, 1.0f);
+    shader->setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+
+    shader->setInt("numLights", 0);
+
+    int lightIndex = 0;
+    for (auto gameObject : gameObjects) {
+        if (gameObject->hasComponent<LightSource>()) {
+            std::shared_ptr<LightSource> ls = gameObject->getComponent<LightSource>();
+            shader->setFloat(("lights[" + std::to_string(lightIndex) + "].luminance").c_str(), ls->luminance);
+            shader->setVec3(("lights[" + std::to_string(lightIndex) + "].color").c_str(), ls->color.r, ls->color.g, ls->color.b);
+            shader->setVec2(("lights[" + std::to_string(lightIndex) + "].position").c_str(), gameObject->position.x, gameObject->position.y);
+            lightIndex++;
+            if (lightIndex >= MAX_NUM_LIGHTS) {
+                break;
+            }
+        }
+    }
+    shader->setInt("numLights", lightIndex);
 
     for (auto gameObject : gameObjects) {
         gameObject->render(shader);

@@ -43,7 +43,7 @@ void Spawner::update(float dt) {
     if (input->isMouseDown()) {
         this->timer += dt;
         if (this->timer >= this->frequency) {
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 1; i++) {
                 std::shared_ptr<GameObject> newObj = prefabs::spinningCatPrefab();
                 newObj->position = { obj->position.x + random(-0.05f, 0.05f), obj->position.y + random(-0.05f, 0.05f) };
                 scene->addGameObject(newObj);
