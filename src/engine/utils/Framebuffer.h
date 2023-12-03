@@ -7,10 +7,13 @@
 class Framebuffer {
 private:
     unsigned int fbo;
+    unsigned int texture;
 public:
+    Framebuffer(GLsizei width, GLsizei height);
     Framebuffer();
     ~Framebuffer();
 
-    void bind() const;
-    void unbind() const;
+    void bindBuffer() const;
+    void unbindBuffer() const;
+    void bindTexture() const;
 };

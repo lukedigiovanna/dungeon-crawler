@@ -75,7 +75,8 @@ void Camera::render(Window* window) {
 
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
 
-    shader->setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+    // shader->setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+    shader->setVec3("ambientLight", 1.0f, 1.0f, 1.0f);
 
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {

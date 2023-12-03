@@ -37,6 +37,7 @@ add_executable(dungeon
   src/engine/utils/meshes.cpp
   src/engine/utils/Shader.cpp
   src/engine/utils/Texture.cpp
+  src/engine/utils/Framebuffer.cpp
 
   src/game/scenes.cpp
   src/game/prefabs.cpp

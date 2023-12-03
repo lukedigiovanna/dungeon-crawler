@@ -31,7 +31,15 @@ Engine::Engine(std::string gameName) {
     managers->animationManager = std::make_shared<AnimationManager>();
     managers->shaderManager = std::make_shared<ShaderManager>();
 
-    std::shared_ptr<Shader> shader = managers->shaderManager->loadShader("_scene", "assets/shaders/vs.glsl", "assets/shaders/fs.glsl");
+    managers->shaderManager->loadShader(
+        "_scene", 
+        "assets/shaders/scene_vs.glsl", "assets/shaders/scene_fs.glsl"
+    );
+
+    managers->shaderManager->loadShader(
+        "_tm_chunk", 
+        "assets/shaders/tm_chunk_vs.glsl", "assets/shaders/tm_chunk_fs.glsl"
+    );
 
     scene = nullptr;
 }

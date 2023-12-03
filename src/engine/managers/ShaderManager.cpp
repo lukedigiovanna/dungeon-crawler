@@ -10,7 +10,7 @@ std::shared_ptr<Shader> ShaderManager::loadShader(std::string const& shaderId, s
     if (shaderMap.find(shaderId) != shaderMap.end()) {
         throw std::runtime_error("ShaderManager::loadShader: shader id '" + shaderId + "' is already used");
     }
-    std::shared_ptr<Shader> shader = std::make_unique<Shader>(vsPath, fsPath);
+    std::shared_ptr<Shader> shader = std::make_shared<Shader>(vsPath, fsPath);
     shaderMap[shaderId] = shader;
     return shader;
 }

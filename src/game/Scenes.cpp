@@ -10,8 +10,8 @@
 void scenes::SampleScene::init() {
     Scene::init();
 
-    int s = 100;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 0.25f);
+    int s = 128;
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
     int si = 0;
     std::shared_ptr<SpriteManager> sm = getManagers()->spriteManager;
     int ns = sm->getNumSprites();
@@ -19,7 +19,7 @@ void scenes::SampleScene::init() {
         for (int j = 0; j < s; j++) {
             tilemap->setTile(i, j, si, false);
             si = (si + 1) % ns;
-            std::cout << si << "\n";
+            // std::cout << si << "\n";
         }
     }
     setTilemap(std::move(tilemap));

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils/Shader.h"
+#include "utils/Framebuffer.h"
 
 #include <memory>
 
@@ -9,10 +10,13 @@ struct Tile {
     bool wall;
 };
 
-#define CHUNK_SIZE 64
+#define CHUNK_SIZE 16
+#define CHUNK_BUFFER_SIZE 512
+#define TILE_SIZE (2.0f / CHUNK_SIZE)
 
 struct Chunk {
     bool isDirty;
+    Framebuffer fb;
 };
 
 class Scene; // forward declare

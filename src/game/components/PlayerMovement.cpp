@@ -21,6 +21,11 @@ void PlayerMovement::update(float dt) {
     std::shared_ptr<Component> camera = scene->getCamera();
     std::shared_ptr<GameObject> camObj = camera->getGameObject();
 
+    if (scene->hasTilemap()) {
+        Tilemap& tm = scene->getTilemap();
+        // tm.setTile();
+    }
+
     // move cam to the player
     camObj->position = obj->position;
 

@@ -18,6 +18,7 @@ unsigned int compileShader(std::string const& filepath, int shaderType) {
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shader, 512, NULL, infoLog);
+        std::cout << "ERROR creating shader: " << filepath << std::endl;
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
     return shader;
@@ -39,6 +40,7 @@ Shader::Shader(std::string const& vsPath, std::string const& fsPath) {
     glGetProgramiv(this->program, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(this->program, 512, NULL, infoLog);
+        std::cout << "ERROR linking shader: " << vsPath << ", " << fsPath << std::endl;
         std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
     glDeleteShader(vertexShader);
