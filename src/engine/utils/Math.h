@@ -101,6 +101,8 @@ enum PointOrientation {
     ORIENTATION_COUNTERCLOCKWISE
 };
 
+PointOrientation getPointOrientation(vec2 const& p, vec2 const& q, vec2 const& r);
+
 struct LineSegment {
     vec2 ep1, ep2;
 
