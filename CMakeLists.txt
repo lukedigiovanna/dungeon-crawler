@@ -26,18 +26,19 @@ add_executable(dungeon
   src/engine/components/renderers/ShapeRenderer.cpp
   src/engine/components/renderers/SpriteRenderer.cpp
   src/engine/managers/AnimationManager.cpp
+  src/engine/managers/InputManager.cpp
   src/engine/managers/ShaderManager.cpp
   src/engine/managers/SpriteManager.cpp
-  src/engine/managers/InputManager.cpp
-  src/engine/utils/Math.cpp
-  src/engine/utils/Graphics.cpp
-  src/engine/utils/Animation.cpp
   src/engine/utils/io.cpp
-  src/engine/utils/Mesh.cpp
   src/engine/utils/meshes.cpp
+  src/engine/utils/Animation.cpp
+  src/engine/utils/Framebuffer.cpp
+  src/engine/utils/Graphics.cpp
+  src/engine/utils/Math.cpp
+  src/engine/utils/Mesh.cpp
   src/engine/utils/Shader.cpp
   src/engine/utils/Texture.cpp
-  src/engine/utils/Framebuffer.cpp
+  src/engine/utils/Wall.cpp
 
   src/game/scenes.cpp
   src/game/prefabs.cpp

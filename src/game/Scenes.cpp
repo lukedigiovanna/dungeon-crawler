@@ -10,16 +10,16 @@
 void scenes::SampleScene::init() {
     Scene::init();
 
-    int s = 128;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
-    int si = 0;
+    int w = 25;
+    int s = CHUNK_SIZE * w;
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 0.25f);
     std::shared_ptr<SpriteManager> sm = getManagers()->spriteManager;
+    int gi = sm->getSpriteIndex("minecraft0");
     int ns = sm->getNumSprites();
     for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
-            tilemap->setTile(i, j, si, false);
-            si = (si + 1) % ns;
-            // std::cout << si << "\n";
+            int si = i / CHUNK_SIZE * w + j / CHUNK_SIZE + gi;
+            tilemap->setTile(i, j, {si, false});
         }
     }
     setTilemap(std::move(tilemap));

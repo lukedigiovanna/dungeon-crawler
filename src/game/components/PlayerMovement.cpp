@@ -23,7 +23,7 @@ void PlayerMovement::update(float dt) {
 
     if (scene->hasTilemap()) {
         Tilemap& tm = scene->getTilemap();
-        // tm.setTile();
+        tm.setTileFromWorldPosition(obj->position.x, obj->position.y, {rand() % 800, false});
     }
 
     // move cam to the player

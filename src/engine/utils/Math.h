@@ -95,6 +95,23 @@ inline float magnitude(const vec2& vec) {
     return std::sqrt(magnitude2(vec));
 }
 
+enum PointOrientation {
+    ORIENTATION_COLLINEAR,
+    ORIENTATION_CLOCKWISE,
+    ORIENTATION_COUNTERCLOCKWISE
+};
+
+struct LineSegment {
+    vec2 ep1, ep2;
+
+    // Checks if the given line segment intersects with this
+    bool intersects(LineSegment const& other) const;
+
+private:
+    // Given they are collinear, checks if the point is on this line segment
+    bool onSegment(vec2 const& point) const;
+};
+
 // random numbers
 
 float random(float a, float b);

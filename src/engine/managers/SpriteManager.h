@@ -23,6 +23,7 @@ public:
 
     const Sprite* getSprite(std::string const& id) const;
     const Sprite* getSpriteByIndex(int id) const;
+    int getSpriteIndex(std::string const& id) const;
 
     size_t getNumSprites() const;
 

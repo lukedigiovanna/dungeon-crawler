@@ -13,6 +13,8 @@ Tilemap::Tilemap(int width, int height, float scale) : scale(scale) {
     nChunksHeight = height / CHUNK_SIZE;
     if (width % CHUNK_SIZE != 0) nChunksWidth++;
     if (height % CHUNK_SIZE != 0) nChunksHeight++;
+    worldWidth = nChunksWidth * CHUNK_SIZE * scale;
+    worldHeight = nChunksHeight * CHUNK_SIZE * scale;
     chunks = std::make_unique<Chunk[]>(nChunksWidth * nChunksHeight);
     for (int i = 0; i < nChunksWidth * nChunksHeight; i++) {
         chunks[i] = {
@@ -41,24 +43,29 @@ void Tilemap::setScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
 }   
 
-void Tilemap::setTile(int row, int col, int spriteId, bool isWall) {
+void Tilemap::setTile(int row, int col, Tile const& tile) {
     if (row < 0 || row >= height || col < 0 || col >= width) {
         throw std::runtime_error("Tilemap::setTile: Coordinates out of bounds: row, col = " + std::to_string(row) + ", " + std::to_string(col));
     }
     int i = row * width + col;
     int cr = row / CHUNK_SIZE, cc = col / CHUNK_SIZE;
     int ci = cr * nChunksWidth + cc;
-    if (spriteId != tiles[i].spriteId || isWall != tiles[i].wall) {
-        tiles[i] = {
-            spriteId, isWall, true
-        };
+    if (tile.spriteId != tiles[i].spriteId || tile.wall != tiles[i].wall) {
+        tiles[i] = tile;
         chunks[ci].isDirty = true;
     }
 }
 
+void Tilemap::setTileFromWorldPosition(float x, float y, Tile const& tile) {
+    // Convert x, y to row, pos
+    int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
+    int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
+    if (row < 0 || row >= height || col < 0 || col >= width)
+        return;
+    setTile(row, col, tile);
+}
+
 void Tilemap::render(Shader const& shader) const {
-    float ww = static_cast<float>(nChunksWidth) * CHUNK_SIZE * scale;
-    float wh = static_cast<float>(nChunksHeight) * CHUNK_SIZE * scale;
     std::shared_ptr<SpriteManager> spriteManager = getScene()->getManagers()->spriteManager;
     std::shared_ptr<ShaderManager> shaderManager = getScene()->getManagers()->shaderManager;
     std::shared_ptr<Shader> tmShader = shaderManager->getShader("_tm_chunk");
@@ -102,8 +109,8 @@ void Tilemap::render(Shader const& shader) const {
             shader.use();
             glViewport(currentViewport[0], currentViewport[1], currentViewport[2], currentViewport[3]);
 
-            float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * wh - wh / 2.0f; 
-            float x = static_cast<float>(j) / nChunksWidth * ww - ww / 2.0f; 
+            float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * worldHeight - worldHeight / 2.0f + CHUNK_SIZE * scale / 2.0f; 
+            float x = static_cast<float>(j) / nChunksWidth * worldWidth - worldWidth / 2.0f + CHUNK_SIZE * scale / 2.0f; 
             glm::mat4 trans(1.0f);
             trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
             trans = glm::scale(trans, glm::vec3(scale * CHUNK_SIZE, scale * CHUNK_SIZE, 1.0f));

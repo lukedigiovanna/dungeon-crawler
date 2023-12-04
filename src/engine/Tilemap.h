@@ -26,6 +26,7 @@ private:
     int width, height;
     int nChunksWidth, nChunksHeight;
     float scale;
+    float worldWidth, worldHeight;
     std::unique_ptr<Tile[]> tiles;
     std::unique_ptr<Chunk[]> chunks;
     std::weak_ptr<Scene> scene;
@@ -35,7 +36,8 @@ public:
     std::shared_ptr<Scene> getScene() const;
     void setScene(std::shared_ptr<Scene> scene);
 
-    void setTile(int row, int col, int spriteId, bool isWall);
+    void setTile(int row, int col, Tile const& tile);
+    void setTileFromWorldPosition(float x, float y, Tile const& tile);
 
     void render(Shader const& shader) const;
 };

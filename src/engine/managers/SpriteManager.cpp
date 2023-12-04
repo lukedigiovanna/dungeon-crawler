@@ -64,6 +64,14 @@ const Sprite* SpriteManager::getSpriteByIndex(int index) const {
     return &sprites[index];
 }
 
+int SpriteManager::getSpriteIndex(std::string const& id) const {
+    auto f = spriteMap.find(id);
+    if (f == spriteMap.end()) {
+        throw std::runtime_error("SpriteManager::getSpriteIndex: No sprite in sprite manager with id '" + id + "'");
+    }
+    return f->second;
+}
+
 size_t SpriteManager::getNumSprites() const {
     return sprites.size();
 }
