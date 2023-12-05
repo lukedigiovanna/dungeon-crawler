@@ -34,18 +34,17 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
     physics->innateDragCoefficient = 0.95f;
     cat->addComponent(physics);
     cat->addComponent(std::make_shared<Shrink>());
-    cat->scale = { 0.25f, 0.25f };
+    cat->transform.scale = { 0.25f, 0.25f };
     return cat;
 };
 
 PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
-    player->scale = {1.0f, 1.0f};
     player->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft0"));
     // player->addComponent(std::make_shared<SpriteAnimator>("player-walk-right"));
     player->addComponent(std::make_shared<Spawner>());
     player->addComponent(std::make_shared<LightSource>(gfx::COLOR_WHITE, 1.5f));
-    player->addComponent(std::make_shared<PlayerMovement>(2.0f));
+    player->addComponent(std::make_shared<PlayerMovement>(5.0f));
     player->addComponent(std::make_shared<Physics>());
     player->addComponent(std::make_shared<Collider>());
     return player;

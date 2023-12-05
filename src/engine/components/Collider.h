@@ -7,11 +7,9 @@
 
 class Collider: public Component {
 private:
-    std::array<LineSegment, 4> diagonals;
-    vec2 diagPos{0, 0};
-    vec2 diagScale{1, 1};
-    float diagRotation = 0;
-    void regenerateDiagonals();
+    Polygon polygon;
+    Transform transform;
+    void regeneratePolygon();
 public:
     Collider();
 

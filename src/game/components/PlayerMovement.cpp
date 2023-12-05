@@ -23,11 +23,11 @@ void PlayerMovement::update(float dt) {
 
     if (scene->hasTilemap()) {
         Tilemap& tm = scene->getTilemap();
-        tm.setTileFromWorldPosition(obj->position.x, obj->position.y, {rand() % 800, false});
+        tm.setTileFromWorldPosition(obj->transform.position.x, obj->transform.position.y, {rand() % 800, false});
     }
 
     // move cam to the player
-    camObj->position = obj->position;
+    camObj->transform.position = obj->transform.position;
 
     physics->velocity = {0, 0};
     if (input->isKeyDown(SDLK_w))
@@ -38,6 +38,13 @@ void PlayerMovement::update(float dt) {
         physics->velocity.x -= speed;
     if (input->isKeyDown(SDLK_d))
         physics->velocity.x += speed;
+
+    if (input->isKeyDown(SDLK_r)) {
+        physics->angularVelocity = 180;
+    }
+    else {
+        physics->angularVelocity = 0;
+    }
 
     // if (physics->velocity.x < 0)
     //     animator->setAnimation("player-walk-left");

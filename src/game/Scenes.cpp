@@ -33,16 +33,16 @@ void scenes::SampleScene::init() {
     float x = -3.0f;
     for (int i = 128; i < 136; i++) {
         obj = std::make_shared<GameObject>();
-        obj->scale = { 1.0f, 1.0f };
-        obj->position = { x, 7.0f };
+        obj->transform.scale = { 1.0f, 1.0f };
+        obj->transform.position = { x, 7.0f };
         x += 1.0f;
         obj->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft" + std::to_string(i)));
         this->addGameObject(obj);
     }
 
     obj = std::make_shared<GameObject>();
-    obj->scale = { 2.0f, 2.0f };
-    obj->position = { 0, 9.0f };
+    obj->transform.scale = { 2.0f, 2.0f };
+    obj->transform.position = { 0, 9.0f };
     obj->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft128"));
     obj->addComponent(std::make_shared<SpriteAnimator>("wheat-grow"));
     addGameObject(obj);

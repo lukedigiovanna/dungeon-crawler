@@ -103,6 +103,20 @@ inline float magnitude(const vec2& vec) {
     return std::sqrt(magnitude2(vec));
 }
 
+struct Transform {
+    vec2 position;
+    vec2 scale;
+    float rotation;
+};
+
+inline bool operator==(Transform const& lhs, Transform const& rhs) {
+    return lhs.position == rhs.position && lhs.scale == rhs.scale && lhs.rotation == rhs.rotation;
+}
+
+inline bool operator!=(Transform const& lhs, Transform const& rhs) {
+    return lhs.position != rhs.position || lhs.scale != rhs.scale || lhs.rotation != rhs.rotation;
+}
+
 enum PointOrientation {
     ORIENTATION_COLLINEAR,
     ORIENTATION_CLOCKWISE,
@@ -121,6 +135,10 @@ private:
     // Given they are collinear, checks if the point is on this line segment
     bool onSegment(vec2 const& point) const;
 };
+
+using Polygon = std::vector<vec2>;
+
+bool checkCollision_SAT(Polygon const& p1, Polygon const& p2);
 
 // random numbers
 

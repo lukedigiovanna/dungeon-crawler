@@ -11,8 +11,8 @@ Physics::Physics() :
 void Physics::update(float dt) {
     std::shared_ptr<GameObject> obj = getGameObject();
     // Update position
-    obj->position += velocity * dt;
-    obj->rotation += angularVelocity * dt;
+    obj->transform.position += velocity * dt;
+    obj->transform.rotation += angularVelocity * dt;
 
     // Apply drag
     float percentToRemove = dt * innateDragCoefficient;

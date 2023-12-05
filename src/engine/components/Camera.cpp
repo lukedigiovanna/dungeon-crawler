@@ -33,8 +33,8 @@ vec2 Camera::screenPositionToWorldPosition(vec2 screenPosition) const {
     vec2 normPos = screenPosition / windowDimension;
     float worldWidth = this->scale;
     float worldHeight = 1.0f / aspectRatio * worldWidth;
-    float cameraLeftWorldX = obj->position.x - worldWidth / 2.0f,
-          cameraTopWorldY = obj->position.y + worldHeight / 2.0f;
+    float cameraLeftWorldX = obj->transform.position.x - worldWidth / 2.0f,
+          cameraTopWorldY = obj->transform.position.y + worldHeight / 2.0f;
     float worldX = cameraLeftWorldX + normPos.x * worldWidth,
           worldY = cameraTopWorldY - normPos.y * worldHeight;
     return { worldX, worldY };
@@ -53,13 +53,13 @@ void Camera::render(Window* window) {
     float worldWidth = this->scale;
     float worldHeight = 1.0f / aspectRatio * worldWidth;
 
-    float cameraLeftWorldX = obj->position.x - worldWidth / 2.0f,
-          cameraRightWorldX = obj->position.x + worldWidth / 2.0f,
-          cameraBottomWorldY = obj->position.y - worldHeight / 2.0f,
-          cameraTopWorldY = obj->position.y + worldHeight / 2.0f;
+    float cameraLeftWorldX = obj->transform.position.x - worldWidth / 2.0f,
+          cameraRightWorldX = obj->transform.position.x + worldWidth / 2.0f,
+          cameraBottomWorldY = obj->transform.position.y - worldHeight / 2.0f,
+          cameraTopWorldY = obj->transform.position.y + worldHeight / 2.0f;
 
     glm::mat4 proj = glm::ortho(cameraLeftWorldX, cameraRightWorldX, cameraBottomWorldY, cameraTopWorldY);
-    glm::vec3 thisPos = glm::vec3(obj->position.x, obj->position.y, -1.0f);
+    glm::vec3 thisPos = glm::vec3(obj->transform.position.x, obj->transform.position.y, -1.0f);
     // glm::mat4 view = glm::lookAt(thisPos, thisPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0));
     // glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     // glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), -thisPos);
@@ -84,7 +84,7 @@ void Camera::render(Window* window) {
             std::shared_ptr<LightSource> ls = gameObject->getComponent<LightSource>();
             shader->setFloat(("lights[" + std::to_string(lightIndex) + "].luminance").c_str(), ls->luminance);
             shader->setVec3(("lights[" + std::to_string(lightIndex) + "].color").c_str(), ls->color.r, ls->color.g, ls->color.b);
-            shader->setVec2(("lights[" + std::to_string(lightIndex) + "].position").c_str(), gameObject->position.x, gameObject->position.y);
+            shader->setVec2(("lights[" + std::to_string(lightIndex) + "].position").c_str(), gameObject->transform.position.x, gameObject->transform.position.y);
             lightIndex++;
             if (lightIndex >= MAX_NUM_LIGHTS) {
                 break;

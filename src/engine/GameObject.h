@@ -18,9 +18,7 @@ private:
     std::unique_ptr<RendererComponent> rendererComponent = nullptr;
 public:
     std::weak_ptr<Scene> scene;
-    vec2 position;
-    vec2 scale;
-    float rotation;
+    Transform transform;
 
     GameObject();
 
