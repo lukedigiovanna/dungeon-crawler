@@ -58,7 +58,7 @@ void Tilemap::recomputeWallPolygons() {
                 continue;
             float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
             float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
-            Polygon p{{x, y}, {x + scale, y}, {x + scale, y - scale}, {x, y - scale}};
+            math::Polygon p{{x, y}, {x + scale, y}, {x + scale, y - scale}, {x, y - scale}};
             walls.push_back(p);
             
             // if (seen[ii]) {
@@ -77,7 +77,7 @@ void Tilemap::recomputeWallPolygons() {
     }
 }
 
-std::vector<Polygon> const& Tilemap::getWallPolygons() const {
+std::vector<math::Polygon> const& Tilemap::getWallPolygons() const {
     return walls;
 }
 

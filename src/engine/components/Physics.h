@@ -5,7 +5,7 @@
 
 class Physics: public Component {
 public:
-    vec2 velocity;
+    math::vec2 velocity;
     float angularVelocity;
     float innateDragCoefficient;
 

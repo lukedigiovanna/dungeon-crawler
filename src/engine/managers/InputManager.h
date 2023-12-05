@@ -9,7 +9,7 @@ private:
     std::unordered_map<SDL_Keycode, bool> down;
     std::unordered_map<SDL_Keycode, bool> pressed;
 
-    vec2 mousePosition;
+    math::vec2 mousePosition;
     bool mouseIsDown;
 public:
     InputManager();
@@ -19,6 +19,6 @@ public:
     bool isKeyDown(SDL_Keycode kc) const;
     bool isKeyPressed(SDL_Keycode kc);
 
-    vec2 getMousePosition() const;
+    math::vec2 getMousePosition() const;
     bool isMouseDown() const;
 };

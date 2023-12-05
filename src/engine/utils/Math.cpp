@@ -11,33 +11,33 @@
 #define INFINITY 99999999
 #endif
 
-vec2 vec2::normalized() const {
+math::vec2 math::vec2::normalized() const {
     return *this / magnitude();
 }
 
-float vec2::magnitude2() const {
+float math::vec2::magnitude2() const {
     return dot(*this, *this);
 }
 
-float vec2::magnitude() const {
+float math::vec2::magnitude() const {
     return std::sqrt(magnitude2());
 }
 
-PointOrientation getPointOrientation(vec2 const& p, vec2 const& q, vec2 const& r) {
+math::PointOrientation math::getPointOrientation(math::vec2 const& p, math::vec2 const& q, math::vec2 const& r) {
     float val = (q.y - p.y) * (r.x - q.x) - 
                 (q.x - p.x) * (r.y - q.y);
     
     if (std::abs(val) < 0.01f)
-        return ORIENTATION_COLLINEAR;
+        return math::ORIENTATION_COLLINEAR;
     
-    return val > 0 ? ORIENTATION_CLOCKWISE : ORIENTATION_COUNTERCLOCKWISE; 
+    return val > 0 ? math::ORIENTATION_CLOCKWISE : math::ORIENTATION_COUNTERCLOCKWISE; 
 }
 
-bool LineSegment::intersects(LineSegment const& other) const {
-    PointOrientation o1 = getPointOrientation(ep1, ep2, other.ep1);
-    PointOrientation o2 = getPointOrientation(ep1, ep2, other.ep2);
-    PointOrientation o3 = getPointOrientation(other.ep1, other.ep2, ep1);
-    PointOrientation o4 = getPointOrientation(other.ep1, other.ep2, ep2);
+bool math::LineSegment::intersects(LineSegment const& other) const {
+    math::PointOrientation o1 = math::getPointOrientation(ep1, ep2, other.ep1);
+    math::PointOrientation o2 = math::getPointOrientation(ep1, ep2, other.ep2);
+    math::PointOrientation o3 = math::getPointOrientation(other.ep1, other.ep2, ep1);
+    math::PointOrientation o4 = math::getPointOrientation(other.ep1, other.ep2, ep2);
 
     if (o1 != o2 && o3 != o4) {
         return true;
@@ -54,44 +54,44 @@ bool LineSegment::intersects(LineSegment const& other) const {
     return false;
 }
 
-bool LineSegment::onSegment(vec2 const& point) const {
+bool math::LineSegment::onSegment(vec2 const& point) const {
     float lx = std::min(ep1.x, ep2.x), rx = std::max(ep1.x, ep2.x);
     float by = std::min(ep1.y, ep2.y), ty = std::max(ep1.y, ep2.y);
     return point.x >= lx && point.x <= rx && point.y >= by && point.y <= ty;
 }
 
-std::vector<vec2> getAxes(Polygon const& p) {
-    std::vector<vec2> axes;
+std::vector<math::vec2> getAxes(math::Polygon const& p) {
+    std::vector<math::vec2> axes;
     int k = p.size() > 2 ? p.size() : 1;
     for (size_t i = 0; i < k; i++) {
-        vec2 diff = p[(i + 1) % p.size()] - p[i];
-        vec2 norm = {-diff.y, diff.x};
+        math::vec2 diff = p[(i + 1) % p.size()] - p[i];
+        math::vec2 norm = {-diff.y, diff.x};
         axes.push_back(norm);
     }
     return axes;
 }
 
 #include <iostream>
-SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2) {
-    std::vector<vec2> p1Axes = getAxes(p1);
-    std::vector<vec2> p2Axes = getAxes(p2);
-    std::vector<vec2> axes = p1Axes;
+math::SATResult math::checkCollision_SAT(math::Polygon const& p1, math::Polygon const& p2) {
+    std::vector<math::vec2> p1Axes = getAxes(p1);
+    std::vector<math::vec2> p2Axes = getAxes(p2);
+    std::vector<math::vec2> axes = p1Axes;
     axes.insert(axes.end(), p2Axes.begin(), p2Axes.end());
 
     float overlap = INFINITY;
-    vec2 overlapAxis{0, 0};
+    math::vec2 overlapAxis{0, 0};
 
-    for (vec2 const& axis : axes) {
+    for (math::vec2 const& axis : axes) {
         float minP1 = INFINITY, maxP1 = -INFINITY;
         float minP2 = INFINITY, maxP2 = -INFINITY;
         // Perform projection of points onto the axis
-        for (vec2 const& point : p1) {
-            float projected = dot(axis, point);
+        for (math::vec2 const& point : p1) {
+            float projected = math::dot(axis, point);
             minP1 = std::min(minP1, projected);
             maxP1 = std::max(maxP1, projected);
         }
-        for (vec2 const& point : p2) {
-            float projected = dot(axis, point);
+        for (math::vec2 const& point : p2) {
+            float projected = math::dot(axis, point);
             minP2 = std::min(minP2, projected);
             maxP2 = std::max(maxP2, projected);
         }
@@ -112,12 +112,12 @@ SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2) {
     return {true, overlap, overlapAxis};
 }
 
-float random(float a, float b) {
+float math::random(float a, float b) {
     float range = b - a;
     float r = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
     return a + r * range;
 }
 
-float degToRad(float degrees) {
+float math::degToRad(float degrees) {
     return degrees / 180.0f * M_PI;
 }

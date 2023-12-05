@@ -42,7 +42,7 @@ bool InputManager::isKeyPressed(SDL_Keycode key) {
     return retVal;
 }
 
-vec2 InputManager::getMousePosition() const {
+math::vec2 InputManager::getMousePosition() const {
     return this->mousePosition;
 }
 

@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <math.h>
+#include <vector>
 
 // An exercise in over-engineering :-)
 
@@ -24,6 +25,7 @@
 
 // A more practical solution:
 
+namespace math {
 struct vec2 {
     float x, y;
 
@@ -142,9 +144,9 @@ struct SATResult {
 
 SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2);
 
-
 // random numbers
 
 float random(float a, float b);
 
 float degToRad(float degrees);
+}

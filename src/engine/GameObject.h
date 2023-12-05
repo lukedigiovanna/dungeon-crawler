@@ -18,7 +18,7 @@ private:
     std::unique_ptr<RendererComponent> rendererComponent = nullptr;
 public:
     std::weak_ptr<Scene> scene;
-    Transform transform;
+    math::Transform transform;
 
     GameObject();
 

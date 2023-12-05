@@ -28,9 +28,9 @@ void Camera::update(float dt) {
     
 }
 
-vec2 Camera::screenPositionToWorldPosition(vec2 screenPosition) const {
+math::vec2 Camera::screenPositionToWorldPosition(math::vec2 screenPosition) const {
     std::shared_ptr<GameObject> obj = getGameObject();
-    vec2 normPos = screenPosition / windowDimension;
+    math::vec2 normPos = screenPosition / windowDimension;
     float worldWidth = this->scale;
     float worldHeight = 1.0f / aspectRatio * worldWidth;
     float cameraLeftWorldX = obj->transform.position.x - worldWidth / 2.0f,

@@ -46,6 +46,13 @@ void PlayerMovement::update(float dt) {
         physics->angularVelocity = 0;
     }
 
+    if (input->isKeyDown(SDLK_LSHIFT)) {
+        camObj->transform.scale /= 1.1f;
+    }
+    if (input->isKeyDown(SDLK_SPACE)) {
+        camObj->transform.scale *= 1.1f;
+    }
+
     // if (physics->velocity.x < 0)
     //     animator->setAnimation("player-walk-left");
     // else if (physics->velocity.x > 0)

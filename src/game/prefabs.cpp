@@ -20,14 +20,14 @@
 
 PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> cat = std::make_shared<GameObject>();
-    gfx::color color{random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f), random(0.0f, 1.0f)};
+    gfx::color color{math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), math::random(0.0f, 1.0f)};
     cat->setRendererComponent(
         std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816), color)
     );
     cat->addComponent(std::make_shared<LightSource>(gfx::color{0.9f, 0.9f, 1.0f}, 0.25f));
-    cat->addComponent(std::make_shared<Lifetime>(random(5.0f, 8.0f)));
+    cat->addComponent(std::make_shared<Lifetime>(math::random(5.0f, 8.0f)));
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
-    float angle = random(0.0f, 360.0f);
+    float angle = math::random(0.0f, 360.0f);
     float speed = 2.5f;
     physics->velocity = { std::cos(angle) * speed, std::sin(angle) * speed };
     physics->angularVelocity = 90.0f;

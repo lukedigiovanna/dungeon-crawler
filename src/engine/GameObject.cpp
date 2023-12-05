@@ -4,7 +4,7 @@
 
 #include <utility>
 
-GameObject::GameObject() : transform{vec2{0.0f, 0.0f}, vec2{1.0f, 1.0f}, 0.0f} {
+GameObject::GameObject() : transform{math::vec2{0.0f, 0.0f}, math::vec2{1.0f, 1.0f}, 0.0f} {
 
 }
 

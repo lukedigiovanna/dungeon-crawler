@@ -7,8 +7,8 @@
 
 class Collider: public Component {
 private:
-    Polygon polygon;
-    Transform transform;
+    math::Polygon polygon;
+    math::Transform transform;
     void regeneratePolygon();
 public:
     Collider();

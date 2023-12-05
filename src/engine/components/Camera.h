@@ -7,7 +7,7 @@
 
 class Camera: public Component {
 private:
-    vec2 windowDimension;
+    math::vec2 windowDimension;
     float aspectRatio;
 public:
     float scale;
@@ -19,5 +19,5 @@ public:
     
     void render(Window* window);
 
-    vec2 screenPositionToWorldPosition(vec2 screenPosition) const; 
+    math::vec2 screenPositionToWorldPosition(math::vec2 screenPosition) const; 
 };

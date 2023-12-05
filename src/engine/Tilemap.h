@@ -31,7 +31,7 @@ private:
     std::unique_ptr<Tile[]> tiles;
     std::unique_ptr<Chunk[]> chunks;
     
-    std::vector<Polygon> walls;
+    std::vector<math::Polygon> walls;
     
     std::weak_ptr<Scene> scene;
 public:
@@ -43,7 +43,7 @@ public:
     float getScale() const;
 
     void recomputeWallPolygons();
-    std::vector<Polygon> const& getWallPolygons() const;
+    std::vector<math::Polygon> const& getWallPolygons() const;
 
     void setTile(int row, int col, Tile const& tile);
     void setTileFromWorldPosition(float x, float y, Tile const& tile);
