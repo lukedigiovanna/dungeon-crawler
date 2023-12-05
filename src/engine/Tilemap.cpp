@@ -43,6 +43,69 @@ void Tilemap::setScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
 }   
 
+#include <iostream>
+void Tilemap::recomputeWalls() {
+    walls.clear();
+    // auto seen = std::make_unique<bool[]>(width * height);
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            int ii = i * width + j;
+            if (!tiles[ii].wall)
+                continue;
+            float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
+            float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
+            walls.push_back({
+                .line=LineSegment{
+                    .ep1={x, y},
+                    .ep2={x + scale, y}
+                },
+                .physical=true,
+                .occlusionFactor=1.0f
+            });
+            walls.push_back({
+                .line=LineSegment{
+                    .ep1={x + scale, y},
+                    .ep2={x + scale, y - scale}
+                },
+                .physical=true,
+                .occlusionFactor=1.0f
+            });
+            walls.push_back({
+                .line=LineSegment{
+                    .ep1={x + scale, y - scale},
+                    .ep2={x, y - scale}
+                },
+                .physical=true,
+                .occlusionFactor=1.0f
+            });
+            walls.push_back({
+                .line=LineSegment{
+                    .ep1={x, y - scale},
+                    .ep2={x, y}
+                },
+                .physical=true,
+                .occlusionFactor=1.0f
+            });
+            // if (seen[ii]) {
+            //     continue;
+            // }
+            // compute horizontals first
+            // int topLength = 0, bottomLength = 0;
+            // bool topValid = true, bottomValid = true;
+            // for (int k = j; topValid && bottomValid; k++) {
+
+            // }
+
+            // vec2 wt{x + scale / 2.0f, y + scale / 2.0f};
+            // vec2 wb{x + scale / 2.0f, y + scale / 2.0f};
+        }
+    }
+}
+
+std::vector<Wall> const& Tilemap::getWalls() const {
+    return walls;
+}
+
 void Tilemap::setTile(int row, int col, Tile const& tile) {
     if (row < 0 || row >= height || col < 0 || col >= width) {
         throw std::runtime_error("Tilemap::setTile: Coordinates out of bounds: row, col = " + std::to_string(row) + ", " + std::to_string(col));
@@ -119,23 +182,4 @@ void Tilemap::render(Shader const& shader) const {
             meshes::SQUARE->render();
         }
     }
-    // for (int i = 0; i < height; i++) {
-    //     for (int j = 0; j < width; j++) {
-    //         int ind = i * width + j;
-    //         if (tiles[ind].spriteId < 0) {
-    //             continue;
-    //         }  
-    //         float y = static_cast<float>(i) / height * wh - wh / 2.0f;
-    //         float x = static_cast<float>(j) / width * ww - ww / 2.0f;
-    //         glm::mat4 trans(1.0f);
-    //         trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
-    //         trans = glm::scale(trans, glm::vec3(scale, scale, 1.0f));
-    //         shader.setMatrix4("model", trans);
-    //         const Sprite* sprite = sm->getSpriteByIndex(tiles[ind].spriteId);
-    //         sprite->texture->bind();
-    //         shader.setVec4("objectColor", glm::vec4(1.0f));
-    //         shader.setVec4("clipRect", sprite->clip);
-    //         meshes::SQUARE->render();
-    //     }
-    // }
 }

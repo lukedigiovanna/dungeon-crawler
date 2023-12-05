@@ -10,7 +10,7 @@ PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 
 void PlayerMovement::init() {
     this->physics = getGameObject()->getComponent<Physics>();
-    this->animator = getGameObject()->getComponent<SpriteAnimator>();
+    // this->animator = getGameObject()->getComponent<SpriteAnimator>();
 }
 
 void PlayerMovement::update(float dt) {
@@ -39,13 +39,13 @@ void PlayerMovement::update(float dt) {
     if (input->isKeyDown(SDLK_d))
         physics->velocity.x += speed;
 
-    if (physics->velocity.x < 0)
-        animator->setAnimation("player-walk-left");
-    else if (physics->velocity.x > 0)
-        animator->setAnimation("player-walk-right");
-    else if (physics->velocity.y > 0)
-        animator->setAnimation("player-walk-up");
-    else if (physics->velocity.y < 0)
-        animator->setAnimation("player-walk-down");
+    // if (physics->velocity.x < 0)
+    //     animator->setAnimation("player-walk-left");
+    // else if (physics->velocity.x > 0)
+    //     animator->setAnimation("player-walk-right");
+    // else if (physics->velocity.y > 0)
+    //     animator->setAnimation("player-walk-up");
+    // else if (physics->velocity.y < 0)
+    //     animator->setAnimation("player-walk-down");
 
 }

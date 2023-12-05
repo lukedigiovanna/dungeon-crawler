@@ -83,6 +83,14 @@ inline void operator/=(vec2& lhs, const vec2& rhs) {
     lhs.y /= rhs.y;
 }
 
+inline bool operator!=(vec2 const& lhs, vec2 const& rhs) {
+    return lhs.x != rhs.x || lhs.y != rhs.y;
+}
+
+inline bool operator==(vec2 const& lhs, vec2 const& rhs) {
+    return lhs.x == rhs.x && lhs.y == rhs.y;
+}
+
 inline float dot(const vec2& lhs, const vec2& rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y;
 }

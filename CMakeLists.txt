@@ -18,6 +18,7 @@ add_executable(dungeon
   src/engine/Tilemap.cpp
   src/engine/components/Component.cpp
   src/engine/components/Camera.cpp
+  src/engine/components/Collider.cpp
   src/engine/components/Lifetime.cpp
   src/engine/components/Physics.cpp
   src/engine/components/LightSource.cpp
