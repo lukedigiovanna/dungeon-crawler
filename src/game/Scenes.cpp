@@ -18,16 +18,13 @@ void scenes::SampleScene::init() {
     int ns = sm->getNumSprites();
     for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
-            int si = i / CHUNK_SIZE * w + j / CHUNK_SIZE + gi;
+            int si = (i / CHUNK_SIZE * w + j / CHUNK_SIZE) % 800 + gi;
             tilemap->setTile(i, j, {si, false});
         }
     }
     setTilemap(std::move(tilemap));
 
     std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();
-    // obj->scale = {20.0f, 11.78f};
-    // obj->setRendererComponent(std::make_unique<SpriteRenderer>("background"));
-    // this->addGameObject(obj);
 
     float x = -3.0f;
     for (int i = 128; i < 136; i++) {

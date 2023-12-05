@@ -93,12 +93,10 @@ void Tilemap::render(Shader const& shader) const {
                         int ti = row * width + col;
                         const Tile& tile = tiles[ti];
                         const Sprite* sprite = spriteManager->getSpriteByIndex(tile.spriteId);
-                        sprite->texture->bind();
-                        tmShader->setVec4("clipRect", sprite->clip);
                         float x = static_cast<float>(jj) / CHUNK_SIZE * 2.0f - 1.0f;
                         float y = static_cast<float>(ii) / CHUNK_SIZE * 2.0f - 1.0f;
                         tmShader->setVec4("rect", glm::vec4(x, y, TILE_SIZE, TILE_SIZE));
-                        meshes::SQUARE->render();
+                        sprite->render(*tmShader);
                     }
                 }
                 

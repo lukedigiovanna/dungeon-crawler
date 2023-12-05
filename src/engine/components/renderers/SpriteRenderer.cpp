@@ -43,7 +43,5 @@ void SpriteRenderer::render(std::shared_ptr<Shader> shader) const {
     trans = glm::scale(trans, glm::vec3(obj->scale.x, obj->scale.y, 1.0f));
     shader->setMatrix4("model", trans);
     shader->setVec4("objectColor", glm::vec4(color.r, color.g, color.b, color.a));
-    sprite->texture->bind();
-    shader->setVec4("clipRect", sprite->clip);
-    meshes::SQUARE->render();
+    sprite->render(*shader);
 }
