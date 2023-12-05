@@ -9,6 +9,9 @@ Collider::Collider() {
 
 #include <iostream>
 void Collider::regeneratePolygon() {
+    std::shared_ptr<GameObject> obj = getGameObject();
+    transform = obj->transform;
+
     polygon[0] = vec2{+transform.scale.x / 2.0f, +transform.scale.y / 2.0f};
     polygon[1] = vec2{+transform.scale.x / 2.0f, -transform.scale.y / 2.0f};    
     polygon[2] = vec2{-transform.scale.x / 2.0f, -transform.scale.y / 2.0f};
@@ -37,7 +40,6 @@ void Collider::init() {
 void Collider::update(float dt) {
     std::shared_ptr<GameObject> obj = getGameObject();
     if (obj->transform != transform) {
-        transform = obj->transform;
         regeneratePolygon();
     }
 
@@ -45,12 +47,19 @@ void Collider::update(float dt) {
     std::shared_ptr<Scene> scene = obj->getScene();
     if (scene->hasTilemap()) {
         Tilemap& tilemap = scene->getTilemap();
-        std::vector<Wall> const& walls = tilemap.getWalls();
+        float scale = tilemap.getScale();
+        std::vector<Polygon> const& walls = tilemap.getWallPolygons();
         for (auto wall : walls) {
-            Polygon wallLine{wall.line.ep1, wall.line.ep2};
-            if (checkCollision_SAT(polygon, wallLine)) {
-                std::cout << "SAT intersection!\n";
-            }       
+            SATResult result = checkCollision_SAT(polygon, wall);
+            if (result.collided) {
+                // vec2 wallPos{wall[0].x + scale / 2.0f, wall[0].y - scale / 2.0f};
+                // vec2 d = (obj->transform.position - wallPos).normalized();
+                vec2 d = result.overlapAxis.normalized();
+                vec2 correction = d * result.overlap;
+                obj->transform.position += correction;
+                regeneratePolygon();
+                std::cout << result.overlap << "\n";
+            }
         }
     }
 }

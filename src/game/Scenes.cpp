@@ -22,10 +22,10 @@ void scenes::SampleScene::init() {
             tilemap->setTile(i, j, {si, false});
         }
     }
-    // for (float x = -0.0f; x <= 3.0f; x += 0.25f) {
-        tilemap->setTileFromWorldPosition(0.0f, -3.0f, {gi + 4, true});
-    // }
-    tilemap->recomputeWalls();
+    for (float x = -3.0f; x <= 3.0f; x += 1.0f) {
+        tilemap->setTileFromWorldPosition(x, -3.0f, {gi + 4, true});
+    }
+    tilemap->recomputeWallPolygons();
     setTilemap(std::move(tilemap));
 
     std::shared_ptr<GameObject> obj = std::make_shared<GameObject>();

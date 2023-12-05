@@ -2,7 +2,7 @@
 
 #include "utils/Shader.h"
 #include "utils/Framebuffer.h"
-#include "utils/Wall.h"
+#include "utils/Math.h"
 
 #include <memory>
 
@@ -31,7 +31,7 @@ private:
     std::unique_ptr<Tile[]> tiles;
     std::unique_ptr<Chunk[]> chunks;
     
-    std::vector<Wall> walls;
+    std::vector<Polygon> walls;
     
     std::weak_ptr<Scene> scene;
 public:
@@ -40,8 +40,10 @@ public:
     std::shared_ptr<Scene> getScene() const;
     void setScene(std::shared_ptr<Scene> scene);
 
-    void recomputeWalls();
-    std::vector<Wall> const& getWalls() const;
+    float getScale() const;
+
+    void recomputeWallPolygons();
+    std::vector<Polygon> const& getWallPolygons() const;
 
     void setTile(int row, int col, Tile const& tile);
     void setTileFromWorldPosition(float x, float y, Tile const& tile);

@@ -26,6 +26,10 @@
 
 struct vec2 {
     float x, y;
+
+    vec2 normalized() const;
+    float magnitude2() const;
+    float magnitude() const;
 };
 
 inline vec2 operator+(const vec2& lhs, const vec2& rhs) {
@@ -95,14 +99,6 @@ inline float dot(const vec2& lhs, const vec2& rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y;
 }
 
-inline float magnitude2(const vec2& vec) {
-    return dot(vec, vec);
-}
-
-inline float magnitude(const vec2& vec) {
-    return std::sqrt(magnitude2(vec));
-}
-
 struct Transform {
     vec2 position;
     vec2 scale;
@@ -138,7 +134,14 @@ private:
 
 using Polygon = std::vector<vec2>;
 
-bool checkCollision_SAT(Polygon const& p1, Polygon const& p2);
+struct SATResult {
+    bool collided;
+    float overlap; // Minimum amount of overlap determined, useful for resolving static collisions.
+    vec2 overlapAxis;
+};
+
+SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2);
+
 
 // random numbers
 

@@ -45,7 +45,7 @@ PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     player->addComponent(std::make_shared<Spawner>());
     player->addComponent(std::make_shared<LightSource>(gfx::COLOR_WHITE, 1.5f));
     player->addComponent(std::make_shared<PlayerMovement>(5.0f));
-    player->addComponent(std::make_shared<Physics>());
     player->addComponent(std::make_shared<Collider>());
+    player->addComponent(std::make_shared<Physics>());
     return player;
 };

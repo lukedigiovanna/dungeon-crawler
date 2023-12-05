@@ -43,8 +43,12 @@ void Tilemap::setScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
 }   
 
+float Tilemap::getScale() const {
+    return scale;
+}
+
 #include <iostream>
-void Tilemap::recomputeWalls() {
+void Tilemap::recomputeWallPolygons() {
     walls.clear();
     // auto seen = std::make_unique<bool[]>(width * height);
     for (int i = 0; i < height; i++) {
@@ -54,38 +58,9 @@ void Tilemap::recomputeWalls() {
                 continue;
             float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
             float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
-            walls.push_back({
-                .line=LineSegment{
-                    .ep1={x, y},
-                    .ep2={x + scale, y}
-                },
-                .physical=true,
-                .occlusionFactor=1.0f
-            });
-            walls.push_back({
-                .line=LineSegment{
-                    .ep1={x + scale, y},
-                    .ep2={x + scale, y - scale}
-                },
-                .physical=true,
-                .occlusionFactor=1.0f
-            });
-            walls.push_back({
-                .line=LineSegment{
-                    .ep1={x + scale, y - scale},
-                    .ep2={x, y - scale}
-                },
-                .physical=true,
-                .occlusionFactor=1.0f
-            });
-            walls.push_back({
-                .line=LineSegment{
-                    .ep1={x, y - scale},
-                    .ep2={x, y}
-                },
-                .physical=true,
-                .occlusionFactor=1.0f
-            });
+            Polygon p{{x, y}, {x + scale, y}, {x + scale, y - scale}, {x, y - scale}};
+            walls.push_back(p);
+            
             // if (seen[ii]) {
             //     continue;
             // }
@@ -102,7 +77,7 @@ void Tilemap::recomputeWalls() {
     }
 }
 
-std::vector<Wall> const& Tilemap::getWalls() const {
+std::vector<Polygon> const& Tilemap::getWallPolygons() const {
     return walls;
 }
 
