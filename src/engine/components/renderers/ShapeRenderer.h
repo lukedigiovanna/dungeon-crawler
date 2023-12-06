@@ -12,5 +12,5 @@ public:
     ShapeRenderer(const Mesh* mesh, gfx::color color);
     ~ShapeRenderer();
 
-    void render(std::shared_ptr<Shader> shader) const override;
+    void render(Shader& shader) const override;
 };

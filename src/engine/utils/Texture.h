@@ -1,5 +1,6 @@
-#ifndef H_TEXTURE
-#define H_TEXTURE
+#pragma once
+
+#include "Shader.h"
 
 #include <string>
 
@@ -15,7 +16,6 @@ public:
     ~Texture();
 
     void bind() const;
+    void bind(Shader const& shader, std::string const& uniformName) const;
     void unbind() const;
 };
-
-#endif

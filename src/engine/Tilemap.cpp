@@ -108,7 +108,7 @@ void Tilemap::setTileFromWorldPosition(float x, float y, Tile const& tile) {
 void Tilemap::render(Shader const& shader) const {
     std::shared_ptr<SpriteManager> spriteManager = getScene()->getManagers()->spriteManager;
     std::shared_ptr<ShaderManager> shaderManager = getScene()->getManagers()->shaderManager;
-    std::shared_ptr<Shader> tmShader = shaderManager->getShader("_tm_chunk");
+    Shader& tmShader = shaderManager->getShader("_tm_chunk");
     
     GLint currentViewport[4];
     glGetIntegerv(GL_VIEWPORT, currentViewport);
@@ -120,7 +120,7 @@ void Tilemap::render(Shader const& shader) const {
             if (chunk.isDirty) {
                 // Update this chunk's frame buffer
                 chunk.fb.bindBuffer();
-                tmShader->use();
+                tmShader.use();
                 glViewport(0, 0, CHUNK_BUFFER_SIZE, CHUNK_BUFFER_SIZE);
                 glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
                 glClear(GL_COLOR_BUFFER_BIT);
@@ -135,8 +135,8 @@ void Tilemap::render(Shader const& shader) const {
                         const Sprite* sprite = spriteManager->getSpriteByIndex(tile.spriteId);
                         float x = static_cast<float>(jj) / CHUNK_SIZE * 2.0f - 1.0f;
                         float y = static_cast<float>(ii) / CHUNK_SIZE * 2.0f - 1.0f;
-                        tmShader->setVec4("rect", glm::vec4(x, y, TILE_SIZE, TILE_SIZE));
-                        sprite->render(*tmShader);
+                        tmShader.setVec4("rect", glm::vec4(x, y, TILE_SIZE, TILE_SIZE));
+                        sprite->render(tmShader);
                     }
                 }
                 

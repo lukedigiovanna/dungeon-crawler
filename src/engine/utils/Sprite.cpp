@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 
 void Sprite::render(Shader const& shader) const {
-    texture->bind();
+    texture->bind(shader, "ourTexture");
     shader.setVec4("clipRect", clip);
     meshes::SQUARE->render();
 }

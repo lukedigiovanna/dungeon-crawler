@@ -37,5 +37,6 @@ void Framebuffer::unbindBuffer() const {
 }
 
 void Framebuffer::bindTexture() const {
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
 }

@@ -16,4 +16,8 @@ public:
     void bindBuffer() const;
     void unbindBuffer() const;
     void bindTexture() const;
+
+    inline unsigned int getTexture() const {
+        return texture;
+    }
 };

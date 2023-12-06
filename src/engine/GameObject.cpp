@@ -16,7 +16,7 @@ void GameObject::setRendererComponent(std::unique_ptr<RendererComponent> rendere
     }
 }
 
-void GameObject::render(std::shared_ptr<Shader> shader) const {
+void GameObject::render(Shader& shader) const {
     if (this->rendererComponent) {
         this->rendererComponent->render(shader);
     }
@@ -26,11 +26,11 @@ bool GameObject::hasRenderer() const {
     return this->rendererComponent != nullptr;
 }
 
-RendererComponent* GameObject::getRendererComponent() const {
+RendererComponent& GameObject::getRendererComponent() const {
     if (this->rendererComponent == nullptr) {
         throw std::runtime_error("GameObject::getRendererComponent: Cannot get the renderer component when there is not one attached to this Game Object.");
     }
-    return this->rendererComponent.get();
+    return *(this->rendererComponent.get());
 }
 
 void GameObject::setScene(std::shared_ptr<Scene> scene) {

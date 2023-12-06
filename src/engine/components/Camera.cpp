@@ -13,7 +13,7 @@
 #include <math.h>
 #include <string>
 
-#define MAX_NUM_LIGHTS 64
+#define MAX_NUM_LIGHTS 15
 
 Camera::Camera() : scale(10.0f), rotation(0.0f), windowDimension{640.0f, 480.0f} {
     aspectRatio = windowDimension.x / windowDimension.y;
@@ -66,35 +66,34 @@ void Camera::render(Window* window) {
 
     glm::mat4 view(1.0f);
 
-    std::shared_ptr<Shader> shader = scene->getManagers()->shaderManager->getShader("_scene");
+    Shader& shader = scene->getManagers()->shaderManager->getShader("_scene");
     
-    shader->use();
+    shader.use();
 
-    shader->setMatrix4("projection", proj);
-    shader->setMatrix4("view", view);
+    shader.setVec2("screenSize", window->width(), window->height());
+
+    shader.setMatrix4("projection", proj);
+    shader.setMatrix4("view", view);
 
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
 
-    shader->setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+    shader.setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
     // shader->setVec3("ambientLight", 1.0f, 1.0f, 1.0f);
 
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {
         if (gameObject->hasComponent<LightSource>()) {
             std::shared_ptr<LightSource> ls = gameObject->getComponent<LightSource>();
-            shader->setFloat(("lights[" + std::to_string(lightIndex) + "].luminance").c_str(), ls->luminance);
-            shader->setVec3(("lights[" + std::to_string(lightIndex) + "].color").c_str(), ls->color.r, ls->color.g, ls->color.b);
-            shader->setVec2(("lights[" + std::to_string(lightIndex) + "].position").c_str(), gameObject->transform.position.x, gameObject->transform.position.y);
-            lightIndex++;
+            ls->set(shader, lightIndex++);
             if (lightIndex >= MAX_NUM_LIGHTS) {
                 break;
             }
         }
     }
-    shader->setInt("numLights", lightIndex);
+    shader.setInt("numLights", lightIndex);
 
     if (scene->hasTilemap()) {
-        scene->getTilemap().render(*shader);
+        scene->getTilemap().render(shader);
     }
 
     for (auto gameObject : gameObjects) {

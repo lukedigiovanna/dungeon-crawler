@@ -19,5 +19,5 @@ public:
     void setSprite(const Sprite* sprite);
 
     void init() override;
-    void render(std::shared_ptr<Shader> shader) const override;
+    void render(Shader& shader) const override;
 };

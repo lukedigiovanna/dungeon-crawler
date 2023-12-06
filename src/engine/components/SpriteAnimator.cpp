@@ -42,7 +42,7 @@ void SpriteAnimator::init() {
     std::shared_ptr<AnimationManager> animManager = getGameObject()->getScene()->getManagers()->animationManager;
     animation = animManager->getAnimation(animationId);
     
-    RendererComponent* rc = getGameObject()->getRendererComponent();
+    RendererComponent* rc = &getGameObject()->getRendererComponent();
     // Assert that the renderer component is a sprite renderer
     this->spriteRenderer = dynamic_cast<SpriteRenderer*>(rc);
 

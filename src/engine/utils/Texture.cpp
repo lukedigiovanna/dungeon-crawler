@@ -41,7 +41,14 @@ Texture::~Texture() {
 }
 
 void Texture::bind() const {
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->texture);
+}
+
+void Texture::bind(Shader const& shader, std::string const& uniformName) const {
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->texture);
+    shader.setInt(uniformName.c_str(), 0);
 }
 
 void Texture::unbind() const {

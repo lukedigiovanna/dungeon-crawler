@@ -12,7 +12,7 @@ RendererComponent::~RendererComponent() {
 
 }
 
-std::shared_ptr<Shader> RendererComponent::getShader(std::string const& shaderId) const {
+Shader& RendererComponent::getShader(std::string const& shaderId) const {
     return getGameObject()->getScene()->getManagers()->shaderManager->getShader(shaderId);
 }
 
@@ -28,7 +28,7 @@ void RendererComponent::setGameObject(std::shared_ptr<GameObject> gameObject) {
     this->gameObject = gameObject;
 }
 
-void RendererComponent::render(std::shared_ptr<Shader> shader) const {
+void RendererComponent::render(Shader& shader) const {
     
 }
 
