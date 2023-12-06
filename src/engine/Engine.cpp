@@ -41,6 +41,11 @@ Engine::Engine(std::string gameName) {
         "assets/shaders/tm_chunk_vs.glsl", "assets/shaders/tm_chunk_fs.glsl"
     );
 
+    managers->shaderManager->loadShader(
+        "_lighting",
+        "assets/shaders/light_vs.glsl", "assets/shaders/light_fs.glsl"
+    );
+
     scene = nullptr;
 }
 
@@ -85,39 +90,12 @@ void Engine::renderLoop() {
     }
 }
 
-void Engine::gameLoop() {
-    // auto last = std::chrono::system_clock::now();
-    // while (this->active) {
-    //     auto start = std::chrono::system_clock::now();
-    //     auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(start - last);
-    //     last = start;
-
-    //     float dt = static_cast<float>(elapsed.count()) / 1000000.0f;
-
-    //     // #### START LOGIC ####
-
-    //     std::cout << dt << std::endl;
-    //     this->scene->update(dt);
-    //     std::cout << dt << std::endl;
-
-    //     // #### END LOGIC ####
-        
-    //     auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS);
-    //     if (sleepTime.count() > 0) {
-    //         std::this_thread::sleep_for(std::chrono::microseconds(sleepTime));
-    //     }
-    // }
-}
-
 void Engine::run() {
     if (!scene) {
         throw std::runtime_error("Engine::run: Cannot run engine without having a currently loaded scene");
     }
-    // spin up the thread instances
     active = true;
-    // gameThread = std::make_unique<std::thread>(&Engine::gameLoop, this);
     renderLoop();
-    // gameThread->join();
 }
 
 void Engine::halt() {
