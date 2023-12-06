@@ -26,10 +26,10 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
     );
     cat->addComponent(std::make_shared<LightSource>(gfx::color{0.9f, 0.9f, 1.0f}, 0.25f));
     cat->addComponent(std::make_shared<Lifetime>(math::random(5.0f, 8.0f)));
+    cat->addComponent(std::make_shared<Collider>());
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     float angle = math::random(0.0f, 360.0f);
     float speed = 2.5f;
-    physics->velocity = { std::cos(angle) * speed, std::sin(angle) * speed };
     physics->angularVelocity = 90.0f;
     physics->innateDragCoefficient = 0.95f;
     cat->addComponent(physics);
@@ -41,7 +41,7 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
 PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>();
     player->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft0"));
-    // player->addComponent(std::make_shared<SpriteAnimator>("player-walk-right"));
+    player->addComponent(std::make_shared<SpriteAnimator>("player-walk-right"));
     player->addComponent(std::make_shared<Spawner>());
     player->addComponent(std::make_shared<LightSource>(gfx::COLOR_WHITE, 1.5f));
     player->addComponent(std::make_shared<PlayerMovement>(5.0f));

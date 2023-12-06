@@ -10,7 +10,7 @@ PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 
 void PlayerMovement::init() {
     this->physics = getGameObject()->getComponent<Physics>();
-    // this->animator = getGameObject()->getComponent<SpriteAnimator>();
+    this->animator = getGameObject()->getComponent<SpriteAnimator>();
 }
 
 void PlayerMovement::update(float dt) {
@@ -18,16 +18,26 @@ void PlayerMovement::update(float dt) {
     std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
     std::shared_ptr<Scene> scene = obj->getScene();
 
-    std::shared_ptr<Component> camera = scene->getCamera();
+    std::shared_ptr<Camera> camera = scene->getCamera();
     std::shared_ptr<GameObject> camObj = camera->getGameObject();
+
+    std::shared_ptr<SpriteManager> spriteManager = scene->getManagers()->spriteManager;
 
     if (scene->hasTilemap()) {
         Tilemap& tm = scene->getTilemap();
-        tm.setTileFromWorldPosition(obj->transform.position.x, obj->transform.position.y, {rand() % 800, false});
+        int si = spriteManager->getSpriteIndex("minecraft0") + 32;
+        tm.setTileFromWorldPosition(obj->transform.position.x, obj->transform.position.y, {si, false});
     }
 
     // move cam to the player
-    camObj->transform.position = obj->transform.position;
+    camObj->transform.position += (obj->transform.position - camObj->transform.position) * dt;
+
+    if (input->isKeyDown(SDLK_LSHIFT)) {
+        camera->scale /= 1.1f;
+    }
+    if (input->isKeyDown(SDLK_SPACE)) {
+        camera->scale *= 1.1f;
+    }
 
     physics->velocity = {0, 0};
     if (input->isKeyDown(SDLK_w))
@@ -46,20 +56,12 @@ void PlayerMovement::update(float dt) {
         physics->angularVelocity = 0;
     }
 
-    if (input->isKeyDown(SDLK_LSHIFT)) {
-        camObj->transform.scale /= 1.1f;
-    }
-    if (input->isKeyDown(SDLK_SPACE)) {
-        camObj->transform.scale *= 1.1f;
-    }
-
-    // if (physics->velocity.x < 0)
-    //     animator->setAnimation("player-walk-left");
-    // else if (physics->velocity.x > 0)
-    //     animator->setAnimation("player-walk-right");
-    // else if (physics->velocity.y > 0)
-    //     animator->setAnimation("player-walk-up");
-    // else if (physics->velocity.y < 0)
-    //     animator->setAnimation("player-walk-down");
-
+    if (physics->velocity.x < 0)
+        animator->setAnimation("player-walk-left");
+    else if (physics->velocity.x > 0)
+        animator->setAnimation("player-walk-right");
+    else if (physics->velocity.y > 0)
+        animator->setAnimation("player-walk-up");
+    else if (physics->velocity.y < 0)
+        animator->setAnimation("player-walk-down");
 }

@@ -14,8 +14,18 @@
 #include "engine/Engine.h"
 #include "engine/Scene.h"
 #include "game/scenes.h"
+#include "engine/utils/Math.h"
 
 int program() {
+    math::Polygon p = {
+        std::vector<math::vec2>{{-0.5f, 0.5f}, {0.5f, 0.5f}, {0.5f, -0.5f}, {-0.5f, -0.5f}},
+        {0, 0}
+    };
+    auto normals = math::getAxes(p);
+    for (auto & n : normals) {
+        std::cout << n.x << ", " << n.y << "\n";
+    }
+
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // For example, OpenGL 3.3
@@ -26,7 +36,6 @@ int program() {
     
     std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
-    spriteManager->registerSprite("cat", "assets/minecraft.png");
     int nf = 12;
     spriteManager->registerSpriteSheet("character", "assets/character3.png", nf, 4);
     // int nf = 9;

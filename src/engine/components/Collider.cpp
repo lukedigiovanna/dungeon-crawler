@@ -2,9 +2,10 @@
 
 #include "../GameObject.h"
 #include "../Scene.h"
+#include "Physics.h"
 
 Collider::Collider() {
-    polygon.resize(4);
+    polygon.points.resize(4);
 }
 
 #include <iostream>
@@ -12,25 +13,28 @@ void Collider::regeneratePolygon() {
     std::shared_ptr<GameObject> obj = getGameObject();
     transform = obj->transform;
 
-    polygon[0] = math::vec2{+transform.scale.x / 2.0f, +transform.scale.y / 2.0f};
-    polygon[1] = math::vec2{+transform.scale.x / 2.0f, -transform.scale.y / 2.0f};    
-    polygon[2] = math::vec2{-transform.scale.x / 2.0f, -transform.scale.y / 2.0f};
-    polygon[3] = math::vec2{-transform.scale.x / 2.0f, +transform.scale.y / 2.0f};
-    // rotate the diagonals to correspond with the objects rotation
+    polygon.points[0] = math::vec2{+transform.scale.x / 2.0f, +transform.scale.y / 2.0f};
+    polygon.points[1] = math::vec2{+transform.scale.x / 2.0f, -transform.scale.y / 2.0f};    
+    polygon.points[2] = math::vec2{-transform.scale.x / 2.0f, -transform.scale.y / 2.0f};
+    polygon.points[3] = math::vec2{-transform.scale.x / 2.0f, +transform.scale.y / 2.0f};
+    
     float rad = math::degToRad(transform.rotation);
     float cos = std::cos(rad), sin = std::sin(rad);
     for (size_t i = 0; i < 4; i++) {
-        auto [x, y] = polygon[i];
-        polygon[i] = transform.position + math::vec2{
+        auto [x, y] = polygon.points[i];
+        polygon.points[i] = transform.position + math::vec2{
             x * cos - y * sin,
             x * sin + y * cos
         };
     }
-    std::cout << transform.position.x << ", " << transform.position.y << 
-        "\n\t x " << polygon[0].x << ", " << polygon[0].y << 
-        "\n\t x " << polygon[1].x << ", " << polygon[1].y << 
-        "\n\t x " << polygon[2].x << ", " << polygon[2].y <<
-        "\n\t x " << polygon[3].x << ", " << polygon[3].y << std::endl;
+
+    polygon.center = transform.position;
+
+    // std::cout << transform.position.x << ", " << transform.position.y << 
+    //     "\n\t x " << polygon.points[0].x << ", " << polygon.points[0].y << 
+    //     "\n\t x " << polygon.points[1].x << ", " << polygon.points[1].y << 
+    //     "\n\t x " << polygon.points[2].x << ", " << polygon.points[2].y <<
+    //     "\n\t x " << polygon.points[3].x << ", " << polygon.points[3].y << std::endl;
 }
 
 void Collider::init() {
@@ -52,13 +56,16 @@ void Collider::update(float dt) {
         for (auto wall : walls) {
             math::SATResult result = checkCollision_SAT(polygon, wall);
             if (result.collided) {
-                // vec2 wallPos{wall[0].x + scale / 2.0f, wall[0].y - scale / 2.0f};
-                // vec2 d = (obj->transform.position - wallPos).normalized();
-                math::vec2 d = result.overlapAxis.normalized();
+                math::vec2 cd = (transform.position - wall.center).normalized();
+                math::vec2 d = result.overlapAxis;
+                if (math::dot(cd, d) < 0) d *= -1;
                 math::vec2 correction = d * result.overlap;
                 obj->transform.position += correction;
+                if (obj->hasComponent<Physics>()) {
+                    std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
+                    physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
+                }
                 regeneratePolygon();
-                std::cout << result.overlap << "\n";
             }
         }
     }

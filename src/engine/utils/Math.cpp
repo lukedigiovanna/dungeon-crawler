@@ -60,13 +60,13 @@ bool math::LineSegment::onSegment(vec2 const& point) const {
     return point.x >= lx && point.x <= rx && point.y >= by && point.y <= ty;
 }
 
-std::vector<math::vec2> getAxes(math::Polygon const& p) {
+std::vector<math::vec2> math::getAxes(math::Polygon const& p) {
     std::vector<math::vec2> axes;
-    int k = p.size() > 2 ? p.size() : 1;
+    int k = p.points.size() > 2 ? p.points.size() : 1;
     for (size_t i = 0; i < k; i++) {
-        math::vec2 diff = p[(i + 1) % p.size()] - p[i];
+        math::vec2 diff = p.points[(i + 1) % p.points.size()] - p.points[i];
         math::vec2 norm = {-diff.y, diff.x};
-        axes.push_back(norm);
+        axes.push_back(norm.normalized());
     }
     return axes;
 }
@@ -85,12 +85,12 @@ math::SATResult math::checkCollision_SAT(math::Polygon const& p1, math::Polygon 
         float minP1 = INFINITY, maxP1 = -INFINITY;
         float minP2 = INFINITY, maxP2 = -INFINITY;
         // Perform projection of points onto the axis
-        for (math::vec2 const& point : p1) {
+        for (math::vec2 const& point : p1.points) {
             float projected = math::dot(axis, point);
             minP1 = std::min(minP1, projected);
             maxP1 = std::max(maxP1, projected);
         }
-        for (math::vec2 const& point : p2) {
+        for (math::vec2 const& point : p2.points) {
             float projected = math::dot(axis, point);
             minP2 = std::min(minP2, projected);
             maxP2 = std::max(maxP2, projected);
@@ -106,7 +106,6 @@ math::SATResult math::checkCollision_SAT(math::Polygon const& p1, math::Polygon 
             overlap = thisOverlap;
             overlapAxis = axis;
         }
-        std::cout << overlap << "\n";
     }
 
     return {true, overlap, overlapAxis};

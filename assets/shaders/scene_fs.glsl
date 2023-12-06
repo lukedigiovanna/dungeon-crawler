@@ -34,7 +34,7 @@ void main() {
     for (int i = 0; i < numLights; i++) {
         Light light = lights[i];
         float dist = length(light.position - FragPos);
-        float attenuation = min(1.0, 1.0 / (dist + 0.6)); // Simple distance-based attenuation
+        float attenuation = min(1.0, 1.0 / (dist * 0.75 + 0.6)); // Simple distance-based attenuation
         lightEffect += light.color * light.luminance * attenuation;
     }
 

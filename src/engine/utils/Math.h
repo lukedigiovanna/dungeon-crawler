@@ -134,13 +134,18 @@ private:
     bool onSegment(vec2 const& point) const;
 };
 
-using Polygon = std::vector<vec2>;
+struct Polygon {
+    std::vector<vec2> points;
+    vec2 center;
+};
 
 struct SATResult {
     bool collided;
     float overlap; // Minimum amount of overlap determined, useful for resolving static collisions.
     vec2 overlapAxis;
 };
+
+std::vector<vec2> getAxes(Polygon const& p);
 
 SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2);
 
