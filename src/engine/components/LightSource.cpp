@@ -64,7 +64,10 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
             math::vec2 dir = obj->transform.position - polygon.center;
             for (size_t i = 0; i < 4; i++) {
                 math::vec2 ep1 = polygon.points[i], ep2 = polygon.points[(i + 1) % 4];
-                if (math::dot(ep1 - polygon.center, dir) < 0) continue;
+                math::vec2 vec = ep2 - ep1;
+                math::vec2 norm = {-vec.y, vec.x};
+                if (math::dot(norm, ep2 - polygon.center) > 0) norm *= -1;
+                if (math::dot(norm, dir) < 0) continue;
                 math::vec2 dir1 = (ep1 - obj->transform.position).normalized() * 30, 
                            dir2 = (ep2 - obj->transform.position).normalized() * 30;
                 float vertices[12] = {
@@ -72,7 +75,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
                     ep2.x, ep2.y,
                     ep1.x + dir1.x, ep1.y + dir1.y,
 
-                    ep1.x, ep1.y,
+                    ep1.x + dir1.x, ep1.y + dir1.y,
                     ep2.x, ep2.y,
                     ep2.x + dir2.x, ep2.y + dir2.y,
                 };
