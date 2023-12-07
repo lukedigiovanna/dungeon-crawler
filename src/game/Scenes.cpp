@@ -12,7 +12,7 @@ void scenes::SampleScene::init() {
 
     int w = 25;
     int s = CHUNK_SIZE * w;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 0.25f);
     std::shared_ptr<SpriteManager> sm = getManagers()->spriteManager;
     int gi = sm->getSpriteIndex("minecraft0");
     int ns = sm->getNumSprites();
