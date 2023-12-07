@@ -3,6 +3,10 @@
 #include "utils/meshes.h"
 #include "Scene.h"
 
+#include <queue>
+#include <array>
+#include <utility>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -50,31 +54,44 @@ float Tilemap::getScale() const {
 #include <iostream>
 void Tilemap::recomputeWallPolygons() {
     walls.clear();
-    // auto seen = std::make_unique<bool[]>(width * height);
+    auto seen = std::make_unique<bool[]>(width * height);
+    // std::fill_n(seen.get(), width * height, false);
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             int ii = i * width + j;
-            if (!tiles[ii].wall)
+            if (!tiles[ii].wall || seen[ii])
                 continue;
+
+            // execute a BFS to discover the entire wall section
+            std::vector<int> wall;
+            std::queue<int> q;
+            q.push(ii);
+            static std::array<std::pair<int, int>, 4> dirs{{
+                {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+            }};
+            while (q.size() > 0) {
+                int ind = q.front();
+                q.pop();
+                wall.push_back(ind);
+                int tj = ind % width, ti = ind / width;
+                for (auto & dir : dirs) {
+                    int ni = ti + dir.first, nj = tj + dir.second;
+                    if (ni < 0 || ni >= height || nj < 0 || nj >= width)
+                        continue;
+                    int nii = ni * width + nj;
+                    if (!tiles[nii].wall || seen[nii]) 
+                        continue;
+                    seen[nii] = true;
+                    q.push(nii);
+                }
+            }
+
             float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
             float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
             math::Polygon p;
             p.points = std::vector<math::vec2>{{x, y}, {x + scale, y}, {x + scale, y - scale}, {x, y - scale}};
             p.center = {x + scale / 2.0f, y - scale / 2.0f};
             walls.push_back(p);
-            
-            // if (seen[ii]) {
-            //     continue;
-            // }
-            // compute horizontals first
-            // int topLength = 0, bottomLength = 0;
-            // bool topValid = true, bottomValid = true;
-            // for (int k = j; topValid && bottomValid; k++) {
-
-            // }
-
-            // vec2 wt{x + scale / 2.0f, y + scale / 2.0f};
-            // vec2 wb{x + scale / 2.0f, y + scale / 2.0f};
         }
     }
 }
