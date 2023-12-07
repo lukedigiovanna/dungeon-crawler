@@ -75,8 +75,6 @@ void Camera::render(Window* window) {
     shader.setMatrix4("projection", proj);
     shader.setMatrix4("view", view);
 
-    std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
-
     shader.setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
     // shader->setVec3("ambientLight", 1.0f, 1.0f, 1.0f);
 
@@ -84,7 +82,7 @@ void Camera::render(Window* window) {
     for (auto gameObject : gameObjects) {
         if (gameObject->hasComponent<LightSource>()) {
             std::shared_ptr<LightSource> ls = gameObject->getComponent<LightSource>();
-            ls->set(shader, lightIndex++);
+            ls->set(shader, lightIndex++, proj);
             if (lightIndex >= MAX_NUM_LIGHTS) {
                 break;
             }

@@ -2,6 +2,9 @@
 
 layout (location = 0) in vec2 inPos;
 
+uniform mat4 projection;
+
 void main() {
-    gl_Position = inPos;
+    // gl_Position = projection * vec4(inPos, 0.0, 1.0);
+    gl_Position = vec4(inPos, 0.0, 1.0);
 }

@@ -49,12 +49,14 @@ void PlayerMovement::update(float dt) {
     if (input->isKeyDown(SDLK_d))
         physics->velocity.x += speed;
 
-    if (input->isKeyDown(SDLK_r)) {
-        physics->angularVelocity = 180;
+    physics->angularVelocity = 0;
+    if (input->isKeyDown(SDLK_e)) {
+        physics->angularVelocity += 180;
     }
-    else {
-        physics->angularVelocity = 0;
+    if (input->isKeyDown(SDLK_q)) {
+        physics->angularVelocity -= 180;
     }
+    
 
     if (physics->velocity.x < 0)
         animator->setAnimation("player-walk-left");
