@@ -149,9 +149,24 @@ std::vector<vec2> getAxes(Polygon const& p);
 
 SATResult checkCollision_SAT(Polygon const& p1, Polygon const& p2);
 
+// perlin noise
+class PerlinNoise {
+private:
+    unsigned seed;
+public:
+    PerlinNoise();
+    PerlinNoise(unsigned seed);
+
+    float get(float x, float y) const;
+};
+
 // random numbers
 
 float random(float a, float b);
+
+vec2 randomGradient(int ix, int iy, unsigned seed=6482);
+
+float interpolate(float a0, float a1, float we);
 
 float degToRad(float degrees);
 }

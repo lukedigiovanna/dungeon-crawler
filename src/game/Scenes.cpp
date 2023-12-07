@@ -10,21 +10,26 @@
 void scenes::SampleScene::init() {
     Scene::init();
 
-    int w = 25;
+    int w = 4;
     int s = CHUNK_SIZE * w;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 0.25f);
     std::shared_ptr<SpriteManager> sm = getManagers()->spriteManager;
     int gi = sm->getSpriteIndex("minecraft0");
     int ns = sm->getNumSprites();
+    math::PerlinNoise pn;
     for (int i = 0; i < s; i++) {
         for (int j = 0; j < s; j++) {
-            int si = (i / CHUNK_SIZE * w + j / CHUNK_SIZE) % 800 + gi;
-            tilemap->setTile(i, j, {si, false});
+            if (pn.get(i * 0.25f + 0.5f, j * 0.25f + 0.5f) > 0.2f) {
+                tilemap->setTile(i, j, {gi + 4, true});
+            }
+            else {
+                tilemap->setTile(i, j, {gi, false});
+            }
         }
     }
-    for (float x = -3.0f; x <= 3.0f; x += 1.0f) {
-        tilemap->setTileFromWorldPosition(x, -3.0f, {gi + 4, true});
-    }
+    // for (float x = -3.0f; x <= 3.0f; x += 1.0f) {
+    //     tilemap->setTileFromWorldPosition(x, -3.0f, {gi + 4, true});
+    // }
     tilemap->recomputeWallPolygons();
     setTilemap(std::move(tilemap));
 

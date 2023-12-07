@@ -132,6 +132,8 @@ void Tilemap::render(Shader const& shader) const {
                         if (col >= width) break;
                         int ti = row * width + col;
                         const Tile& tile = tiles[ti];
+                        if (tile.spriteId < 0) 
+                            continue;
                         const Sprite* sprite = spriteManager->getSpriteByIndex(tile.spriteId);
                         float x = static_cast<float>(jj) / CHUNK_SIZE * 2.0f - 1.0f;
                         float y = static_cast<float>(ii) / CHUNK_SIZE * 2.0f - 1.0f;

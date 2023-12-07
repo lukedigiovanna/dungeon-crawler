@@ -17,14 +17,11 @@
 #include "engine/utils/Math.h"
 
 int program() {
-    math::Polygon p = {
-        std::vector<math::vec2>{{-0.5f, 0.5f}, {0.5f, 0.5f}, {0.5f, -0.5f}, {-0.5f, -0.5f}},
-        {0, 0}
-    };
-    auto normals = math::getAxes(p);
-    for (auto & n : normals) {
-        std::cout << n.x << ", " << n.y << "\n";
+    math::PerlinNoise pn;
+    for (int i = 0; i < 1; i++) {
+        std::cout << pn.get(i + 0.5f, 0.5f) << " ";
     }
+    std::cout << "\n";
 
     SDL_Init(SDL_INIT_VIDEO);
 
