@@ -56,15 +56,16 @@ void Collider::update(float dt) {
         for (auto wall : walls) {
             math::SATResult result = checkCollision_SAT(polygon, wall);
             if (result.collided) {
+                std::cout << transform.position.x << "\n";
                 math::vec2 cd = (transform.position - wall.center).normalized();
                 math::vec2 d = result.overlapAxis;
                 if (math::dot(cd, d) < 0) d *= -1;
                 math::vec2 correction = d * result.overlap;
                 obj->transform.position += correction;
-                if (obj->hasComponent<Physics>()) {
-                    std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
-                    physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
-                }
+                // if (obj->hasComponent<Physics>()) {
+                //     std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
+                //     physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
+                // }
                 regeneratePolygon();
             }
         }

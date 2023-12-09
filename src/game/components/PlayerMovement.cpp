@@ -10,7 +10,7 @@ PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 
 void PlayerMovement::init() {
     this->physics = getGameObject()->getComponent<Physics>();
-    this->animator = getGameObject()->getComponent<SpriteAnimator>();
+    // this->animator = getGameObject()->getComponent<SpriteAnimator>();
 }
 
 void PlayerMovement::update(float dt) {
@@ -23,11 +23,11 @@ void PlayerMovement::update(float dt) {
 
     std::shared_ptr<SpriteManager> spriteManager = scene->getManagers()->spriteManager;
 
-    if (scene->hasTilemap()) {
-        Tilemap& tm = scene->getTilemap();
-        int si = spriteManager->getSpriteIndex("minecraft0") + 32;
-        tm.setTileFromWorldPosition(obj->transform.position.x, obj->transform.position.y, {si, false});
-    }
+    // if (scene->hasTilemap()) {
+    //     Tilemap& tm = scene->getTilemap();
+    //     int si = spriteManager->getSpriteIndex("minecraft0") + 32;
+    //     tm.setTileFromWorldPosition(obj->transform.position.x, obj->transform.position.y, {si, false});
+    // }
 
     // move cam to the player
     camObj->transform.position += (obj->transform.position - camObj->transform.position) * dt;
@@ -58,12 +58,12 @@ void PlayerMovement::update(float dt) {
     }
     
 
-    if (physics->velocity.x < 0)
-        animator->setAnimation("player-walk-left");
-    else if (physics->velocity.x > 0)
-        animator->setAnimation("player-walk-right");
-    else if (physics->velocity.y > 0)
-        animator->setAnimation("player-walk-up");
-    else if (physics->velocity.y < 0)
-        animator->setAnimation("player-walk-down");
+    // if (physics->velocity.x < 0)
+    //     animator->setAnimation("player-walk-left");
+    // else if (physics->velocity.x > 0)
+    //     animator->setAnimation("player-walk-right");
+    // else if (physics->velocity.y > 0)
+    //     animator->setAnimation("player-walk-up");
+    // else if (physics->velocity.y < 0)
+    //     animator->setAnimation("player-walk-down");
 }

@@ -44,7 +44,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     shader.setFloat(("lights[" + std::to_string(index) + "].luminance").c_str(), luminance);
     shader.setVec3(("lights[" + std::to_string(index) + "].color").c_str(), color.r, color.g, color.b);
     shader.setVec2(("lights[" + std::to_string(index) + "].position").c_str(), obj->transform.position.x, obj->transform.position.y);
-    
+
     GLint currentViewport[4];
     glGetIntegerv(GL_VIEWPORT, currentViewport);
 
@@ -62,8 +62,8 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
         auto polygons = scene->getTilemap().getWallPolygons();
         for (auto & polygon : polygons) {
             math::vec2 dir = obj->transform.position - polygon.center;
-            for (size_t i = 0; i < 4; i++) {
-                math::vec2 ep1 = polygon.points[i], ep2 = polygon.points[(i + 1) % 4];
+            for (size_t i = 0; i < polygon.points.size(); i++) {
+                math::vec2 ep1 = polygon.points[i], ep2 = polygon.points[(i + 1) % polygon.points.size()];
                 math::vec2 vec = ep2 - ep1;
                 math::vec2 norm = {-vec.y, vec.x};
                 if (math::dot(norm, ep2 - polygon.center) < 0) 
