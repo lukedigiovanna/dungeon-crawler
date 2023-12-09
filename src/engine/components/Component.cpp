@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-Component::Component() {
+Component::Component() : priority(0) {
     
 }
 

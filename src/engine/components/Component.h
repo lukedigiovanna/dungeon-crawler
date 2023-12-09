@@ -7,6 +7,8 @@ class GameObject; // Forward declare the GameObject class
 class Component {
 private:
     std::weak_ptr<GameObject> gameObject;
+protected:
+    const int priority; // Determines execution order
 public:
     Component();
     virtual ~Component() = default;

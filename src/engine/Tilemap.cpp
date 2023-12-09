@@ -63,28 +63,28 @@ void Tilemap::recomputeWallPolygons() {
                 continue;
 
             // execute a BFS to discover the entire wall section
-            std::vector<int> wall;
-            std::queue<int> q;
-            q.push(ii);
-            static std::array<std::pair<int, int>, 4> dirs{{
-                {1, 0}, {-1, 0}, {0, 1}, {0, -1}
-            }};
-            while (q.size() > 0) {
-                int ind = q.front();
-                q.pop();
-                wall.push_back(ind);
-                int tj = ind % width, ti = ind / width;
-                for (auto & dir : dirs) {
-                    int ni = ti + dir.first, nj = tj + dir.second;
-                    if (ni < 0 || ni >= height || nj < 0 || nj >= width)
-                        continue;
-                    int nii = ni * width + nj;
-                    if (!tiles[nii].wall || seen[nii]) 
-                        continue;
-                    seen[nii] = true;
-                    q.push(nii);
-                }
-            }
+            // std::vector<int> wall;
+            // std::queue<int> q;
+            // q.push(ii);
+            // static std::array<std::pair<int, int>, 4> dirs{{
+            //     {1, 0}, {-1, 0}, {0, 1}, {0, -1}
+            // }};
+            // while (q.size() > 0) {
+            //     int ind = q.front();
+            //     q.pop();
+            //     wall.push_back(ind);
+            //     int tj = ind % width, ti = ind / width;
+            //     for (auto & dir : dirs) {
+            //         int ni = ti + dir.first, nj = tj + dir.second;
+            //         if (ni < 0 || ni >= height || nj < 0 || nj >= width)
+            //             continue;
+            //         int nii = ni * width + nj;
+            //         if (!tiles[nii].wall || seen[nii]) 
+            //             continue;
+            //         seen[nii] = true;
+            //         q.push(nii);
+            //     }
+            // }
 
             float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
             float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
