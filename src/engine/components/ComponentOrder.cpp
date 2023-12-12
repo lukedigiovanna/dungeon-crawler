@@ -13,7 +13,7 @@ std::unordered_set<std::type_index> ComponentOrder::hasDependent;
 
 bool ComponentOrder::dirty = false;
 
-void ComponentOrder::initialize() {
+void ComponentOrder::initializeEngineDependencies() {
     addRoot<Lifetime>();
     addDependency<Physics, Collider>();
 }
@@ -67,7 +67,7 @@ void ComponentOrder::updatePriorities() {
 int ComponentOrder::getPriority(std::type_index const& type) {
     auto f = priorities.find(type);
     if (f == priorities.end()) {
-        return priorities.size(); // Default is to place component at end of root branch (no dependencies)
+        return rootBranch.size(); // Default is to place component at end of root branch (no dependencies)
     }
 
     return f->second;

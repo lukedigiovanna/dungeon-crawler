@@ -56,7 +56,7 @@ public:
         dirty = true;
     }
 
-    static void initialize();
+    static void initializeEngineDependencies();
     static void updatePriorities();
 
     template <typename T>

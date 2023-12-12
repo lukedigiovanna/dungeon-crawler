@@ -21,12 +21,6 @@
 #include "game/components/PlayerMovement.h"
 
 int program() {
-    math::PerlinNoise pn;
-    for (int i = 0; i < 1; i++) {
-        std::cout << pn.get(i + 0.5f, 0.5f) << " ";
-    }
-    std::cout << "\n";
-
     SDL_Init(SDL_INIT_VIDEO);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // For example, OpenGL 3.3
@@ -37,7 +31,7 @@ int program() {
     ComponentOrder::addDependency<PlayerMovement, SpriteAnimator>();
 
     Engine engine("Cool");
-    
+
     std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
     int nf = 12;

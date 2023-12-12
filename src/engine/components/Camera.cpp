@@ -76,7 +76,6 @@ void Camera::render(Window* window) {
     shader.setMatrix4("view", view);
 
     shader.setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
-    // shader->setVec3("ambientLight", 1.0f, 1.0f, 1.0f);
 
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {

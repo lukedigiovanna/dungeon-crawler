@@ -15,9 +15,15 @@ class Scene;
 
 struct PriorityComparison {
     bool operator()(std::type_index const& lhs, std::type_index const& rhs) const {
-        return ComponentOrder::getPriority(lhs) < ComponentOrder::getPriority(rhs);
+        int c1 = ComponentOrder::getPriority(lhs), c2 = ComponentOrder::getPriority(rhs);
+        if (c1 == c2) {
+            return lhs < rhs;
+        }
+        return c1 < c2;
     }
 };
+
+#include <iostream>
 
 class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
@@ -38,10 +44,11 @@ public:
     template<typename T>
     void addComponent(std::shared_ptr<T> component) {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
-        components[std::type_index(typeid(T))] = component;
-        components[std::type_index(typeid(T))]->setGameObject(shared_from_this());
+        auto type_ind = std::type_index(typeid(T));
+        components[type_ind] = component;
+        components[type_ind]->setGameObject(shared_from_this());
         if (isInScene()) {
-            components[std::type_index(typeid(T))]->init();
+            components[type_ind]->init();
         }
     }
 
@@ -50,7 +57,11 @@ public:
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
         auto it = components.find(std::type_index(typeid(T)));
         if (it != components.end()) {
-            return std::dynamic_pointer_cast<T>(it->second);
+            std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(it->second);
+            if (ptr == nullptr) {
+                throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object");
+            }
+            return ptr;
         }
         throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object");
         return nullptr;

@@ -56,7 +56,7 @@ void Collider::update(float dt) {
         for (auto wall : walls) {
             math::SATResult result = checkCollision_SAT(polygon, wall);
             if (result.collided) {
-                std::cout << transform.position.x << "\n";
+                // std::cout << transform.position.x << "\n";
                 math::vec2 cd = (transform.position - wall.center).normalized();
                 math::vec2 d = result.overlapAxis;
                 if (math::dot(cd, d) < 0) d *= -1;

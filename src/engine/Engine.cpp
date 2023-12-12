@@ -24,7 +24,7 @@ Engine::Engine(std::string gameName) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     meshes::init();
-    ComponentOrder::initialize();
+    ComponentOrder::initializeEngineDependencies();
     ComponentOrder::updatePriorities();
 
     managers = std::make_shared<Managers>();
