@@ -15,6 +15,10 @@
 #include "engine/Scene.h"
 #include "game/scenes.h"
 #include "engine/utils/Math.h"
+#include "engine/components/ComponentOrder.h"
+#include "engine/components/Collider.h"
+#include "engine/components/SpriteAnimator.h"
+#include "game/components/PlayerMovement.h"
 
 int program() {
     math::PerlinNoise pn;
@@ -28,6 +32,9 @@ int program() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // For example, OpenGL 3.3
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+    ComponentOrder::addDependency<PlayerMovement, Physics>();
+    ComponentOrder::addDependency<PlayerMovement, SpriteAnimator>();
 
     Engine engine("Cool");
     

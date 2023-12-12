@@ -1,20 +1,27 @@
 #pragma once
 
 #include "components/Component.h"
+#include "components/ComponentOrder.h"
 #include "components/renderers/RendererComponent.h"
 #include "utils/Math.h"
 #include "utils/Shader.h"
 
 #include <functional>
-#include <unordered_map>
+#include <map>
 #include <typeindex>
 #include <stdexcept>
 
 class Scene;
 
+struct PriorityComparison {
+    bool operator()(std::type_index const& lhs, std::type_index const& rhs) const {
+        return ComponentOrder::getPriority(lhs) < ComponentOrder::getPriority(rhs);
+    }
+};
+
 class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
-    std::unordered_map<std::type_index, std::shared_ptr<Component>> components;
+    std::map<std::type_index, std::shared_ptr<Component>, PriorityComparison> components;
     std::unique_ptr<RendererComponent> rendererComponent = nullptr;
 public:
     std::weak_ptr<Scene> scene;

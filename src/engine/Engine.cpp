@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "components/Camera.h"
+#include "components/ComponentOrder.h"
 #include "utils/meshes.h"
 
 #include <unistd.h>
@@ -23,6 +24,8 @@ Engine::Engine(std::string gameName) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     meshes::init();
+    ComponentOrder::initialize();
+    ComponentOrder::updatePriorities();
 
     managers = std::make_shared<Managers>();
 

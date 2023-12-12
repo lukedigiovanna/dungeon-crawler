@@ -164,8 +164,6 @@ public:
 
 float random(float a, float b);
 
-vec2 randomGradient(int ix, int iy, unsigned seed=6482);
-
 float interpolate(float a0, float a1, float we);
 
 float degToRad(float degrees);
