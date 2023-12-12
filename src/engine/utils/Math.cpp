@@ -101,7 +101,13 @@ math::SATResult math::checkCollision_SAT(math::Polygon const& p1, math::Polygon 
             return {false, 0, {0, 0}};    
         }
 
-        float thisOverlap = std::min(maxP1, maxP2) - std::max(minP1, minP2);
+        float thisOverlap;
+        if (std::abs(minP2 - maxP2) < 0.001f) {
+            thisOverlap = std::min(maxP2 - minP1, maxP1 - maxP2);
+        }
+        else {
+            thisOverlap = std::min(maxP1, maxP2) - std::max(minP1, minP2);
+        }
         if (thisOverlap < overlap) {
             overlap = thisOverlap;
             overlapAxis = axis;

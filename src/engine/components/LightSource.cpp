@@ -66,7 +66,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
                 math::vec2 ep1 = polygon.points[i], ep2 = polygon.points[(i + 1) % polygon.points.size()];
                 math::vec2 vec = ep2 - ep1;
                 math::vec2 norm = {-vec.y, vec.x};
-                if (math::dot(norm, ep2 - polygon.center) < 0) 
+                if (math::dot(norm, ep2 - polygon.center) > 0) 
                     norm *= -1;
                 if (math::dot(norm, dir) < 0) 
                     continue;
