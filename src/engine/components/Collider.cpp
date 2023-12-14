@@ -53,8 +53,9 @@ void Collider::update(float dt) {
         Tilemap& tilemap = scene->getTilemap();
         float scale = tilemap.getScale();
         math::Rectangle rect = math::getBoundingRectangle(polygon);
-        for (float y = rect.y; y < rect.y + rect.height; y += scale) {
-            for (float x = rect.x; x < rect.x + rect.width; x += scale) {
+        // std::cout << rect.x << " " << rect.y << " " << rect.width << " " << rect.height << "\n";
+        for (float y = rect.y; y < rect.y + rect.height + scale; y += scale) {
+            for (float x = rect.x; x < rect.x + rect.width + scale; x += scale) {
                 Tile const& tile = tilemap.getTileFromWorldPosition(x, y);
                 if (tile.wall) {
                     math::Polygon const& wall = tile.getWallPolygon();

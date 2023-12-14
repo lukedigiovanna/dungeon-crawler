@@ -81,8 +81,8 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
                     ep2.x, ep2.y,
                     ep2.x + dir2.x, ep2.y + dir2.y,
                 };
-                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 12, vertices);
-                glDrawArrays(GL_TRIANGLES, 0, 6);
+                // glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 12, vertices);
+                // glDrawArrays(GL_TRIANGLES, 0, 6);
             }
         }
 

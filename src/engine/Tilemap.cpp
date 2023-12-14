@@ -29,6 +29,8 @@ Tile::Tile(int spriteId, bool wall, float x, float y, float size) :
     };
 }
 
+const Tile EMPTY_TILE = Tile();
+
 math::Polygon const& Tile::getWallPolygon() const {
     return wallPolygon;
 }
@@ -162,8 +164,9 @@ Tile const& Tilemap::getTileFromWorldPosition(float x, float y) const {
     // Convert x, y to row, pos
     int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
     int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
-    if (row < 0 || row >= height || col < 0 || col >= width) {}
-        return Tile(); // Return the empty tile.
+    if (row < 0 || row >= height || col < 0 || col >= width) {
+        return EMPTY_TILE; // Return the empty tile.
+    }
     return getTile(row, col);
 }
 
