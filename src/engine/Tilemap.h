@@ -6,9 +6,17 @@
 
 #include <memory>
 
-struct Tile {
+class Tile {
+private:
+    math::Polygon wallPolygon;
+public:
     int spriteId; // -1 for empty
     bool wall;
+    Tile(int spriteId, bool wall, float x, float y, float size);
+    Tile(float x, float y, float size);
+    Tile();
+
+    math::Polygon const& getWallPolygon() const;
 };
 
 #define CHUNK_SIZE 16
@@ -45,8 +53,11 @@ public:
     void recomputeWallPolygons();
     std::vector<math::Polygon> const& getWallPolygons() const;
 
-    void setTile(int row, int col, Tile const& tile);
-    void setTileFromWorldPosition(float x, float y, Tile const& tile);
+    void setTile(int row, int col, int spriteId, bool wall);
+    void setTileFromWorldPosition(float x, float y, int spriteId, bool wall);
+
+    Tile const& getTile(int row, int col) const;
+    Tile const& getTileFromWorldPosition(float x, float y) const; 
 
     void render(Shader const& shader) const;
 };

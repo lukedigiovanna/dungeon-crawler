@@ -23,12 +23,12 @@ void scenes::SampleScene::init() {
             //     tilemap->setTile(i, j, {gi + 4, true});
             // }
             // else {
-                tilemap->setTile(i, j, {gi, false});
+                tilemap->setTile(i, j, gi, false);
             // }
         }
     }
     // for (float x = -3.0f; x <= 3.0f; x += 1.0f) {
-        tilemap->setTileFromWorldPosition(0, -3.0f, {gi + 4, true});
+        tilemap->setTileFromWorldPosition(0, -3.0f, gi + 4, true);
     // }
     tilemap->recomputeWallPolygons();
     setTilemap(std::move(tilemap));

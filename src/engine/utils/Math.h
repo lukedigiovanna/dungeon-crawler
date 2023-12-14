@@ -101,6 +101,11 @@ inline float dot(const vec2& lhs, const vec2& rhs) {
     return lhs.x * rhs.x + lhs.y * rhs.y;
 }
 
+struct Rectangle {
+    float x, y;
+    float width, height;
+};
+
 struct Transform {
     vec2 position;
     vec2 scale;
@@ -138,6 +143,8 @@ struct Polygon {
     std::vector<vec2> points;
     vec2 center;
 };
+
+Rectangle getBoundingRectangle(Polygon const& p);
 
 struct SATResult {
     bool collided;

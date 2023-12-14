@@ -10,6 +10,29 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+Tile::Tile() : spriteId(-1), wall(false) {
+
+}
+
+Tile::Tile(float x, float y, float size) : Tile(-1, false, x, y, size) {
+    
+}
+
+Tile::Tile(int spriteId, bool wall, float x, float y, float size) :
+    spriteId(spriteId), wall(wall) {
+    wallPolygon.center = { x + size / 2, y - size / 2 };
+    wallPolygon.points = {
+        { x, y },
+        { x + size, y },
+        { x + size, y - size },
+        { x, y - size }
+    };
+}
+
+math::Polygon const& Tile::getWallPolygon() const {
+    return wallPolygon;
+}
+
 Tilemap::Tilemap(int width, int height, float scale) : scale(scale) {
     this->width = width;
     this->height = height;
@@ -28,10 +51,9 @@ Tilemap::Tilemap(int width, int height, float scale) : scale(scale) {
     }
     tiles = std::make_unique<Tile[]>(width * height);
     for (int i = 0; i < width * height; i++) {
-        tiles[i] = {
-            .spriteId=-1,
-            .wall=false
-        };
+        float x = static_cast<float>(i % width) / width * worldWidth - worldWidth / 2.0f;
+        float y = worldHeight / 2.0f - static_cast<float>(i / width) / height * worldHeight;
+        tiles[i] = Tile(x, y, scale);
     }
 }
 
@@ -105,26 +127,44 @@ std::vector<math::Polygon> const& Tilemap::getWallPolygons() const {
     return walls;
 }
 
-void Tilemap::setTile(int row, int col, Tile const& tile) {
+void Tilemap::setTile(int row, int col, int spriteId, bool wall) {
     if (row < 0 || row >= height || col < 0 || col >= width) {
         throw std::runtime_error("Tilemap::setTile: Coordinates out of bounds: row, col = " + std::to_string(row) + ", " + std::to_string(col));
     }
     int i = row * width + col;
     int cr = row / CHUNK_SIZE, cc = col / CHUNK_SIZE;
     int ci = cr * nChunksWidth + cc;
-    if (tile.spriteId != tiles[i].spriteId || tile.wall != tiles[i].wall) {
-        tiles[i] = tile;
+    if (spriteId != tiles[i].spriteId || wall != tiles[i].wall) {
+        tiles[i].spriteId = spriteId;
+        tiles[i].wall = wall;
         chunks[ci].isDirty = true;
     }
 }
 
-void Tilemap::setTileFromWorldPosition(float x, float y, Tile const& tile) {
+void Tilemap::setTileFromWorldPosition(float x, float y, int spriteId, bool wall) {
     // Convert x, y to row, pos
     int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
     int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
     if (row < 0 || row >= height || col < 0 || col >= width)
         return;
-    setTile(row, col, tile);
+    setTile(row, col, spriteId, wall);
+}
+
+Tile const& Tilemap::getTile(int row, int col) const {
+    if (row < 0 || row >= height || col < 0 || col >= width) {
+        throw std::runtime_error("Tilemap::getTile: Coordinates out of bounds: row, col = " + std::to_string(row) + ", " + std::to_string(col));
+    }
+    int i = row * width + col;
+    return tiles[i];
+}
+
+Tile const& Tilemap::getTileFromWorldPosition(float x, float y) const {
+    // Convert x, y to row, pos
+    int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
+    int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
+    if (row < 0 || row >= height || col < 0 || col >= width) {}
+        return Tile(); // Return the empty tile.
+    return getTile(row, col);
 }
 
 void Tilemap::render(Shader const& shader) const {

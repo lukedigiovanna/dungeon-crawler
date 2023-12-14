@@ -52,22 +52,46 @@ void Collider::update(float dt) {
     if (scene->hasTilemap()) {
         Tilemap& tilemap = scene->getTilemap();
         float scale = tilemap.getScale();
-        std::vector<math::Polygon> const& walls = tilemap.getWallPolygons();
-        for (auto wall : walls) {
-            math::SATResult result = checkCollision_SAT(polygon, wall);
-            if (result.collided) {
-                // std::cout << transform.position.x << "\n";
-                math::vec2 cd = (transform.position - wall.center).normalized();
-                math::vec2 d = result.overlapAxis;
-                if (math::dot(cd, d) < 0) d *= -1;
-                math::vec2 correction = d * result.overlap;
-                obj->transform.position += correction;
-                // if (obj->hasComponent<Physics>()) {
-                //     std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
-                //     physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
-                // }
-                regeneratePolygon();
+        math::Rectangle rect = math::getBoundingRectangle(polygon);
+        for (float y = rect.y; y < rect.y + rect.height; y += scale) {
+            for (float x = rect.x; x < rect.x + rect.width; x += scale) {
+                Tile const& tile = tilemap.getTileFromWorldPosition(x, y);
+                if (tile.wall) {
+                    math::Polygon const& wall = tile.getWallPolygon();
+                    math::SATResult result = checkCollision_SAT(polygon, wall);
+                    if (result.collided) {
+                        math::vec2 cd = (transform.position - wall.center).normalized();
+                        math::vec2 d = result.overlapAxis;
+                        if (math::dot(cd, d) < 0) d *= -1;
+                        math::vec2 correction = d * result.overlap;
+                        obj->transform.position += correction;
+                        if (obj->hasComponent<Physics>()) {
+                            std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
+                            physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
+                        }
+                        regeneratePolygon();
+                    }
+                }
             }
         }
+        // From the polygon, generate a bounding box of the polygon
+
+        // std::vector<math::Polygon> const& walls = tilemap.getWallPolygons();
+        // for (auto wall : walls) {
+        //     math::SATResult result = checkCollision_SAT(polygon, wall);
+        //     if (result.collided) {
+        //         // std::cout << transform.position.x << "\n";
+        //         math::vec2 cd = (transform.position - wall.center).normalized();
+        //         math::vec2 d = result.overlapAxis;
+        //         if (math::dot(cd, d) < 0) d *= -1;
+        //         math::vec2 correction = d * result.overlap;
+        //         obj->transform.position += correction;
+        //         if (obj->hasComponent<Physics>()) {
+        //             std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
+        //             physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
+        //         }
+        //         regeneratePolygon();
+        //     }
+        // }
     }
 }

@@ -60,6 +60,18 @@ bool math::LineSegment::onSegment(vec2 const& point) const {
     return point.x >= lx && point.x <= rx && point.y >= by && point.y <= ty;
 }
 
+math::Rectangle math::getBoundingRectangle(math::Polygon const& p) {
+    math::vec2 min = p.points[0];
+    math::vec2 max = p.points[0];
+    for (math::vec2 const& point : p.points) {
+        min.x = std::min(min.x, point.x);
+        min.y = std::min(min.y, point.y);
+        max.x = std::max(max.x, point.x);
+        max.y = std::max(max.y, point.y);
+    }
+    return {min.x, min.y, max.x - min.x, max.y - min.y};
+}
+
 std::vector<math::vec2> math::getAxes(math::Polygon const& p) {
     std::vector<math::vec2> axes;
     int k = p.points.size() > 2 ? p.points.size() : 1;
