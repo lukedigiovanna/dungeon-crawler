@@ -26,6 +26,7 @@ public:
 struct Chunk {
     bool isDirty;
     Framebuffer fb;
+    std::vector<math::Wall> occludingWalls;
 };
 
 class Scene; // forward declare
@@ -39,8 +40,6 @@ private:
     std::unique_ptr<Tile[]> tiles;
     std::unique_ptr<Chunk[]> chunks;
     
-    std::vector<math::Polygon> walls;
-    
     std::weak_ptr<Scene> scene;
 public:
     Tilemap(int width, int height, float scale);
@@ -50,8 +49,9 @@ public:
 
     float getScale() const;
 
-    void recomputeWallPolygons();
-    std::vector<math::Polygon> const& getWallPolygons() const;
+    void recomputeOccludingWalls();
+    void recomputeOccludingWalls(int chunkRow, int chunkColumn);
+    std::vector<math::Wall> const& getOccludingWalls(int chunkRow, int chunkColumn) const;
 
     void setTile(int row, int col, int spriteId, bool wall);
     void setTileFromWorldPosition(float x, float y, int spriteId, bool wall);
@@ -59,5 +59,12 @@ public:
     Tile const& getTile(int row, int col) const;
     Tile const& getTileFromWorldPosition(float x, float y) const; 
 
-    void render(Shader const& shader) const;
+    int getTileRow(float worldY) const;
+    int getTileColumn(float worldX) const;
+    int getChunkRow(float worldY) const;
+    int getChunkColumn(float worldX) const;
+    float getWorldY(int tileRow) const;
+    float getWorldX(int tileColumn) const;
+
+    void render(Shader const& shader, math::Rectangle const& viewport) const;
 };

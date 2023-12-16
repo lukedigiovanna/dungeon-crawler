@@ -139,6 +139,10 @@ private:
     bool onSegment(vec2 const& point) const;
 };
 
+struct Wall: public LineSegment {
+    vec2 normal;
+};
+
 struct Polygon {
     std::vector<vec2> points;
     vec2 center;

@@ -56,35 +56,42 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
         Shader& lightingShader = scene->getManagers()->shaderManager->getShader("_lighting");
         lightingShader.use();
         lightingShader.setMatrix4("projection", projection);
+        
+        Tilemap& tilemap = scene->getTilemap();
+
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glBindVertexArray(vao);
 
-        auto polygons = scene->getTilemap().getWallPolygons();
-        for (auto & polygon : polygons) {
-            math::vec2 dir = obj->transform.position - polygon.center;
-            for (size_t i = 0; i < polygon.points.size(); i++) {
-                math::vec2 ep1 = polygon.points[i], ep2 = polygon.points[(i + 1) % polygon.points.size()];
-                math::vec2 vec = ep2 - ep1;
-                math::vec2 norm = {-vec.y, vec.x};
-                if (math::dot(norm, ep2 - polygon.center) > 0) 
-                    norm *= -1;
-                if (math::dot(norm, dir) < 0) 
-                    continue;
-                math::vec2 dir1 = (ep1 - obj->transform.position).normalized() * 30, 
-                           dir2 = (ep2 - obj->transform.position).normalized() * 30;
-                float vertices[12] = {
-                    ep1.x, ep1.y,
-                    ep2.x, ep2.y,
-                    ep1.x + dir1.x, ep1.y + dir1.y,
+        int chunkRow = tilemap.getChunkRow(obj->transform.position.y);
+        int chunkColumn = tilemap.getChunkColumn(obj->transform.position.x);
+        int radius = 1;
+        for (int dr = -radius; dr <= radius; dr++) {
+            for (int dc = -radius; dc <= radius; dc++) {
+                auto walls = scene->getTilemap().getOccludingWalls(chunkRow + dr, chunkColumn + dc);
+        
+                for (auto & wall : walls) {
+                    math::vec2 ep1 = wall.ep1;
+                    math::vec2 ep2 = wall.ep2;
+                    math::vec2 dir = obj->transform.position - ep1;
+                    if (math::dot(wall.normal, dir) < 0) 
+                        continue;
+                    math::vec2 dir1 = (ep1 - obj->transform.position).normalized() * 30, 
+                                dir2 = (ep2 - obj->transform.position).normalized() * 30;
+                    float vertices[12] = {
+                        ep1.x, ep1.y,
+                        ep2.x, ep2.y,
+                        ep1.x + dir1.x, ep1.y + dir1.y,
 
-                    ep1.x + dir1.x, ep1.y + dir1.y,
-                    ep2.x, ep2.y,
-                    ep2.x + dir2.x, ep2.y + dir2.y,
-                };
-                // glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 12, vertices);
-                // glDrawArrays(GL_TRIANGLES, 0, 6);
+                        ep1.x + dir1.x, ep1.y + dir1.y,
+                        ep2.x, ep2.y,
+                        ep2.x + dir2.x, ep2.y + dir2.y,
+                    };
+                    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 12, vertices);
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+                }
             }
         }
+        
 
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);

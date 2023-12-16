@@ -76,57 +76,53 @@ float Tilemap::getScale() const {
 }
 
 #include <iostream>
-void Tilemap::recomputeWallPolygons() {
-    walls.clear();
-    auto seen = std::make_unique<bool[]>(width * height);
-    // std::fill_n(seen.get(), width * height, false);
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            int ii = i * width + j;
-            if (!tiles[ii].wall || seen[ii])
-                continue;
-
-            // execute a BFS to discover the entire wall section
-            // std::vector<int> wall;
-            // std::queue<int> q;
-            // q.push(ii);
-            // static std::array<std::pair<int, int>, 4> dirs{{
-            //     {1, 0}, {-1, 0}, {0, 1}, {0, -1}
-            // }};
-            // while (q.size() > 0) {
-            //     int ind = q.front();
-            //     q.pop();
-            //     wall.push_back(ind);
-            //     int tj = ind % width, ti = ind / width;
-            //     for (auto & dir : dirs) {
-            //         int ni = ti + dir.first, nj = tj + dir.second;
-            //         if (ni < 0 || ni >= height || nj < 0 || nj >= width)
-            //             continue;
-            //         int nii = ni * width + nj;
-            //         if (!tiles[nii].wall || seen[nii]) 
-            //             continue;
-            //         seen[nii] = true;
-            //         q.push(nii);
-            //     }
-            // }
-
-            float x = static_cast<float>(j) / width * worldWidth - worldWidth / 2.0f;
-            float y = worldHeight / 2.0f - static_cast<float>(i) / height * worldHeight;
-            std::array<math::vec2, 4> corners{{
-                {x, y}, {x + scale, y}, {x + scale, y - scale}, {x, y - scale}
-            }};
-            for (size_t i = 0; i < 4; i++) {
-                math::Polygon p;
-                p.points = std::vector<math::vec2>{corners[i], corners[(i + 1) % 4]};
-                p.center = {x + scale / 2.0f, y - scale / 2.0f};
-                walls.push_back(p);
+void Tilemap::recomputeOccludingWalls(int chunkRow, int chunkColumn) {
+    if (chunkRow < 0 || chunkRow >= nChunksHeight || chunkColumn < 0 || chunkColumn >= nChunksWidth) {
+        throw std::runtime_error("Tilemap::recomputeOccludingWalls: Chunk index out of bounds: " + std::to_string(chunkRow) + ", " + std::to_string(chunkColumn));
+    }
+    int cii = chunkRow * nChunksWidth + chunkColumn;
+    Chunk& chunk = chunks[cii];
+    chunk.occludingWalls.clear();
+    for (int ti = 0; ti < CHUNK_SIZE; ti++) {
+        for (int tj = 0; tj < CHUNK_SIZE; tj++) {
+            int tii = chunkRow * CHUNK_SIZE + ti;
+            int tjj = chunkColumn * CHUNK_SIZE + tj;
+            int ii = tii * width + tjj;
+            Tile& tile = tiles[ii];
+            if (tile.wall) {
+                math::Polygon const& poly = tile.getWallPolygon();
+                for (size_t i = 0; i < 4; i++) {
+                    math::Wall wall;
+                    wall.ep1 = poly.points[i];
+                    wall.ep2 = poly.points[(i + 1) % 4];
+                    math::vec2 diff = wall.ep1 - wall.ep2;
+                    math::vec2 norm = { -diff.y, diff.x };
+                    if (math::dot(norm, wall.ep1 - poly.center) < 0) {
+                        norm = norm * -1;
+                    }
+                    wall.normal = norm;
+                    chunk.occludingWalls.push_back(wall);
+                }
             }
         }
     }
 }
 
-std::vector<math::Polygon> const& Tilemap::getWallPolygons() const {
-    return walls;
+void Tilemap::recomputeOccludingWalls() {
+    for (int ci = 0; ci < nChunksHeight; ci++) {
+        for (int cj = 0; cj < nChunksWidth; cj++) {
+            recomputeOccludingWalls(ci, cj);
+        }
+    }
+}
+
+std::vector<math::Wall> EMPTY_WALLS;
+std::vector<math::Wall> const& Tilemap::getOccludingWalls(int chunkRow, int chunkColumn) const {
+    if (chunkRow < 0 || chunkRow >= nChunksHeight || chunkColumn < 0 || chunkColumn >= nChunksWidth) {
+        return EMPTY_WALLS;
+    }
+    int cii = chunkRow * nChunksWidth + chunkColumn;
+    return chunks[cii].occludingWalls;
 }
 
 void Tilemap::setTile(int row, int col, int spriteId, bool wall) {
@@ -162,15 +158,49 @@ Tile const& Tilemap::getTile(int row, int col) const {
 
 Tile const& Tilemap::getTileFromWorldPosition(float x, float y) const {
     // Convert x, y to row, pos
-    int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
-    int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
-    if (row < 0 || row >= height || col < 0 || col >= width) {
+    int row = getTileRow(y);
+    int col = getTileColumn(x);
+    if (row == -1 || col == -1) {
         return EMPTY_TILE; // Return the empty tile.
     }
     return getTile(row, col);
 }
 
-void Tilemap::render(Shader const& shader) const {
+int Tilemap::getTileRow(float worldY) const {
+    int row = static_cast<int>((worldHeight / 2.0f - worldY) / worldHeight * height);
+    if (row < 0 || row >= height) {
+        return -1;
+    }
+    return row;
+}
+
+int Tilemap::getTileColumn(float worldX) const { 
+    int col = static_cast<int>((worldX + worldWidth / 2.0f) / worldWidth * width);
+    if (col < 0 || col >= width) {
+        return -1;
+    }
+    return col;
+}
+
+int Tilemap::getChunkRow(float worldY) const {
+    int tileRow = getTileRow(worldY);
+    return tileRow == -1 ? tileRow : tileRow / CHUNK_SIZE;
+}
+
+int Tilemap::getChunkColumn(float worldX) const {
+    int tileColumn = getTileColumn(worldX);
+    return tileColumn == -1 ? tileColumn : tileColumn / CHUNK_SIZE;
+}
+
+float Tilemap::getWorldY(int tileRow) const {
+    return worldHeight / 2.0f - static_cast<float>(tileRow) / height * worldHeight;
+}
+
+float Tilemap::getWorldX(int tileColumn) const {
+   return  static_cast<float>(tileColumn) / width * worldWidth - worldWidth / 2.0f;
+}
+
+void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) const {
     std::shared_ptr<SpriteManager> spriteManager = getScene()->getManagers()->spriteManager;
     std::shared_ptr<ShaderManager> shaderManager = getScene()->getManagers()->shaderManager;
     Shader& tmShader = shaderManager->getShader("_tm_chunk");
@@ -178,8 +208,15 @@ void Tilemap::render(Shader const& shader) const {
     GLint currentViewport[4];
     glGetIntegerv(GL_VIEWPORT, currentViewport);
 
-    for (int i = 0; i < nChunksHeight; i++) {
-        for (int j = 0; j < nChunksWidth; j++) {
+    int startColumn = getChunkColumn(viewport.x);
+    int startRow = getChunkRow(viewport.y);
+    int endColumn = getChunkColumn(viewport.x + viewport.width);
+    endColumn = endColumn == -1 ? nChunksWidth - 1 : endColumn;
+    int endRow = getChunkRow(viewport.y - viewport.height);
+    endRow = endRow == -1 ? nChunksHeight - 1 : endRow;
+    
+    for (int i = startRow; i <= endRow; i++) {
+        for (int j = startColumn; j <= endColumn; j++) {
             int ci = i * nChunksWidth + j;
             Chunk& chunk = chunks[ci];
             if (chunk.isDirty) {

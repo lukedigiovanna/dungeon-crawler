@@ -58,6 +58,12 @@ void Camera::render(Window* window) {
           cameraBottomWorldY = obj->transform.position.y - worldHeight / 2.0f,
           cameraTopWorldY = obj->transform.position.y + worldHeight / 2.0f;
 
+    math::Rectangle viewport = {
+        cameraLeftWorldX, cameraTopWorldY,
+        cameraRightWorldX - cameraLeftWorldX,
+        cameraTopWorldY - cameraBottomWorldY
+    };
+
     glm::mat4 proj = glm::ortho(cameraLeftWorldX, cameraRightWorldX, cameraBottomWorldY, cameraTopWorldY);
     glm::vec3 thisPos = glm::vec3(obj->transform.position.x, obj->transform.position.y, -1.0f);
     // glm::mat4 view = glm::lookAt(thisPos, thisPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0));
@@ -90,7 +96,7 @@ void Camera::render(Window* window) {
     shader.setInt("numLights", lightIndex);
 
     if (scene->hasTilemap()) {
-        scene->getTilemap().render(shader);
+        scene->getTilemap().render(shader, viewport);
     }
 
     for (auto gameObject : gameObjects) {

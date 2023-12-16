@@ -24,7 +24,7 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
     cat->setRendererComponent(
         std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816), color)
     );
-    // cat->addComponent(std::make_shared<LightSource>(gfx::color{0.9f, 0.9f, 1.0f}, 0.25f));
+    cat->addComponent(std::make_shared<LightSource>(gfx::color{0.9f, 0.9f, 1.0f}, 0.25f));
     cat->addComponent(std::make_shared<Lifetime>(math::random(5.0f, 8.0f)));
     cat->addComponent(std::make_shared<Collider>());
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
