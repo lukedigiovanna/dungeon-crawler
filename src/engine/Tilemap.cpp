@@ -76,6 +76,19 @@ float Tilemap::getScale() const {
 }
 
 #include <iostream>
+void addWallToChunk(Chunk& chunk, const math::vec2 ep1, const math::vec2 ep2, const math::vec2& center) {
+    math::Wall wall;
+    wall.ep1 = ep1;
+    wall.ep2 = ep2;
+    math::vec2 diff = wall.ep1 - wall.ep2;
+    math::vec2 norm = { -diff.y, diff.x };
+    if (math::dot(norm, wall.ep1 - center) < 0) {
+        norm = norm * -1;
+    }
+    wall.normal = norm;
+    chunk.occludingWalls.push_back(wall);
+}
+
 void Tilemap::recomputeOccludingWalls(int chunkRow, int chunkColumn) {
     if (chunkRow < 0 || chunkRow >= nChunksHeight || chunkColumn < 0 || chunkColumn >= nChunksWidth) {
         throw std::runtime_error("Tilemap::recomputeOccludingWalls: Chunk index out of bounds: " + std::to_string(chunkRow) + ", " + std::to_string(chunkColumn));
@@ -89,21 +102,47 @@ void Tilemap::recomputeOccludingWalls(int chunkRow, int chunkColumn) {
             int tjj = chunkColumn * CHUNK_SIZE + tj;
             int ii = tii * width + tjj;
             Tile& tile = tiles[ii];
-            if (tile.wall) {
-                math::Polygon const& poly = tile.getWallPolygon();
-                for (size_t i = 0; i < 4; i++) {
-                    math::Wall wall;
-                    wall.ep1 = poly.points[i];
-                    wall.ep2 = poly.points[(i + 1) % 4];
-                    math::vec2 diff = wall.ep1 - wall.ep2;
-                    math::vec2 norm = { -diff.y, diff.x };
-                    if (math::dot(norm, wall.ep1 - poly.center) < 0) {
-                        norm = norm * -1;
-                    }
-                    wall.normal = norm;
-                    chunk.occludingWalls.push_back(wall);
-                }
+            if (!tile.wall) 
+                continue;
+
+            float wx = getWorldX(tjj);
+            float wy = getWorldY(tii);
+            math::vec2 center = tile.getWallPolygon().center;
+            // 4 cases:
+            // Follow top wall
+            // if (tii == 0 || !tiles[ii - width].wall) {
+            //     int c = tii + 1;
+            //     while (c - tii <)
+            // }
+            
+            if (tii > 0 && !tiles[ii - width].wall) {
+                addWallToChunk(chunk, { wx, wy }, { wx + scale, wy }, center);
             }
+            if (tii < height - 1 && !tiles[ii + width].wall) {
+                addWallToChunk(chunk, { wx, wy - scale }, { wx + scale, wy - scale }, center);
+            }
+            if (tjj > 0 && !tiles[ii - 1].wall) {
+                addWallToChunk(chunk, { wx, wy }, { wx, wy - scale }, center);
+            }
+            if (tjj < width - 1 && !tiles[ii + 1].wall) {
+                addWallToChunk(chunk, { wx + scale, wy }, { wx + scale, wy - scale }, center);
+            }
+
+            // if (tile.wall) {
+            //     math::Polygon const& poly = tile.getWallPolygon();
+            //     for (size_t i = 0; i < 4; i++) {
+            //         math::Wall wall;
+            //         wall.ep1 = poly.points[i];
+            //         wall.ep2 = poly.points[(i + 1) % 4];
+            //         math::vec2 diff = wall.ep1 - wall.ep2;
+            //         math::vec2 norm = { -diff.y, diff.x };
+            //         if (math::dot(norm, wall.ep1 - poly.center) < 0) {
+            //             norm = norm * -1;
+            //         }
+            //         wall.normal = norm;
+            //         chunk.occludingWalls.push_back(wall);
+            //     }
+            // }
         }
     }
 }
