@@ -243,9 +243,6 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
     std::shared_ptr<SpriteManager> spriteManager = getScene()->getManagers()->spriteManager;
     std::shared_ptr<ShaderManager> shaderManager = getScene()->getManagers()->shaderManager;
     Shader& tmShader = shaderManager->getShader("_tm_chunk");
-    
-    GLint currentViewport[4];
-    glGetIntegerv(GL_VIEWPORT, currentViewport);
 
     int startColumn = getChunkColumn(viewport.x);
     int startRow = getChunkRow(viewport.y);
@@ -262,7 +259,6 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
                 // Update this chunk's frame buffer
                 chunk.fb.bindBuffer();
                 tmShader.use();
-                glViewport(0, 0, CHUNK_BUFFER_SIZE, CHUNK_BUFFER_SIZE);
                 glClearColor(0.0f, 0.0f, 0.0f, 0.0f); 
                 glClear(GL_COLOR_BUFFER_BIT);
                 for (int ii = 0; ii < CHUNK_SIZE; ii++) {
@@ -288,8 +284,7 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
             }
             // render the chunk to the world
             shader.use();
-            glViewport(currentViewport[0], currentViewport[1], currentViewport[2], currentViewport[3]);
-
+            
             float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * worldHeight - worldHeight / 2.0f + CHUNK_SIZE * scale / 2.0f; 
             float x = static_cast<float>(j) / nChunksWidth * worldWidth - worldWidth / 2.0f + CHUNK_SIZE * scale / 2.0f; 
             glm::mat4 trans(1.0f);

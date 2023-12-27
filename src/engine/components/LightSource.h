@@ -11,11 +11,11 @@ private:
     static unsigned int vbo;
     static unsigned int vao;
     static bool initialized;
-    Framebuffer shadowFBO;
 public:
+    Framebuffer shadowFBO;
     gfx::color color;
     float luminance;
-    LightSource(gfx::color const& color, float luminance);
+    LightSource(const gfx::color& color, float luminance);
 
     void set(Shader const& shader, int index, glm::mat4 const& projection) const;
 

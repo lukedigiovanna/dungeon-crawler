@@ -8,6 +8,7 @@ class Framebuffer {
 private:
     unsigned int fbo;
     unsigned int texture;
+    GLsizei width, height;
 public:
     Framebuffer(GLsizei width, GLsizei height);
     Framebuffer();

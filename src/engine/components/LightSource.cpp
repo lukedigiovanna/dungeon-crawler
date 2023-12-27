@@ -10,7 +10,9 @@ unsigned int LightSource::vbo = 0;
 unsigned int LightSource::vao = 0;
 bool LightSource::initialized = false;
 
-#define SHADOW_MAP_SIZE 2048
+#define SHADOW_MAP_SIZE 1024
+
+#define MAX_NUM_SHADOWS 500
 
 void LightSource::initializeVertexObject() {
     glGenVertexArrays(1, &vao);
@@ -19,8 +21,8 @@ void LightSource::initializeVertexObject() {
     glBindVertexArray(vao);
     
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    float data[12];
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, data, GL_DYNAMIC_DRAW);
+    float data[12 * MAX_NUM_SHADOWS];
+    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * (12 * MAX_NUM_SHADOWS), data, GL_DYNAMIC_DRAW);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*) 0);
     glEnableVertexAttribArray(0);
@@ -45,11 +47,8 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     shader.setVec3(("lights[" + std::to_string(index) + "].color").c_str(), color.r, color.g, color.b);
     shader.setVec2(("lights[" + std::to_string(index) + "].position").c_str(), obj->transform.position.x, obj->transform.position.y);
 
-    GLint currentViewport[4];
-    glGetIntegerv(GL_VIEWPORT, currentViewport);
-
     shadowFBO.bindBuffer();
-    glViewport(0, 0, SHADOW_MAP_SIZE, SHADOW_MAP_SIZE);
+    
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
     if (scene->hasTilemap()) {
@@ -59,12 +58,11 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
         
         Tilemap& tilemap = scene->getTilemap();
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBindVertexArray(vao);
-
         int chunkRow = tilemap.getChunkRow(obj->transform.position.y);
         int chunkColumn = tilemap.getChunkColumn(obj->transform.position.x);
         int radius = 1;
+        float shadowMeshData[12 * MAX_NUM_SHADOWS];
+        int shadowIndex = 0;
         for (int dr = -radius; dr <= radius; dr++) {
             for (int dc = -radius; dc <= radius; dc++) {
                 auto walls = scene->getTilemap().getOccludingWalls(chunkRow + dr, chunkColumn + dc);
@@ -86,12 +84,25 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
                         ep2.x, ep2.y,
                         ep2.x + dir2.x, ep2.y + dir2.y,
                     };
-                    glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 12, vertices);
-                    glDrawArrays(GL_TRIANGLES, 0, 6);
+                    for (size_t i = 0; i < 12; i++) {
+                        shadowMeshData[shadowIndex * 12 + i] = vertices[i];
+                    }
+                    shadowIndex++;
+
+                    if (shadowIndex >= MAX_NUM_SHADOWS) {
+                        goto render;
+                    }
                 }
             }
         }
-        
+    
+render:
+
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBindVertexArray(vao);
+
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * (12 * shadowIndex), shadowMeshData);
+        glDrawArrays(GL_TRIANGLES, 0, 6 * shadowIndex);
 
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -99,7 +110,6 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     shadowFBO.unbindBuffer();
 
     shader.use();   
-    glViewport(currentViewport[0], currentViewport[1], currentViewport[2], currentViewport[3]);
 
     glActiveTexture(GL_TEXTURE1 + index);
     glBindTexture(GL_TEXTURE_2D, shadowFBO.getTexture());
