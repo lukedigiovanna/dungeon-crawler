@@ -6,6 +6,7 @@
 #include "managers/SpriteManager.h"
 #include "managers/InputManager.h"
 #include "managers/AnimationManager.h"
+#include "utils/Font.h"
 
 #include <memory>
 #include <thread>

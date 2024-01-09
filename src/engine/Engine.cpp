@@ -4,7 +4,6 @@
 #include "components/Camera.h"
 #include "components/ComponentOrder.h"
 #include "utils/meshes.h"
-#include "utils/Font.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -57,7 +56,7 @@ Engine::Engine(std::string gameName) {
 
     managers->shaderManager->loadShader(
         "_text",
-        "assets/shaders/text_vs.glsl", "assets/shaders/text-fs.glsl"
+        "assets/shaders/text_vs.glsl", "assets/shaders/text_fs.glsl"
     );
 
     scene = nullptr;
@@ -92,6 +91,9 @@ void Engine::renderLoop() {
 
         this->scene->update(dt);
         scene->render(window.get());
+
+        Shader& textShader = managers->shaderManager->getShader("_text");
+        font->renderText(textShader, "you have small penis syndrome and it is quite unfortunate!", 50, 50, 1);
 
         SDL_GL_SwapWindow(window->window);
 

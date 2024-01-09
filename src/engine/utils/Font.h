@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Shader.h"
+
 #include <ft2build.h>
 #include FT_FREETYPE_H   
 
@@ -22,6 +24,11 @@ private:
     std::map<char, Character> characters;
 public:
     static FT_Library ft;
+    static unsigned int vao;
+    static unsigned int vbo;
     static void initFreeType();
+
     Font(const std::string& filepath);
+
+    void renderText(const Shader& shader, const std::string& text, float x, float y, float scale) const;
 };

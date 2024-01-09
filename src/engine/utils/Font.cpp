@@ -1,16 +1,31 @@
 #include "Font.h"
 
 #include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <stdexcept>
 
 FT_Library Font::ft;
+unsigned int Font::vao;
+unsigned int Font::vbo;
 
 void Font::initFreeType() {
     if (FT_Init_FreeType(&ft))
     {
         throw std::runtime_error("initFreeType: Could not init FreeType Library");
     }
+
+    // initialize vao
+    glGenBuffers(1, &vbo);
+    glGenVertexArrays(1, &vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindVertexArray(vao);
+    // 6 vertices with 4 elements each
+    glBufferData(GL_ARRAY_BUFFER, 6 * 4 * sizeof(float), NULL, GL_DYNAMIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*) 0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
 
 Font::Font(const std::string& filepath) {
@@ -51,7 +66,7 @@ Font::Font(const std::string& filepath) {
         // now store character for later use
         Character character = {
             texture, 
-            face->glyph->advance.x,
+            static_cast<unsigned int>(face->glyph->advance.x),
             glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
             glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
         };
@@ -59,4 +74,51 @@ Font::Font(const std::string& filepath) {
     }
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
+}
+
+#include <iostream>
+
+void Font::renderText(const Shader& shader, const std::string& text, float x, float y, float scale) const {
+    shader.use();
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    shader.setMatrix4("projection", projection);
+    shader.setVec3("textColor", 1.0f, 0.0f, 0.0f);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(vao);
+    
+    for (auto c : text) {
+        auto f = characters.find(c);
+        if (f == characters.end()) {
+            throw std::runtime_error("Font::renderText: Unsupported character in string");
+        }
+        Character glyph = f->second;
+
+        float xPos = x + glyph.bearing.x * scale;
+        float yPos = y - (glyph.size.y - glyph.bearing.y) * scale;
+
+        float w = glyph.size.x * scale;
+        float h = glyph.size.y * scale;
+
+        float vertices[24] = {
+            xPos, yPos + h, 0.0f, 0.0f,
+            xPos, yPos, 0.0f, 1.0f,
+            xPos + w, yPos, 1.0f, 1.0f,
+
+            xPos, yPos + h, 0.0f, 0.0f,
+            xPos + w, yPos, 1.0f, 1.0f,
+            xPos + w, yPos + h, 1.0f, 0.0f
+        };
+
+        glBindTexture(GL_TEXTURE_2D, glyph.textureID);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        x += (glyph.advance >> 6) * scale;
+    }
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
