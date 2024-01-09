@@ -10,7 +10,7 @@ unsigned int LightSource::vbo = 0;
 unsigned int LightSource::vao = 0;
 bool LightSource::initialized = false;
 
-#define SHADOW_MAP_SIZE 1024
+#define SHADOW_MAP_SIZE 2048
 
 #define MAX_NUM_SHADOWS 500
 

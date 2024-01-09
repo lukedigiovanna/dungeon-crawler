@@ -6,6 +6,9 @@
 #include <SDL.h>
 #include <glad/glad.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H  
+
 #include <iostream>
 #include <memory>
 #include <array>
@@ -26,6 +29,8 @@ int program() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3); // For example, OpenGL 3.3
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+
 
     ComponentOrder::addDependency<PlayerMovement, Physics>();
     ComponentOrder::addDependency<PlayerMovement, SpriteAnimator>();

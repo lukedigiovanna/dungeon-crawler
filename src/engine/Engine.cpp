@@ -4,6 +4,7 @@
 #include "components/Camera.h"
 #include "components/ComponentOrder.h"
 #include "utils/meshes.h"
+#include "utils/Font.h"
 
 #include <unistd.h>
 #include <iostream>
@@ -23,7 +24,12 @@ Engine::Engine(std::string gameName) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    Font::initFreeType();
+
+    font = std::make_unique<Font>("assets/fonts/arial.ttf");
+
     meshes::init();
+
     ComponentOrder::initializeEngineDependencies();
     ComponentOrder::updatePriorities();
 
@@ -47,6 +53,11 @@ Engine::Engine(std::string gameName) {
     managers->shaderManager->loadShader(
         "_lighting",
         "assets/shaders/light_vs.glsl", "assets/shaders/light_fs.glsl"
+    );
+
+    managers->shaderManager->loadShader(
+        "_text",
+        "assets/shaders/text_vs.glsl", "assets/shaders/text-fs.glsl"
     );
 
     scene = nullptr;

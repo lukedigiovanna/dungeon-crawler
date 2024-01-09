@@ -22,6 +22,8 @@ private:
     std::unique_ptr<std::thread> gameThread;
 
     std::atomic<bool> active;
+
+    std::unique_ptr<Font> font;
 public:
     static const unsigned int TARGET_TPS = 60;
 

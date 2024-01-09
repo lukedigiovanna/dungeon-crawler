@@ -37,6 +37,7 @@ add_executable(dungeon
   src/engine/utils/meshes.cpp
   src/engine/utils/Animation.cpp
   src/engine/utils/Framebuffer.cpp
+  src/engine/utils/Font.cpp
   src/engine/utils/Graphics.cpp
   src/engine/utils/Math.cpp
   src/engine/utils/Mesh.cpp
@@ -57,6 +58,7 @@ file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
 if (WIN32)
   target_link_libraries(dungeon PRIVATE 
     "${CMAKE_SOURCE_DIR}/dependencies/lib/libSDL2.a"
+    freetype
     imm32
     version
     setupapi
