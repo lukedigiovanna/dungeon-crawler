@@ -1,6 +1,7 @@
 #include "Spawner.h"
 
 #include "../../engine/Scene.h"
+#include "../../engine/Engine.h"
 #include "../../engine/components/SpriteAnimator.h"
 #include "../../engine/components/Physics.h"
 #include "../../engine/utils/Graphics.h"
@@ -14,7 +15,7 @@
 
 void Spawner::update(float dt) {
     std::shared_ptr<GameObject> obj = this->getGameObject();
-    std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
+    std::shared_ptr<InputManager> input = Engine::getSingleton()->getManagers()->inputManager;
     std::shared_ptr<Scene> scene = obj->getScene();    
     std::shared_ptr<Camera> cam = scene->getCamera();
 

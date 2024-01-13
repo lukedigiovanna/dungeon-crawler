@@ -2,6 +2,7 @@
 
 #include "../GameObject.h"
 #include "../Scene.h"
+#include "../Engine.h"
 #include "../utils/meshes.h"
 
 #include <string>
@@ -52,7 +53,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
     if (scene->hasTilemap()) {
-        Shader& lightingShader = scene->getManagers()->shaderManager->getShader("_lighting");
+        Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
         lightingShader.use();
         lightingShader.setMatrix4("projection", projection);
         

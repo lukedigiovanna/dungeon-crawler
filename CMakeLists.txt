@@ -33,6 +33,8 @@ add_executable(dungeon
   src/engine/managers/InputManager.cpp
   src/engine/managers/ShaderManager.cpp
   src/engine/managers/SpriteManager.cpp
+  src/engine/managers/SceneManager.cpp
+  src/engine/managers/Managers.cpp
   src/engine/utils/io.cpp
   src/engine/utils/meshes.cpp
   src/engine/utils/Animation.cpp
@@ -76,11 +78,13 @@ else()
   target_link_libraries(
     dungeon PRIVATE
     /Library/Frameworks/SDL2.framework/Versions/A/SDL2
+    freetype
   )
 
   target_include_directories(
     dungeon PRIVATE
     /Library/Frameworks/SDL2.framework/Versions/A/Headers
+    /opt/homebrew/Cellar/freetype/2.13.2/include/freetype2
     dependencies/include
   )
 endif()

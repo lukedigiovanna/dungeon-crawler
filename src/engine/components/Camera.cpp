@@ -2,6 +2,7 @@
 #include "Lifetime.h"
 #include "LightSource.h"
 #include "../Scene.h"
+#include "../Engine.h"
 #include "../utils/Shader.h"
 #include "../utils/meshes.h"
 
@@ -72,8 +73,8 @@ void Camera::render(Window* window) {
 
     glm::mat4 view(1.0f);
 
-    Shader& shader = scene->getManagers()->shaderManager->getShader("_scene");
-    
+    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_scene");
+
     shader.use();
 
     shader.setVec2("screenSize", window->width(), window->height());

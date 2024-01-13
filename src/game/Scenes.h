@@ -4,6 +4,7 @@
 
 namespace scenes {
 class SampleScene: public Scene {
-    void init();
+protected:
+    void setup() override;
 };
 }

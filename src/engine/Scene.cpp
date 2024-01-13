@@ -2,9 +2,11 @@
 #include "components/Lifetime.h"
 #include "utils/meshes.h"
 
-#include <glad/glad.h>
 #include <iostream>
+#include <typeinfo>
 #include <algorithm>
+
+#include <glad/glad.h>
 
 Scene::Scene() {
     // Do not construct any part of the scene prior to full construction of a scene
@@ -15,9 +17,17 @@ Scene::Scene() {
 void Scene::init() {
     // Every scene requires a camera on initialization
     std::shared_ptr<GameObject> cameraObj = std::make_shared<GameObject>();
-    this->camera = std::make_shared<Camera>();
+    camera = std::make_shared<Camera>();
     cameraObj->addComponent(camera);
-    this->addGameObject(cameraObj);
+    addGameObject(cameraObj);
+
+    setup();
+
+    initialized = true;
+}
+
+void Scene::setup() {
+    
 }
 
 bool Scene::hasTilemap() const {
@@ -36,22 +46,14 @@ Tilemap& Scene::getTilemap() const {
     return *tilemap;
 }
 
-void Scene::setManagers(std::shared_ptr<Managers> managers) {
-    this->managers = managers;
-}
-
-std::shared_ptr<Managers> Scene::getManagers() const {
-    return managers;
-}
-
 void Scene::update(float dt) {
     // Manage addGameObject queue
-    for (auto gameObject : this->addGameObjectQueue) {
+    for (auto gameObject : addGameObjectQueue) {
         gameObject->setScene(shared_from_this());
-        this->gameObjects.push_back(gameObject);
+        gameObjects.push_back(gameObject);
     }
 
-    for (auto gameObject : this->addGameObjectQueue) {
+    for (auto gameObject : addGameObjectQueue) {
         gameObject->init();
     }
 

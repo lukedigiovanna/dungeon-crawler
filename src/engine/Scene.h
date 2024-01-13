@@ -13,6 +13,8 @@
 // All instances of a scene must be managed by a shared_ptr
 class Scene: public std::enable_shared_from_this<Scene> {
 private:
+    bool initialized = false;
+
     std::shared_ptr<Camera> camera;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
 
@@ -20,15 +22,13 @@ private:
     std::vector<std::shared_ptr<GameObject>> destroyGameObjectQueue;
 
     std::unique_ptr<Tilemap> tilemap;
+protected:
+    virtual void setup();
 
-    std::shared_ptr<Managers> managers;
 public:
     Scene();
-
-    virtual void init();
-
-    void setManagers(std::shared_ptr<Managers> managers);
-    std::shared_ptr<Managers> getManagers() const;
+    
+    void init();
 
     bool hasTilemap() const;
     void setTilemap(std::unique_ptr<Tilemap> tilemap);
@@ -39,6 +39,10 @@ public:
     std::vector<std::shared_ptr<GameObject>> const& getGameObjects() const; 
 
     std::shared_ptr<Camera> getCamera() const;
+
+    inline bool isInitialized() const {
+        return initialized;
+    }
 
     void render(Window* window) const;
     void update(float dt);

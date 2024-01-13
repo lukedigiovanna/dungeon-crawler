@@ -14,6 +14,7 @@
 
 class Engine {
 private:
+    static std::unique_ptr<Engine> singleton;
     // Managers
     std::shared_ptr<Managers> managers;
 
@@ -25,14 +26,18 @@ private:
     std::atomic<bool> active;
 
     std::unique_ptr<Font> font;
+
+    void checkForNewScene();
 public:
     static const unsigned int TARGET_TPS = 60;
+    
+    static Engine* getSingleton();
 
-    Engine(std::string gameName);
+    static void initializeSingleton(std::string const& gameName);
+
+    Engine(std::string const& gameName);
 
     std::shared_ptr<Managers> getManagers() const;
-
-    void loadScene(std::shared_ptr<Scene> scene);
 
     // Initiates a render thread and a logic thread
     void run();
