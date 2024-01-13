@@ -57,6 +57,10 @@ void PlayerMovement::update(float dt) {
     if (input->isKeyDown(SDLK_q)) {
         physics->angularVelocity -= 180;
     }
+
+    if (input->isKeyPressed(SDLK_ESCAPE)) {
+        Engine::getSingleton()->getManagers()->sceneManager->loadScene("main_menu");
+    }
     
 
     // if (physics->velocity.x < 0)

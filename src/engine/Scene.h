@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Window.h"
 #include "Tilemap.h"
+#include "utils/Light.h"
 #include "components/Camera.h"
 #include "managers/Managers.h"
 
@@ -22,6 +23,8 @@ private:
     std::vector<std::shared_ptr<GameObject>> destroyGameObjectQueue;
 
     std::unique_ptr<Tilemap> tilemap;
+
+    Light ambientLight;
 protected:
     virtual void setup();
 
@@ -39,6 +42,14 @@ public:
     std::vector<std::shared_ptr<GameObject>> const& getGameObjects() const; 
 
     std::shared_ptr<Camera> getCamera() const;
+
+    void setAmbientLight(float luminance, gfx::color const& color);
+    void setAmbientLightLuminance(float luminance);
+    void setAmbientLightColor(gfx::color const& color);
+
+    inline Light const& getAmbientLight() const {
+        return ambientLight;
+    }
 
     inline bool isInitialized() const {
         return initialized;

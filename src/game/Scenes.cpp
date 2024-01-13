@@ -4,6 +4,8 @@
 #include "../engine/components/SpriteAnimator.h"
 #include "../engine/components/renderers/SpriteRenderer.h"
 
+#include "components/EnterListener.h"
+
 #include "prefabs.h"
 
 #include <iostream>
@@ -32,6 +34,14 @@ void scenes::SampleScene::setup() {
     // }
     tilemap->recomputeOccludingWalls();
     setTilemap(std::move(tilemap));
-    
-    this->addGameObject(prefabs::playerPrefab());
+
+    addGameObject(prefabs::playerPrefab());
+}
+
+void scenes::MainMenuScene::setup() {
+    std::shared_ptr<GameObject> background = std::make_shared<GameObject>();
+    background->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft0"));
+    background->transform.scale = { 5.0f, 5.0f };
+    background->addComponent(std::make_shared<EnterListener>());
+    addGameObject(background);
 }

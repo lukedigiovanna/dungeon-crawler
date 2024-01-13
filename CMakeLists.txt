@@ -53,6 +53,7 @@ add_executable(dungeon
   src/game/components/Spawner.cpp
   src/game/components/PlayerMovement.cpp
   src/game/components/Shrink.cpp
+  src/game/components/EnterListener.cpp
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})

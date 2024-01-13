@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "../utils/Graphics.h"
+#include "../utils/Light.h"
 #include "../utils/Shader.h"
 #include "../utils/Framebuffer.h"
 
@@ -13,8 +13,7 @@ private:
     static bool initialized;
 public:
     Framebuffer shadowFBO;
-    gfx::color color;
-    float luminance;
+    Light light;
     LightSource(const gfx::color& color, float luminance);
 
     void set(Shader const& shader, int index, glm::mat4 const& projection) const;

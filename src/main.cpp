@@ -69,9 +69,12 @@ int program() {
     }
     managers->animationManager->registerAnimation("wheat-grow", wheatGrow);
 
-    std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
-    managers->sceneManager->registerScene("start", startingScene);
-    managers->sceneManager->loadScene("start");
+    std::shared_ptr<Scene> mainMenuScene = std::make_shared<scenes::MainMenuScene>();
+    std::shared_ptr<Scene> sampleScene = std::make_shared<scenes::SampleScene>();
+    managers->sceneManager->registerScene("sample", sampleScene);
+    managers->sceneManager->registerScene("main_menu", mainMenuScene);
+
+    managers->sceneManager->loadScene("main_menu");
 
     engine->run();
 

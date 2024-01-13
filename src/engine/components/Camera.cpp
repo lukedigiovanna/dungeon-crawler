@@ -82,7 +82,9 @@ void Camera::render(Window* window) {
     shader.setMatrix4("projection", proj);
     shader.setMatrix4("view", view);
 
-    shader.setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+    Light const& ambientLight = scene->getAmbientLight();
+    glm::vec3 ambientLightColor = glm::vec3(ambientLight.color.r, ambientLight.color.g, ambientLight.color.b) * ambientLight.luminance;
+    shader.setVec3("ambientLight", ambientLightColor);
 
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {
