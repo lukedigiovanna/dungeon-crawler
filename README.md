@@ -7,3 +7,10 @@ Will include a homebrewed game engine. Plan on going with an entity-component sy
 
 ## Setup
 
+Dependencies:
+
+SDL2
+GLFW
+Freetype 2.13.2
+glad
+glm

@@ -35,6 +35,8 @@ void scenes::SampleScene::setup() {
     tilemap->recomputeOccludingWalls();
     setTilemap(std::move(tilemap));
 
+    setAmbientLightLuminance(0.1f);
+
     addGameObject(prefabs::playerPrefab());
 }
 
