@@ -68,7 +68,7 @@ void Collider::update(float dt) {
                         obj->transform.position += correction;
                         if (obj->hasComponent<Physics>()) {
                             std::shared_ptr<Physics> physics = obj->getComponent<Physics>();
-                            physics->velocity = physics->velocity - d * (2 * math::dot(physics->velocity, d));
+                            physics->velocity = physics->velocity - d * (physics->bounciness * 2 * math::dot(physics->velocity, d));
                         }
                         regeneratePolygon();
                     }

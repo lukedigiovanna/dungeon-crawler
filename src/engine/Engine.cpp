@@ -26,8 +26,8 @@ Engine::Engine(std::string const& gameName) {
 
     Font::initFreeType();
 
-    font = std::make_unique<Font>("assets/fonts/arial.ttf");
-    // font = std::make_unique<Font>("assets/fonts/Minecraft.ttf");
+    // font = std::make_unique<Font>("assets/fonts/arial.ttf");
+    font = std::make_unique<Font>("assets/fonts/Minecraft.ttf");
 
     meshes::init();
 

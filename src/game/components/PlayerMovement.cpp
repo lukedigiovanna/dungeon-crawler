@@ -31,7 +31,7 @@ void PlayerMovement::update(float dt) {
     // }
 
     // move cam to the player
-    camObj->transform.position += (obj->transform.position - camObj->transform.position) * dt;
+    camObj->transform.position += (obj->transform.position - camObj->transform.position) * 2.0f * dt;
 
     if (input->isKeyDown(SDLK_LSHIFT)) {
         camera->scale /= 1.1f;
@@ -40,11 +40,10 @@ void PlayerMovement::update(float dt) {
         camera->scale *= 1.1f;
     }
 
-    physics->velocity = {0, 0};
-    if (input->isKeyDown(SDLK_w))
-        physics->velocity.y += speed;
-    if (input->isKeyDown(SDLK_s))
-        physics->velocity.y -= speed;
+    if (input->isKeyPressed(SDLK_w)) {
+        physics->velocity.y = 5;
+    }
+    physics->velocity.x = 0;
     if (input->isKeyDown(SDLK_a))
         physics->velocity.x -= speed;
     if (input->isKeyDown(SDLK_d))
@@ -67,8 +66,8 @@ void PlayerMovement::update(float dt) {
         animator->setAnimation("player-walk-left");
     else if (physics->velocity.x > 0)
         animator->setAnimation("player-walk-right");
-    else if (physics->velocity.y > 0)
-        animator->setAnimation("player-walk-up");
-    else if (physics->velocity.y < 0)
-        animator->setAnimation("player-walk-down");
+    // else if (physics->velocity.y > 0)
+    //     animator->setAnimation("player-walk-up");
+    // else if (physics->velocity.y < 0)
+    //     animator->setAnimation("player-walk-down");
 }

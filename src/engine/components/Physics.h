@@ -8,6 +8,9 @@ public:
     math::vec2 velocity;
     float angularVelocity;
     float innateDragCoefficient;
+    float gravity;
+    math::vec2 gravityDirection;
+    float bounciness;
 
     Physics();
 
