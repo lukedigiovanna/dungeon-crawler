@@ -2,6 +2,7 @@
 #include "Lifetime.h"
 #include "LightSource.h"
 #include "../Scene.h"
+#include "../Engine.h"
 #include "../utils/Shader.h"
 #include "../utils/meshes.h"
 
@@ -72,8 +73,8 @@ void Camera::render(Window* window) {
 
     glm::mat4 view(1.0f);
 
-    Shader& shader = scene->getManagers()->shaderManager->getShader("_scene");
-    
+    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_scene");
+
     shader.use();
 
     shader.setVec2("screenSize", window->width(), window->height());
@@ -81,7 +82,9 @@ void Camera::render(Window* window) {
     shader.setMatrix4("projection", proj);
     shader.setMatrix4("view", view);
 
-    shader.setVec3("ambientLight", 0.1f, 0.1f, 0.1f);
+    Light const& ambientLight = scene->getAmbientLight();
+    glm::vec3 ambientLightColor = glm::vec3(ambientLight.color.r, ambientLight.color.g, ambientLight.color.b) * ambientLight.luminance;
+    shader.setVec3("ambientLight", ambientLightColor);
 
     int lightIndex = 0;
     for (auto gameObject : gameObjects) {

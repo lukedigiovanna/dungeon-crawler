@@ -2,6 +2,7 @@
 
 #include "utils/meshes.h"
 #include "Scene.h"
+#include "Engine.h"
 
 #include <queue>
 #include <array>
@@ -238,8 +239,8 @@ float Tilemap::getWorldX(int tileColumn) const {
 }
 
 void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) const {
-    std::shared_ptr<SpriteManager> spriteManager = getScene()->getManagers()->spriteManager;
-    std::shared_ptr<ShaderManager> shaderManager = getScene()->getManagers()->shaderManager;
+    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
+    std::shared_ptr<ShaderManager> shaderManager = Engine::getSingleton()->getManagers()->shaderManager;
     Shader& tmShader = shaderManager->getShader("_tm_chunk");
 
     int startColumn = getChunkColumn(viewport.x);

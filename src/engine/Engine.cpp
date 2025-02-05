@@ -9,10 +9,11 @@
 #include <iostream>
 #include <chrono>
 #include <algorithm>
+#include <typeinfo>
 
 #include <glad/glad.h>
 
-Engine::Engine(std::string gameName) {
+Engine::Engine(std::string const& gameName) {
     window = std::make_unique<Window>(gameName);
     
     if (!gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress))
@@ -26,6 +27,7 @@ Engine::Engine(std::string gameName) {
     Font::initFreeType();
 
     font = std::make_unique<Font>("assets/fonts/arial.ttf");
+    // font = std::make_unique<Font>("assets/fonts/Minecraft.ttf");
 
     meshes::init();
 
@@ -33,11 +35,6 @@ Engine::Engine(std::string gameName) {
     ComponentOrder::updatePriorities();
 
     managers = std::make_shared<Managers>();
-
-    managers->spriteManager = std::make_shared<SpriteManager>();
-    managers->inputManager = std::make_shared<InputManager>();
-    managers->animationManager = std::make_shared<AnimationManager>();
-    managers->shaderManager = std::make_shared<ShaderManager>();
 
     managers->shaderManager->loadShader(
         "_scene", 
@@ -62,19 +59,31 @@ Engine::Engine(std::string gameName) {
     scene = nullptr;
 }
 
-std::shared_ptr<Managers> Engine::getManagers() const {
-    return managers;
+void Engine::checkForNewScene() {
+    if (managers->sceneManager->isDirty()) {
+        scene = managers->sceneManager->getCurrentScene();
+
+        if (!scene->isInitialized()) {
+            scene->init();
+        }
+
+        managers->sceneManager->makeClean();
+    }
 }
 
-void Engine::loadScene(std::shared_ptr<Scene> scene) {
-    this->scene = scene;
-    this->scene->setManagers(this->managers);
-    this->scene->init();
+std::shared_ptr<Managers> Engine::getManagers() const {
+    return managers;
 }
 
 void Engine::renderLoop() {
     auto last = std::chrono::system_clock::now();
     while (this->active) {
+        checkForNewScene();
+
+        if (scene == nullptr) {
+            throw std::runtime_error("Engine::renderLoop: Scene somehow became null (invalid state)");
+        }
+
         auto start = std::chrono::system_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(start - last);
         last = start;
@@ -86,16 +95,16 @@ void Engine::renderLoop() {
             if (event.type == SDL_QUIT) {
                 this->halt();
             }
-            this->managers->inputManager->update(event);
+            managers->inputManager->update(event);
         }
 
-        this->scene->update(dt);
+        scene->update(dt);
         scene->render(window.get());
 
         Shader& textShader = managers->shaderManager->getShader("_text");
-        font->renderText(textShader, "you have small penis syndrome and it is quite unfortunate!", 50, 50, 1);
+        font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);
 
-        SDL_GL_SwapWindow(window->window);
+        SDL_GL_SwapWindow(window->window);        
 
         auto end = std::chrono::system_clock::now();
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
@@ -107,9 +116,12 @@ void Engine::renderLoop() {
 }
 
 void Engine::run() {
+    checkForNewScene();
+
     if (!scene) {
         throw std::runtime_error("Engine::run: Cannot run engine without having a currently loaded scene");
     }
+    
     active = true;
     renderLoop();
 }
@@ -125,3 +137,15 @@ void Engine::destroy() {
     std::cout << "destroyed engine" << std::endl;
 }
 
+std::unique_ptr<Engine> Engine::singleton = nullptr;
+
+Engine* Engine::getSingleton() {
+    if (singleton == nullptr) {
+        throw std::runtime_error("Engine::getSingleton: Cannot get a singleton of an uninitialized engine!");
+    }
+    return singleton.get();
+}
+
+void Engine::initializeSingleton(std::string const& gameName) {
+    singleton = std::make_unique<Engine>(gameName);
+}

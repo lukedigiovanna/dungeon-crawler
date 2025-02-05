@@ -2,6 +2,7 @@
 
 #include "../../engine/GameObject.h"
 #include "../../engine/Scene.h"
+#include "../../engine/Engine.h"
 #include "../../engine/managers/InputManager.h"
 
 PlayerMovement::PlayerMovement(float speed) : speed(speed) {
@@ -15,13 +16,13 @@ void PlayerMovement::init() {
 
 void PlayerMovement::update(float dt) {
     std::shared_ptr<GameObject> obj = this->getGameObject();
-    std::shared_ptr<InputManager> input = obj->getScene()->getManagers()->inputManager;
+    std::shared_ptr<InputManager> input = Engine::getSingleton()->getManagers()->inputManager;
     std::shared_ptr<Scene> scene = obj->getScene();
 
     std::shared_ptr<Camera> camera = scene->getCamera();
     std::shared_ptr<GameObject> camObj = camera->getGameObject();
 
-    std::shared_ptr<SpriteManager> spriteManager = scene->getManagers()->spriteManager;
+    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
 
     // if (scene->hasTilemap()) {
     //     Tilemap& tm = scene->getTilemap();
@@ -55,6 +56,10 @@ void PlayerMovement::update(float dt) {
     }
     if (input->isKeyDown(SDLK_q)) {
         physics->angularVelocity -= 180;
+    }
+
+    if (input->isKeyPressed(SDLK_ESCAPE)) {
+        Engine::getSingleton()->getManagers()->sceneManager->loadScene("main_menu");
     }
     
 

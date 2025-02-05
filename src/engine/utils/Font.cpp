@@ -80,9 +80,9 @@ Font::Font(const std::string& filepath) {
 
 void Font::renderText(const Shader& shader, const std::string& text, float x, float y, float scale) const {
     shader.use();
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 0.0f, 600.0f);
+    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
     shader.setMatrix4("projection", projection);
-    shader.setVec3("textColor", 1.0f, 0.0f, 0.0f);
+    shader.setVec3("textColor", 0.9f, 0.9f, 0.9f);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(vao);
@@ -95,19 +95,19 @@ void Font::renderText(const Shader& shader, const std::string& text, float x, fl
         Character glyph = f->second;
 
         float xPos = x + glyph.bearing.x * scale;
-        float yPos = y - (glyph.size.y - glyph.bearing.y) * scale;
+        float yPos = y + (characters.find('H')->second.bearing.y - glyph.bearing.y) * scale;
 
         float w = glyph.size.x * scale;
         float h = glyph.size.y * scale;
 
         float vertices[24] = {
-            xPos, yPos + h, 0.0f, 0.0f,
-            xPos, yPos, 0.0f, 1.0f,
-            xPos + w, yPos, 1.0f, 1.0f,
+            xPos, yPos + h, 0.0f, 1.0f,
+            xPos, yPos, 0.0f, 0.0f,
+            xPos + w, yPos, 1.0f, 0.0f,
 
-            xPos, yPos + h, 0.0f, 0.0f,
-            xPos + w, yPos, 1.0f, 1.0f,
-            xPos + w, yPos + h, 1.0f, 0.0f
+            xPos, yPos + h, 0.0f, 1.0f,
+            xPos + w, yPos, 1.0f, 0.0f,
+            xPos + w, yPos + h, 1.0f, 1.0f
         };
 
         glBindTexture(GL_TEXTURE_2D, glyph.textureID);

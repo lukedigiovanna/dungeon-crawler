@@ -2,6 +2,7 @@
 
 #include "../GameObject.h"
 #include "../Scene.h"
+#include "../Engine.h"
 #include "../utils/meshes.h"
 
 #include <string>
@@ -34,7 +35,7 @@ void LightSource::initializeVertexObject() {
 }
 
 LightSource::LightSource(gfx::color const& color, float luminance) :
-    color(color), luminance(luminance), shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
+    light{luminance, color}, shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
     if (!initialized) {
         initializeVertexObject();
     }
@@ -43,8 +44,8 @@ LightSource::LightSource(gfx::color const& color, float luminance) :
 void LightSource::set(Shader const& shader, int index, glm::mat4 const& projection) const {
     auto obj = getGameObject();
     auto scene = obj->getScene();
-    shader.setFloat(("lights[" + std::to_string(index) + "].luminance").c_str(), luminance);
-    shader.setVec3(("lights[" + std::to_string(index) + "].color").c_str(), color.r, color.g, color.b);
+    shader.setFloat(("lights[" + std::to_string(index) + "].luminance").c_str(), light.luminance);
+    shader.setVec3(("lights[" + std::to_string(index) + "].color").c_str(), light.color.r, light.color.g, light.color.b);
     shader.setVec2(("lights[" + std::to_string(index) + "].position").c_str(), obj->transform.position.x, obj->transform.position.y);
 
     shadowFBO.bindBuffer();
@@ -52,7 +53,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
     if (scene->hasTilemap()) {
-        Shader& lightingShader = scene->getManagers()->shaderManager->getShader("_lighting");
+        Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
         lightingShader.use();
         lightingShader.setMatrix4("projection", projection);
         

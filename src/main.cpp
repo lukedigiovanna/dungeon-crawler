@@ -30,14 +30,16 @@ int program() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-
-
     ComponentOrder::addDependency<PlayerMovement, Physics>();
     ComponentOrder::addDependency<PlayerMovement, SpriteAnimator>();
 
-    Engine engine("Cool");
+    Engine::initializeSingleton("cool game");
 
-    std::shared_ptr<SpriteManager> spriteManager = engine.getManagers()->spriteManager;
+    Engine* engine = Engine::getSingleton();
+
+    std::shared_ptr<Managers> managers = engine->getManagers();
+
+    std::shared_ptr<SpriteManager> spriteManager = engine->getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
     // int nf = 12;
     // std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
@@ -49,33 +51,38 @@ int program() {
     spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     spriteManager->registerSprite("background", "assets/topdown.png");
     
-    std::shared_ptr<AnimationManager> animationManager = engine.getManagers()->animationManager;
+    std::shared_ptr<AnimationManager> animationManager = engine->getManagers()->animationManager;
     
     int walkIndex = 0;
     for (std::string const& dir : dirs) {
         std::shared_ptr<Animation> ani = std::make_shared<Animation>(14.0f);
         for (int i = 0; i < nf; i++) {
-            ani->addFrame(spriteManager, "character" + std::to_string(walkIndex++));
+            ani->addFrame(managers->spriteManager, "character" + std::to_string(walkIndex++));
         }
-        animationManager->registerAnimation("player-walk-" + dir, ani);
+        managers->animationManager->registerAnimation("player-walk-" + dir, ani);
     }
 
     std::shared_ptr<Animation> minecraftAnimation = std::make_shared<Animation>(20.0f);
     for (int i = 0; i < 800; i++) {
-        minecraftAnimation->addFrame(spriteManager, "minecraft" + std::to_string(i));
+        minecraftAnimation->addFrame(managers->spriteManager, "minecraft" + std::to_string(i));
     }
-    animationManager->registerAnimation("minecraft", minecraftAnimation);
+    managers->animationManager->registerAnimation("minecraft", minecraftAnimation);
     std::shared_ptr<Animation> wheatGrow = std::make_shared<Animation>(2.0f);
     for (int i = 128; i < 136; i++) {
-        wheatGrow->addFrame(spriteManager, "minecraft" + std::to_string(i));
+        wheatGrow->addFrame(managers->spriteManager, "minecraft" + std::to_string(i));
     }
-    animationManager->registerAnimation("wheat-grow", wheatGrow);
+    managers->animationManager->registerAnimation("wheat-grow", wheatGrow);
 
-    std::shared_ptr<Scene> startingScene = std::make_shared<scenes::SampleScene>();
-    engine.loadScene(startingScene);
+    std::shared_ptr<Scene> mainMenuScene = std::make_shared<scenes::MainMenuScene>();
+    std::shared_ptr<Scene> sampleScene = std::make_shared<scenes::SampleScene>();
+    managers->sceneManager->registerScene("sample", sampleScene);
+    managers->sceneManager->registerScene("main_menu", mainMenuScene);
 
-    engine.run();
-    engine.destroy();
+    managers->sceneManager->loadScene("main_menu");
+
+    engine->run();
+
+    engine->destroy();
 
     SDL_Quit();
 

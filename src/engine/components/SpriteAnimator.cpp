@@ -2,6 +2,7 @@
 
 #include "../GameObject.h"
 #include "../Scene.h"
+#include "../Engine.h"
 #include "../utils/Math.h"
 
 #include "renderers/SpriteRenderer.h"
@@ -24,8 +25,7 @@ void SpriteAnimator::setAnimation(std::string const& animationId) {
         return;
     }
 
-    std::shared_ptr<AnimationManager> animManager = getGameObject()->getScene()->getManagers()->animationManager;
-    
+    std::shared_ptr<AnimationManager> animManager = Engine::getSingleton()->getManagers()->animationManager;
     animation = animManager->getAnimation(animationId);
     this->animationId = animationId;
     timer = 0.0f;
@@ -41,7 +41,7 @@ void SpriteAnimator::seek(float timeOffset) {
 }
 
 void SpriteAnimator::init() {
-    std::shared_ptr<AnimationManager> animManager = getGameObject()->getScene()->getManagers()->animationManager;
+    std::shared_ptr<AnimationManager> animManager = Engine::getSingleton()->getManagers()->animationManager;
     animation = animManager->getAnimation(animationId);
     
     RendererComponent* rc = &getGameObject()->getRendererComponent();

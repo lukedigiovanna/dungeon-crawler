@@ -2,8 +2,13 @@
 
 #include "../engine/Scene.h"
 
+#define declareScene(name) \
+class name: public Scene { \
+    protected: \
+        void setup() override; \
+}
+
 namespace scenes {
-class SampleScene: public Scene {
-    void init();
-};
+declareScene(SampleScene);
+declareScene(MainMenuScene);
 }

@@ -2,11 +2,13 @@
 #include "components/Lifetime.h"
 #include "utils/meshes.h"
 
-#include <glad/glad.h>
 #include <iostream>
+#include <typeinfo>
 #include <algorithm>
 
-Scene::Scene() {
+#include <glad/glad.h>
+
+Scene::Scene() : ambientLight{ 1.0f, gfx::COLOR_WHITE } {
     // Do not construct any part of the scene prior to full construction of a scene
     // This is to ensure it is managed by a shared ptr before any calls to
     // addGameObject
@@ -15,9 +17,17 @@ Scene::Scene() {
 void Scene::init() {
     // Every scene requires a camera on initialization
     std::shared_ptr<GameObject> cameraObj = std::make_shared<GameObject>();
-    this->camera = std::make_shared<Camera>();
+    camera = std::make_shared<Camera>();
     cameraObj->addComponent(camera);
-    this->addGameObject(cameraObj);
+    addGameObject(cameraObj);
+
+    setup();
+
+    initialized = true;
+}
+
+void Scene::setup() {
+    
 }
 
 bool Scene::hasTilemap() const {
@@ -36,22 +46,14 @@ Tilemap& Scene::getTilemap() const {
     return *tilemap;
 }
 
-void Scene::setManagers(std::shared_ptr<Managers> managers) {
-    this->managers = managers;
-}
-
-std::shared_ptr<Managers> Scene::getManagers() const {
-    return managers;
-}
-
 void Scene::update(float dt) {
     // Manage addGameObject queue
-    for (auto gameObject : this->addGameObjectQueue) {
+    for (auto gameObject : addGameObjectQueue) {
         gameObject->setScene(shared_from_this());
-        this->gameObjects.push_back(gameObject);
+        gameObjects.push_back(gameObject);
     }
 
-    for (auto gameObject : this->addGameObjectQueue) {
+    for (auto gameObject : addGameObjectQueue) {
         gameObject->init();
     }
 
@@ -80,6 +82,22 @@ void Scene::destroyGameObject(std::shared_ptr<GameObject> gameObject) {
 
 std::vector<std::shared_ptr<GameObject>> const& Scene::getGameObjects() const {
     return this->gameObjects;
+}
+
+void Scene::setAmbientLight(float luminance, gfx::color const& color) {
+    setAmbientLightLuminance(luminance);
+    setAmbientLightColor(color);
+}
+
+void Scene::setAmbientLightLuminance(float luminance) {
+    if (luminance < 0 || luminance > 1) {
+        throw std::runtime_error("Scene::setAmbientLightLuminance: Luminance must be within 0 and 1 (inclusive)");
+    }
+    ambientLight.luminance = luminance;
+}
+
+void Scene::setAmbientLightColor(gfx::color const& color) {
+    ambientLight.color = color;
 }
 
 void Scene::render(Window* window) const {
