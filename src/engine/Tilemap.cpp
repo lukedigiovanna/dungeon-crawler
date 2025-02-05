@@ -46,10 +46,8 @@ Tilemap::Tilemap(int width, int height, float scale) : scale(scale) {
     worldHeight = nChunksHeight * CHUNK_SIZE * scale;
     chunks = std::make_unique<Chunk[]>(nChunksWidth * nChunksHeight);
     for (int i = 0; i < nChunksWidth * nChunksHeight; i++) {
-        chunks[i] = {
-            .isDirty=true,
-            .fb=Framebuffer(CHUNK_BUFFER_SIZE, CHUNK_BUFFER_SIZE)
-        };
+        chunks[i].isDirty = true;
+        chunks[i].fb = Framebuffer(CHUNK_BUFFER_SIZE, CHUNK_BUFFER_SIZE);
     }
     tiles = std::make_unique<Tile[]>(width * height);
     for (int i = 0; i < width * height; i++) {

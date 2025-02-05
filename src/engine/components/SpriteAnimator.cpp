@@ -15,15 +15,17 @@ SpriteAnimator::SpriteAnimator(std::string const& animationId)
 }
 
 void SpriteAnimator::setAnimation(std::string const& animationId) {
-    if (!initialized) {
+    if (!this->initialized) {
+        std::cout << "not initialized\n";
         throw std::runtime_error("SpriteAnimator::setAnimation: Cannot set sprite animation on SpriteAnimator which has not been initialized");
     }
-    
+
     if (this->animationId == animationId) {
         return;
     }
 
     std::shared_ptr<AnimationManager> animManager = getGameObject()->getScene()->getManagers()->animationManager;
+    
     animation = animManager->getAnimation(animationId);
     this->animationId = animationId;
     timer = 0.0f;

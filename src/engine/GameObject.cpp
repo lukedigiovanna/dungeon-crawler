@@ -53,7 +53,7 @@ void GameObject::init() {
     if (!isInScene()) {
         throw std::runtime_error("GameObject::init: Cannot initialize a GameObject which is not in a scene");
     }
-    for (const auto & [ typeId, component] : this->components) {
+    for (const auto & [typeId, component] : this->components) {
         component->init();
     }
     if (this->rendererComponent)
@@ -61,7 +61,7 @@ void GameObject::init() {
 }
 
 void GameObject::update(float dt) {
-    for (const auto & [ typeId, component] : this->components) {
+    for (const auto & [typeId, component] : this->components) {
         component->update(dt);
     }
 }

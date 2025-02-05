@@ -191,7 +191,7 @@ float math::random(float a, float b) {
 }
 
 float math::interpolate(float a0, float a1, float w) {
-    return (a1 - a0) * w;
+    return (a1 - a0) * w + a0;
 }
 
 float math::degToRad(float degrees) {
