@@ -3,6 +3,7 @@
 #include "../engine/Engine.h"
 #include "../engine/components/SpriteAnimator.h"
 #include "../engine/components/renderers/SpriteRenderer.h"
+#include "../engine/utils/Matrix2D.h"
 
 #include "components/EnterListener.h"
 
@@ -13,10 +14,10 @@
 void scenes::SampleScene::setup() {
     // int w = 32;
     // int s = CHUNK_SIZE * w;
-    std::shared_ptr<SpriteManager> sm = Engine::getSingleton()->getManagers()->spriteManager;
+    // std::shared_ptr<SpriteManager> sm = Engine::getSingleton()->getManagers()->spriteManager;
     // std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
-    int gi = sm->getSpriteIndex("minecraft0");
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>("assets/levels/diamond_passageway_foreground.csv", gi, 1.0f);
+    // int gi = sm->getSpriteIndex("minecraft0");
+    // std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>("assets/levels/diamond_passageway_foreground.csv", gi, 1.0f);
     // int w = tilemap->getWidth();
     // int h = tilemap->getHeight();
     // int ns = sm->getNumSprites();
@@ -32,6 +33,21 @@ void scenes::SampleScene::setup() {
     //         // }
     //     }
     // }
+    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
+    Matrix2D levelSegmentMatrix("assets/levels/diamond_passageway_foreground.csv");
+    int w = levelSegmentMatrix.getWidth();
+    int h = levelSegmentMatrix.getHeight();
+    std::cout << w << " x " << h << std::endl;
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(w, h, 1.0f);
+    int baseSpriteIndex = spriteManager->getSpriteIndex("minecraft0");
+    for (int y = 0; y < h; y++) {
+        for (int x = 0; x < w; x++) {
+            int value = levelSegmentMatrix.getValue(y, x);
+            if (value >= 0) {
+                tilemap->setTile(y, x, value + baseSpriteIndex, true);
+            }
+        }
+    }
     tilemap->recomputeOccludingWalls();
     setTilemap(std::move(tilemap));
 

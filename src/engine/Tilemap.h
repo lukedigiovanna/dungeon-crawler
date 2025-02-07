@@ -47,10 +47,6 @@ private:
     std::weak_ptr<Scene> scene;
 public:
     Tilemap(int width, int height, float scale);
-    /*
-    Load a tilemap from a CSV file
-    */
-    Tilemap(const std::string& path, int spriteOffsetId, float scale);
 
     std::shared_ptr<Scene> getScene() const;
     void setScene(std::shared_ptr<Scene> scene);

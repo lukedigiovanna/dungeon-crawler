@@ -60,18 +60,19 @@ void Camera::render(Window* window) {
           cameraTopWorldY = obj->transform.position.y + worldHeight / 2.0f;
 
     math::Rectangle viewport = {
-        cameraLeftWorldX, cameraTopWorldY,
+        cameraLeftWorldX, 
+        cameraTopWorldY,
         cameraRightWorldX - cameraLeftWorldX,
         cameraTopWorldY - cameraBottomWorldY
     };
 
     glm::mat4 proj = glm::ortho(cameraLeftWorldX, cameraRightWorldX, cameraBottomWorldY, cameraTopWorldY);
-    glm::vec3 thisPos = glm::vec3(obj->transform.position.x, obj->transform.position.y, -1.0f);
+    // glm::mat4 proj = glm::perspective(90, 1, 0, 1000);
+    glm::vec3 thisPos = glm::vec3(obj->transform.position.x, obj->transform.position.y, -5.0f);
     // glm::mat4 view = glm::lookAt(thisPos, thisPos + glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0));
+    glm::mat4 view(1.0f);
     // glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     // glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), -thisPos);
-
-    glm::mat4 view(1.0f);
 
     Shader& shader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_scene");
 

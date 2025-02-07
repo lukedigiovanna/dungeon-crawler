@@ -42,6 +42,7 @@ add_executable(dungeon
   src/engine/utils/Font.cpp
   src/engine/utils/Graphics.cpp
   src/engine/utils/Math.cpp
+  src/engine/utils/Matrix2D.cpp
   src/engine/utils/Mesh.cpp
   src/engine/utils/Shader.cpp
   src/engine/utils/Sprite.cpp
@@ -76,16 +77,17 @@ if (WIN32)
 
   # set_target_properties(dungeon PROPERTIES LINK_FLAGS "-mwindows")
 else()
+  find_package(Freetype REQUIRED)
   target_link_libraries(
-    dungeon PRIVATE
-    /Library/Frameworks/SDL2.framework/Versions/A/SDL2
-    freetype
+      dungeon PRIVATE
+      /Library/Frameworks/SDL2.framework/Versions/A/SDL2
+      Freetype::Freetype
   )
 
   target_include_directories(
     dungeon PRIVATE
     /Library/Frameworks/SDL2.framework/Versions/A/Headers
-    /opt/homebrew/Cellar/freetype/2.13.2/include/freetype2
+    /opt/homebrew/Cellar/freetype/2.13.3/include/freetype2
     dependencies/include
   )
 endif()
