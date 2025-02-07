@@ -10,8 +10,10 @@ PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 }
 
 void PlayerMovement::init() {
-    this->physics = getGameObject()->getComponent<Physics>();
-    this->animator = getGameObject()->getComponent<SpriteAnimator>();
+    std::shared_ptr<GameObject> obj = getGameObject();
+    this->physics = obj->getComponent<Physics>();
+    this->animator = obj->getComponent<SpriteAnimator>();
+    obj->getScene()->getCamera()->getGameObject()->transform.position = obj->transform.position;
 }
 
 void PlayerMovement::update(float dt) {
@@ -31,7 +33,7 @@ void PlayerMovement::update(float dt) {
     // }
 
     // move cam to the player
-    camObj->transform.position += (obj->transform.position - camObj->transform.position) * 2.0f * dt;
+    camObj->transform.position += (obj->transform.position - camObj->transform.position) * 4.0f * dt;
 
     if (input->isKeyDown(SDLK_LSHIFT)) {
         camera->scale /= 1.1f;

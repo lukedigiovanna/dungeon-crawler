@@ -246,11 +246,13 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
     Shader& tmShader = shaderManager->getShader("_tm_chunk");
 
     int startColumn = getChunkColumn(viewport.x);
+    startColumn = startColumn < 0 ? 0 : startColumn;
     int startRow = getChunkRow(viewport.y);
+    startRow = startRow < 0 ? 0 : startRow;
     int endColumn = getChunkColumn(viewport.x + viewport.width);
-    endColumn = endColumn == -1 ? nChunksWidth - 1 : endColumn;
+    endColumn = endColumn < 0 ? nChunksWidth - 1 : endColumn;
     int endRow = getChunkRow(viewport.y - viewport.height);
-    endRow = endRow == -1 ? nChunksHeight - 1 : endRow;
+    endRow = endRow < 0 ? nChunksHeight - 1 : endRow;
     
     for (int i = startRow; i <= endRow; i++) {
         for (int j = startColumn; j <= endColumn; j++) {

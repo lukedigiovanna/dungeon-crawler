@@ -38,8 +38,9 @@ Matrix2D::Matrix2D(const std::string& filepath) {
         while (contents[ci] != ',' && contents[ci] != '\n') ci++;
         std::string value_str = contents.substr(li, ci - li);
         data[i] = std::stoi(value_str);
-        std::cout << data[i] << " " << std::endl;
+        std::cout << data[i] << " ";
         i++;
+        if (i%width==0) std::cout << std::endl;
         ci++;
         li = ci;
     }

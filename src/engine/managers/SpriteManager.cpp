@@ -52,14 +52,14 @@ void SpriteManager::registerSprite(std::string id, std::string spritePath) {
 const Sprite* SpriteManager::getSprite(std::string const& id) const {
     auto f = spriteMap.find(id);
     if (f == spriteMap.end()) {
-        throw std::runtime_error("SpriteManager::getTexture: No sprite in sprite manager with id '" + id + "'");
+        throw std::runtime_error("SpriteManager::getSprite: No sprite in sprite manager with id '" + id + "'");
     }
     return &sprites[f->second];
 }
 
 const Sprite* SpriteManager::getSpriteByIndex(int index) const {
     if (index < 0 || index >= sprites.size()) {
-        throw std::runtime_error("SpriteManager::getSprie: Index out of range: " + std::to_string(index));
+        throw std::runtime_error("SpriteManager::getSpriteByIndex: Index out of range: " + std::to_string(index));
     }
     return &sprites[index];
 }
