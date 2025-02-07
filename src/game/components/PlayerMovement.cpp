@@ -70,4 +70,6 @@ void PlayerMovement::update(float dt) {
     //     animator->setAnimation("player-walk-up");
     // else if (physics->velocity.y < 0)
     //     animator->setAnimation("player-walk-down");
+
+    std::cout << obj->transform.position.x << ", " << obj->transform.position.y << std::endl;
 }

@@ -11,26 +11,26 @@
 #include <iostream>
 
 void scenes::SampleScene::setup() {
-    int w = 32;
-    int s = CHUNK_SIZE * w;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
+    // int w = 32;
+    // int s = CHUNK_SIZE * w;
     std::shared_ptr<SpriteManager> sm = Engine::getSingleton()->getManagers()->spriteManager;
+    // std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(s, s, 1.0f);
     int gi = sm->getSpriteIndex("minecraft0");
-    int ns = sm->getNumSprites();
-    math::PerlinNoise pn;
-    for (int i = 0; i < s; i++) {
-        for (int j = 0; j < s; j++) {
-            int cii = i / CHUNK_SIZE * w + j / CHUNK_SIZE;
-            if (pn.get(i * 0.25f + 0.5f, j * 0.25f + 0.5f) > 0.2f) {
-                tilemap->setTile(i, j, sm->getSpriteIndex("minecraft4"), true);
-            }
-            else {
-                tilemap->setTile(i, j, gi + (cii % 10), false);
-            }
-        }
-    }
-    // for (float x = -3.0f; x <= 3.0f; x += 1.0f) {
-        tilemap->setTileFromWorldPosition(0, -3.0f, gi + 4, true);
+    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>("assets/levels/diamond_passageway_foreground.csv", gi, 1.0f);
+    // int w = tilemap->getWidth();
+    // int h = tilemap->getHeight();
+    // int ns = sm->getNumSprites();
+    // math::PerlinNoise pn;
+    // for (int i = 0; i < h; i++) {
+    //     for (int j = 0; j < w; j++) {
+    //         // int cii = i / CHUNK_SIZE * w + j / CHUNK_SIZE;
+    //         if (pn.get(i * 0.25f + 0.5f, j * 0.25f + 0.5f) > 0.2f) {
+    //             tilemap->setTile(i, j, sm->getSpriteIndex("minecraft4"), true);
+    //         }
+    //         // else {
+    //         //     tilemap->setTile(i, j, gi + (cii % 10), false);
+    //         // }
+    //     }
     // }
     tilemap->recomputeOccludingWalls();
     setTilemap(std::move(tilemap));

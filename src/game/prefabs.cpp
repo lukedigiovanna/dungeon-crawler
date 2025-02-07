@@ -48,7 +48,7 @@ PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     player->addComponent(std::make_shared<Collider>());
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     physics->gravity = 10;
-    physics->bounciness = 0.8f;
+    physics->bounciness = 0.5f;
     player->addComponent(physics);
     return player;
 };
