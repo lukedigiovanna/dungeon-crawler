@@ -6,6 +6,7 @@
 #include "utils/Light.h"
 #include "components/Camera.h"
 #include "managers/Managers.h"
+#include "ui/Canvas.h"
 
 #include <memory>
 #include <vector>
@@ -24,6 +25,7 @@ private:
 
     // Order of maps dictates render order (first gets rendered first)
     std::vector<std::unique_ptr<Tilemap>> tilemaps;
+    std::vector<std::unique_ptr<Canvas>> canvases;
 
     Light ambientLight;
 protected:
