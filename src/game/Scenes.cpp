@@ -34,24 +34,31 @@ void scenes::SampleScene::setup() {
     //     }
     // }
     std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
-    Matrix2D levelSegmentMatrix("assets/levels/diamond_passageway_foreground.csv");
-    int w = levelSegmentMatrix.getWidth();
-    int h = levelSegmentMatrix.getHeight();
-    std::cout << w << " x " << h << std::endl;
-    std::unique_ptr<Tilemap> tilemap = std::make_unique<Tilemap>(w, h, 1.0f);
+    Matrix2D lsmFG("assets/levels/diamond_passageway_foreground.csv");
+    Matrix2D lsmBG("assets/levels/diamond_passageway_background.csv");
+    int w = lsmFG.getWidth();
+    int h = lsmFG.getHeight();
+    std::unique_ptr<Tilemap> foreground = std::make_unique<Tilemap>(w, h, 1.0f);
+    std::unique_ptr<Tilemap> background = std::make_unique<Tilemap>(w, h, 1.0f);
     int baseSpriteIndex = spriteManager->getSpriteIndex("minecraft0");
+    int value;
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-            int value = levelSegmentMatrix.getValue(y, x);
+            value = lsmFG.getValue(y, x);
             if (value >= 0) {
-                tilemap->setTile(y, x, value + baseSpriteIndex, true);
+                foreground->setTile(y, x, value + baseSpriteIndex, true);
+            }
+            value = lsmBG.getValue(y, x);
+            if (value >= 0) {
+                background->setTile(y, x, value + baseSpriteIndex, false);
             }
         }
     }
-    tilemap->recomputeOccludingWalls();
-    setTilemap(std::move(tilemap));
+    foreground->recomputeOccludingWalls();
+    addTilemap(std::move(background));
+    addTilemap(std::move(foreground));
 
-    setAmbientLightLuminance(0.1f);
+    setAmbientLightLuminance(0.5f);
 
     addGameObject(prefabs::playerPrefab());
 }

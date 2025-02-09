@@ -52,21 +52,20 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
-    if (scene->hasTilemap()) {
+    std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
+    for (const auto& tilemap : tilemaps) {
         Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
         lightingShader.use();
         lightingShader.setMatrix4("projection", projection);
-        
-        Tilemap& tilemap = scene->getTilemap();
 
-        int chunkRow = tilemap.getChunkRow(obj->transform.position.y);
-        int chunkColumn = tilemap.getChunkColumn(obj->transform.position.x);
+        int chunkRow = tilemap->getChunkRow(obj->transform.position.y);
+        int chunkColumn = tilemap->getChunkColumn(obj->transform.position.x);
         int radius = 1;
         float shadowMeshData[12 * MAX_NUM_SHADOWS];
         int shadowIndex = 0;
         for (int dr = -radius; dr <= radius; dr++) {
             for (int dc = -radius; dc <= radius; dc++) {
-                auto walls = scene->getTilemap().getOccludingWalls(chunkRow + dr, chunkColumn + dc);
+                auto walls = tilemap->getOccludingWalls(chunkRow + dr, chunkColumn + dc);
         
                 for (auto & wall : walls) {
                     math::vec2 ep1 = wall.ep1;

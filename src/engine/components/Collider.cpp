@@ -49,14 +49,14 @@ void Collider::update(float dt) {
 
     // Check for collision with tilemap walls.
     std::shared_ptr<Scene> scene = obj->getScene();
-    if (scene->hasTilemap()) {
-        Tilemap& tilemap = scene->getTilemap();
-        float scale = tilemap.getScale();
+    std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
+    for (const auto& tilemap : tilemaps) {
+        float scale = tilemap->getScale();
         math::Rectangle rect = math::getBoundingRectangle(polygon);
         // std::cout << rect.x << " " << rect.y << " " << rect.width << " " << rect.height << "\n";
         for (float y = rect.y; y < rect.y + rect.height + scale; y += scale) {
             for (float x = rect.x; x < rect.x + rect.width + scale; x += scale) {
-                Tile const& tile = tilemap.getTileFromWorldPosition(x, y);
+                Tile const& tile = tilemap->getTileFromWorldPosition(x, y);
                 if (tile.wall) {
                     math::Polygon const& wall = tile.getWallPolygon();
                     math::SATResult result = checkCollision_SAT(polygon, wall);

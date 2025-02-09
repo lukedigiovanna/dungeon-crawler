@@ -99,8 +99,9 @@ void Camera::render(Window* window) {
     }
     shader.setInt("numLights", lightIndex);
 
-    if (scene->hasTilemap()) {
-        scene->getTilemap().render(shader, viewport);
+    std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
+    for (const auto& tilemap : tilemaps) {
+        tilemap->render(shader, viewport);
     }
 
     for (auto gameObject : gameObjects) {

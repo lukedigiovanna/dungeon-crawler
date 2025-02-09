@@ -31,19 +31,16 @@ void Scene::setup() {
 }
 
 bool Scene::hasTilemap() const {
-    return tilemap != nullptr;
+    return tilemaps.size() > 0;
 }
 
-void Scene::setTilemap(std::unique_ptr<Tilemap> tilemap) {
-    this->tilemap = std::move(tilemap);
-    this->tilemap->setScene(shared_from_this());
+void Scene::addTilemap(std::unique_ptr<Tilemap> tilemap) {
+    tilemap->setScene(shared_from_this());
+    tilemaps.push_back(std::move(tilemap));
 }
 
-Tilemap& Scene::getTilemap() const {
-    if (tilemap == nullptr) {
-        throw std::runtime_error("Scene::getTilemap: Cannot get tilemap because there is no tilemap present.");
-    }
-    return *tilemap;
+std::vector<std::unique_ptr<Tilemap>>& Scene::getTilemaps() {
+    return tilemaps;
 }
 
 void Scene::update(float dt) {

@@ -22,7 +22,8 @@ private:
     std::vector<std::shared_ptr<GameObject>> addGameObjectQueue;
     std::vector<std::shared_ptr<GameObject>> destroyGameObjectQueue;
 
-    std::unique_ptr<Tilemap> tilemap;
+    // Order of maps dictates render order (first gets rendered first)
+    std::vector<std::unique_ptr<Tilemap>> tilemaps;
 
     Light ambientLight;
 protected:
@@ -34,8 +35,8 @@ public:
     void init();
 
     bool hasTilemap() const;
-    void setTilemap(std::unique_ptr<Tilemap> tilemap);
-    Tilemap& getTilemap() const;
+    void addTilemap(std::unique_ptr<Tilemap> tilemap);
+    std::vector<std::unique_ptr<Tilemap>>& getTilemaps();
 
     void addGameObject(std::shared_ptr<GameObject> gameObject);
     void destroyGameObject(std::shared_ptr<GameObject> gameObject);
