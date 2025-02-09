@@ -95,7 +95,7 @@ void SpriteAnimator::loopOnce(std::function<void()> callback) {
 
 void SpriteAnimator::update(float dt) {
     if (shouldPlay) {
-        timer += dt;
+        timer += dt * speedScale;
         float fps = animation->getFps();
         if (timer >= 1.0f / fps) {
             timer = std::fmod(timer, 1.0f / fps);

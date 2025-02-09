@@ -45,11 +45,14 @@ void PlayerMovement::update(float dt) {
     if (input->isKeyPressed(SDLK_w)) {
         physics->velocity.y = 5;
     }
-    physics->velocity.x = 0;
+    
+    float targetSpeed = 0;
     if (input->isKeyDown(SDLK_a))
-        physics->velocity.x -= speed;
+        targetSpeed -= speed;
     if (input->isKeyDown(SDLK_d))
-        physics->velocity.x += speed;
+        targetSpeed += speed;
+    if (targetSpeed != 0) 
+        physics->velocity.x = targetSpeed;
 
     physics->angularVelocity = 0;
     if (input->isKeyDown(SDLK_e)) {
@@ -62,12 +65,18 @@ void PlayerMovement::update(float dt) {
     if (input->isKeyPressed(SDLK_ESCAPE)) {
         Engine::getSingleton()->getManagers()->sceneManager->loadScene("main_menu");
     }
-    
 
     if (physics->velocity.x < 0)
         animator->setAnimation("player-walk-left");
     else if (physics->velocity.x > 0)
         animator->setAnimation("player-walk-right");
+
+    float xspeed = std::abs(physics->velocity.x);
+    animator->speedScale =  xspeed / speed;
+    if (xspeed <= 1e-4) {
+        animator->reset();
+    }    
+
     // else if (physics->velocity.y > 0)
     //     animator->setAnimation("player-walk-up");
     // else if (physics->velocity.y < 0)

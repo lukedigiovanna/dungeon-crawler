@@ -41,13 +41,16 @@ int program() {
 
     std::shared_ptr<SpriteManager> spriteManager = engine->getManagers()->spriteManager;
     spriteManager->registerSprite("smile", "assets/smile.png");
-    // int nf = 12;
-    // std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
-    // spriteManager->registerSpriteSheet("character", "assets/character3.png", nf, 4);
-    int nf = 9;
-    std::array<std::string, 4> dirs = {"up", "left", "down", "right"};
-    spriteManager->registerSpriteSheet("character", "assets/character2.png", nf, 4);
-    
+    int nf = 12;
+    std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
+    spriteManager->registerSpriteSheet("character", "assets/character3.png", nf, 4);
+    // int nf = 9;
+    // std::array<std::string, 4> dirs = {"up", "left", "down", "right"};
+    // spriteManager->registerSpriteSheet("character", "assets/character2.png", nf, 4);
+    // int nf = 4;
+    // std::array<std::string, 4> dirs = {"down", "right", "left", "up"};
+    // spriteManager->registerSpriteSheet("character", "assets/character.png", nf, 4);
+
     spriteManager->registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     spriteManager->registerSprite("background", "assets/topdown.png");
     

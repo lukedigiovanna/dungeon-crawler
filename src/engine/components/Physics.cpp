@@ -23,4 +23,7 @@ void Physics::update(float dt) {
     // Apply drag
     float percentToRemove = dt * innateDragCoefficient;
     velocity *= (1.0f - percentToRemove);
+    if (velocity.magnitude() < 1e-4) {
+        velocity = { 0, 0 };
+    }
 }

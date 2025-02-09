@@ -24,6 +24,10 @@ private:
 
     float timer = 0.0f;
     int currentFrame = 0;
+
+public:
+    float speedScale = 1.0f;
+    
 public:
     SpriteAnimator(std::string const& animationId);
 

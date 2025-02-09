@@ -34,21 +34,22 @@ void scenes::SampleScene::setup() {
     //     }
     // }
     std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
-    Matrix2D lsmFG("assets/levels/diamond_passageway_foreground.csv");
-    Matrix2D lsmBG("assets/levels/diamond_passageway_background.csv");
+    Matrix2D lsmFG("assets/levels/c1_et_foreground.csv");
+    Matrix2D lsmBG("assets/levels/c1_et_background.csv");
     int w = lsmFG.getWidth();
     int h = lsmFG.getHeight();
-    std::unique_ptr<Tilemap> foreground = std::make_unique<Tilemap>(w, h, 1.0f);
-    std::unique_ptr<Tilemap> background = std::make_unique<Tilemap>(w, h, 1.0f);
+    int R = 10;
+    std::unique_ptr<Tilemap> foreground = std::make_unique<Tilemap>(w * R, h, 1.0f);
+    std::unique_ptr<Tilemap> background = std::make_unique<Tilemap>(w * R, h, 1.0f);
     int baseSpriteIndex = spriteManager->getSpriteIndex("minecraft0");
     int value;
     for (int y = 0; y < h; y++) {
-        for (int x = 0; x < w; x++) {
-            value = lsmFG.getValue(y, x);
+        for (int x = 0; x < w * R; x++) {
+            value = lsmFG.getValue(y, x % w);
             if (value >= 0) {
                 foreground->setTile(y, x, value + baseSpriteIndex, true);
             }
-            value = lsmBG.getValue(y, x);
+            value = lsmBG.getValue(y, x % w);
             if (value >= 0) {
                 background->setTile(y, x, value + baseSpriteIndex, false);
             }
