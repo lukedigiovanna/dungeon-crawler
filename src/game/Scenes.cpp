@@ -59,7 +59,7 @@ void scenes::SampleScene::setup() {
     addTilemap(std::move(background));
     addTilemap(std::move(foreground));
 
-    setAmbientLightLuminance(0.5f);
+    setAmbientLightLuminance(0.05f);
 
     addGameObject(prefabs::playerPrefab());
 }

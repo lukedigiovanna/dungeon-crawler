@@ -34,8 +34,8 @@ void LightSource::initializeVertexObject() {
     initialized = true;
 }
 
-LightSource::LightSource(gfx::color const& color, float luminance) :
-    light{luminance, color}, shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
+LightSource::LightSource(gfx::color const& color, float luminance, bool castsShadow) :
+    light{luminance, color}, castsShadow(castsShadow), shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
     if (!initialized) {
         initializeVertexObject();
     }
@@ -49,63 +49,62 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     shader.setVec2(("lights[" + std::to_string(index) + "].position").c_str(), obj->transform.position.x, obj->transform.position.y);
 
     shadowFBO.bindBuffer();
-    
     glClearColor(1.0f, 0.0f, 0.0f, 0.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
-    std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
-    for (const auto& tilemap : tilemaps) {
-        Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
-        lightingShader.use();
-        lightingShader.setMatrix4("projection", projection);
+    if (castsShadow) {
+        std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
+        for (const auto& tilemap : tilemaps) {
+            Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
+            lightingShader.use();
+            lightingShader.setMatrix4("projection", projection);
 
-        int chunkRow = tilemap->getChunkRow(obj->transform.position.y);
-        int chunkColumn = tilemap->getChunkColumn(obj->transform.position.x);
-        int radius = 1;
-        float shadowMeshData[12 * MAX_NUM_SHADOWS];
-        int shadowIndex = 0;
-        for (int dr = -radius; dr <= radius; dr++) {
-            for (int dc = -radius; dc <= radius; dc++) {
-                auto walls = tilemap->getOccludingWalls(chunkRow + dr, chunkColumn + dc);
-        
-                for (auto & wall : walls) {
-                    math::vec2 ep1 = wall.ep1;
-                    math::vec2 ep2 = wall.ep2;
-                    math::vec2 dir = obj->transform.position - ep1;
-                    if (math::dot(wall.normal, dir) < 0) 
-                        continue;
-                    math::vec2 dir1 = (ep1 - obj->transform.position).normalized() * 30, 
-                                dir2 = (ep2 - obj->transform.position).normalized() * 30;
-                    float vertices[12] = {
-                        ep1.x, ep1.y,
-                        ep2.x, ep2.y,
-                        ep1.x + dir1.x, ep1.y + dir1.y,
+            int chunkRow = tilemap->getChunkRow(obj->transform.position.y);
+            int chunkColumn = tilemap->getChunkColumn(obj->transform.position.x);
+            int radius = 1;
+            float shadowMeshData[12 * MAX_NUM_SHADOWS];
+            int shadowIndex = 0;
+            for (int dr = -radius; dr <= radius; dr++) {
+                for (int dc = -radius; dc <= radius; dc++) {
+                    auto walls = tilemap->getOccludingWalls(chunkRow + dr, chunkColumn + dc);
+            
+                    for (auto & wall : walls) {
+                        math::vec2 ep1 = wall.ep1;
+                        math::vec2 ep2 = wall.ep2;
+                        math::vec2 dir = obj->transform.position - ep1;
+                        if (math::dot(wall.normal, dir) < 0) 
+                            continue;
+                        math::vec2 dir1 = (ep1 - obj->transform.position).normalized() * 30, 
+                                    dir2 = (ep2 - obj->transform.position).normalized() * 30;
+                        float vertices[12] = {
+                            ep1.x, ep1.y,
+                            ep2.x, ep2.y,
+                            ep1.x + dir1.x, ep1.y + dir1.y,
 
-                        ep1.x + dir1.x, ep1.y + dir1.y,
-                        ep2.x, ep2.y,
-                        ep2.x + dir2.x, ep2.y + dir2.y,
-                    };
-                    for (size_t i = 0; i < 12; i++) {
-                        shadowMeshData[shadowIndex * 12 + i] = vertices[i];
-                    }
-                    shadowIndex++;
+                            ep1.x + dir1.x, ep1.y + dir1.y,
+                            ep2.x, ep2.y,
+                            ep2.x + dir2.x, ep2.y + dir2.y,
+                        };
+                        for (size_t i = 0; i < 12; i++) {
+                            shadowMeshData[shadowIndex * 12 + i] = vertices[i];
+                        }
+                        shadowIndex++;
 
-                    if (shadowIndex >= MAX_NUM_SHADOWS) {
-                        goto render;
+                        if (shadowIndex >= MAX_NUM_SHADOWS) {
+                            goto render;
+                        }
                     }
                 }
-            }
-        }
-    
+            } 
 render:
+            glBindBuffer(GL_ARRAY_BUFFER, vbo);
+            glBindVertexArray(vao);
 
-        glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBindVertexArray(vao);
+            glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * (12 * shadowIndex), shadowMeshData);
+            glDrawArrays(GL_TRIANGLES, 0, 6 * shadowIndex);
 
-        glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * (12 * shadowIndex), shadowMeshData);
-        glDrawArrays(GL_TRIANGLES, 0, 6 * shadowIndex);
-
-        glBindVertexArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
     shadowFBO.unbindBuffer();
 

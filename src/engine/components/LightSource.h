@@ -14,7 +14,9 @@ private:
 public:
     Framebuffer shadowFBO;
     Light light;
-    LightSource(const gfx::color& color, float luminance);
+    bool castsShadow;
+
+    LightSource(const gfx::color& color, float luminance, bool castsShadow);
 
     void set(Shader const& shader, int index, glm::mat4 const& projection) const;
 
