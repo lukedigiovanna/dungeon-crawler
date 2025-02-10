@@ -29,11 +29,13 @@ class GameObject: public std::enable_shared_from_this<GameObject> {
 private:
     std::map<std::type_index, std::shared_ptr<Component>, PriorityComparison> components;
     std::unique_ptr<RendererComponent> rendererComponent = nullptr;
+    std::string tag;
 public:
     std::weak_ptr<Scene> scene;
     math::Transform transform;
 
     GameObject();
+    GameObject(const std::string& tag);
 
     // Initializes any components added before the GameObject was added to a scene
     void init();
@@ -55,15 +57,16 @@ public:
     template<typename T>
     std::shared_ptr<T> getComponent() const {
         static_assert(std::is_base_of<Component, T>::value, "T must be a Component type");
-        auto it = components.find(std::type_index(typeid(T)));
+        auto typeIndex = std::type_index(typeid(T));
+        auto it = components.find(typeIndex);
         if (it != components.end()) {
             std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(it->second);
             if (ptr == nullptr) {
-                throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object");
+                throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object or failed to cast [tag=" + tag + ",component=" + typeIndex.name() + "]");
             }
             return ptr;
         }
-        throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object");
+        throw std::runtime_error("GameObject::getComponent: Tried getting a component type which is not on the given game object [tag=" + tag + ",component=" + typeIndex.name() + "]");
         return nullptr;
     }
 

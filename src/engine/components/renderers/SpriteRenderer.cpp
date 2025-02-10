@@ -22,17 +22,20 @@ void SpriteRenderer::setSprite(std::string const& spriteId) {
     if (!initialized) {
         throw std::runtime_error("SpriteRenderer::setSprite: Cannot set the sprite of a sprite renderer which hasn't been initialized");
     }
-    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
-    this->sprite = spriteManager->getSprite(spriteId);
+    SpriteManager& spriteManager = Engine::getSingleton()->getManagers()->spriteManager();
+    this->sprite = spriteManager.getSprite(spriteId);
 }
 
 void SpriteRenderer::setSprite(const Sprite* sprite) {
+    if (!initialized) {
+        throw std::runtime_error("SpriteRenderer::setSprite: Cannot set the sprite of a sprite renderer which hasn't been initialized");
+    }
     this->sprite = sprite;
 }
 
 void SpriteRenderer::init() {
-    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
-    sprite = spriteManager->getSprite(spriteId);
+    SpriteManager& spriteManager = Engine::getSingleton()->getManagers()->spriteManager();
+    sprite = spriteManager.getSprite(spriteId);
     initialized = true;
 }
 

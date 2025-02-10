@@ -31,10 +31,12 @@ add_executable(dungeon
   src/engine/components/renderers/SpriteRenderer.cpp
   src/engine/managers/AnimationManager.cpp
   src/engine/managers/InputManager.cpp
+  src/engine/managers/FontManager.cpp
+  src/engine/managers/Managers.cpp
   src/engine/managers/ShaderManager.cpp
   src/engine/managers/SpriteManager.cpp
   src/engine/managers/SceneManager.cpp
-  src/engine/managers/Managers.cpp
+  src/engine/ui/UIElement.cpp
   src/engine/utils/io.cpp
   src/engine/utils/meshes.cpp
   src/engine/utils/Animation.cpp

@@ -14,7 +14,7 @@ RendererComponent::~RendererComponent() {
 }
 
 Shader& RendererComponent::getShader(std::string const& shaderId) const {
-    return Engine::getSingleton()->getManagers()->shaderManager->getShader(shaderId);
+    return Engine::getSingleton()->getManagers()->shaderManager().getShader(shaderId);
 }
 
 std::shared_ptr<GameObject> RendererComponent::getGameObject() const {

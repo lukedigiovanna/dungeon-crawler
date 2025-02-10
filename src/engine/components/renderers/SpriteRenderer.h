@@ -6,7 +6,7 @@
 
 class SpriteRenderer: public RendererComponent {
 private:
-    std::string spriteId;
+    std::string spriteId; // Only to be used to pass spriteId from constructor to initialization.
     const Sprite* sprite = nullptr;
     bool initialized = false;
 public:

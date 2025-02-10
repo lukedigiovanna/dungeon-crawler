@@ -54,7 +54,7 @@ void LightSource::set(Shader const& shader, int index, glm::mat4 const& projecti
     if (castsShadow) {
         std::vector<std::unique_ptr<Tilemap>>& tilemaps = scene->getTilemaps();
         for (const auto& tilemap : tilemaps) {
-            Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_lighting");
+            Shader& lightingShader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_lighting");
             lightingShader.use();
             lightingShader.setMatrix4("projection", projection);
 

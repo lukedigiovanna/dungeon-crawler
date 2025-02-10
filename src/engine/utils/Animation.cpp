@@ -15,10 +15,6 @@ void Animation::addFrame(const Sprite* sprite) {
     this->sprites.push_back(sprite);
 }
 
-void Animation::addFrame(std::shared_ptr<SpriteManager> spriteManager, std::string const& spriteId) {
-    addFrame(spriteManager->getSprite(spriteId));
-}
-
 const Sprite* Animation::getFrame(int frameIndex) const {
     return this->sprites[frameIndex];
 }

@@ -6,9 +6,9 @@
 #include <memory>
 
 void EnterListener::update(float dt) {
-    std::shared_ptr<InputManager> input = Engine::getSingleton()->getManagers()->inputManager;
+    InputManager& input = Engine::getSingleton()->getManagers()->inputManager();
 
-    if (input->isKeyPressed(SDLK_RETURN)) {
-        Engine::getSingleton()->getManagers()->sceneManager->loadScene("sample");
+    if (input.isKeyPressed(SDLK_RETURN)) {
+        Engine::getSingleton()->getManagers()->sceneManager().loadScene("sample");
     }
 }

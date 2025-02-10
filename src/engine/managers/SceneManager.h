@@ -13,6 +13,8 @@ private:
     bool dirty;
 public:
     SceneManager();
+    SceneManager(const SceneManager&) = delete;
+    
     void registerScene(std::string const& sceneId, std::shared_ptr<Scene> scene);
     void loadScene(std::string const& sceneId);
 

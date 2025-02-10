@@ -5,8 +5,14 @@
 #include <utility>
 #include <iostream>
 
-GameObject::GameObject() : transform{math::vec2{0.0f, 0.0f}, math::vec2{1.0f, 1.0f}, 0.0f} {
+GameObject::GameObject() : 
+    transform{math::vec2{0.0f, 0.0f}, math::vec2{1.0f, 1.0f}, 0.0f},
+    tag("default_tag") {
 
+}
+
+GameObject::GameObject(const std::string& tag) : GameObject() {
+    this->tag = tag;
 }
 
 void GameObject::setRendererComponent(std::unique_ptr<RendererComponent> rendererComponent) {

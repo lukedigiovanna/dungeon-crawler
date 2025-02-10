@@ -26,7 +26,7 @@ void ShapeRenderer::render(Shader& shader) const {
     trans = glm::scale(trans, glm::vec3(obj->transform.scale.x, obj->transform.scale.y, 1.0f));
     shader.setMatrix4("model", trans);
     shader.setVec4("objectColor", glm::vec4(color.r, color.g, color.b, color.a));
-    const Sprite* sprite = Engine::getSingleton()->getManagers()->spriteManager->getSprite("white");
+    const Sprite* sprite = Engine::getSingleton()->getManagers()->spriteManager().getSprite("white");
     sprite->texture->bind();
     mesh->render();
 }

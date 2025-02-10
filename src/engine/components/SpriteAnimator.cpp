@@ -25,8 +25,8 @@ void SpriteAnimator::setAnimation(std::string const& animationId) {
         return;
     }
 
-    std::shared_ptr<AnimationManager> animManager = Engine::getSingleton()->getManagers()->animationManager;
-    animation = animManager->getAnimation(animationId);
+    AnimationManager& animManager = Engine::getSingleton()->getManagers()->animationManager();
+    animation = animManager.getAnimation(animationId);
     this->animationId = animationId;
     timer = 0.0f;
     currentFrame = 0;
@@ -41,8 +41,8 @@ void SpriteAnimator::seek(float timeOffset) {
 }
 
 void SpriteAnimator::init() {
-    std::shared_ptr<AnimationManager> animManager = Engine::getSingleton()->getManagers()->animationManager;
-    animation = animManager->getAnimation(animationId);
+    AnimationManager& animManager = Engine::getSingleton()->getManagers()->animationManager();
+    animation = animManager.getAnimation(animationId);
     
     RendererComponent* rc = &getGameObject()->getRendererComponent();
     // Assert that the renderer component is a sprite renderer

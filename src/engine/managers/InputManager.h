@@ -13,6 +13,7 @@ private:
     bool mouseIsDown;
 public:
     InputManager();
+    InputManager(const InputManager&) = delete;
 
     void update(SDL_Event& event);
 

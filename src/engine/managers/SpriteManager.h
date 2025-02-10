@@ -16,6 +16,7 @@ private:
     std::unordered_map<std::string, size_t> spriteMap;
 public:
     SpriteManager();
+    SpriteManager(const SpriteManager&) = delete;
 
     void registerSpriteSheet(std::string idPrefix, std::string spriteSheet, int cellsX, int cellsY);
     // void registerSprite(std::string id, std::string spriteSheet, int offX, int offY, int width, int height);

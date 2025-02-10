@@ -241,9 +241,9 @@ float Tilemap::getWorldX(int tileColumn) const {
 }
 
 void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) const {
-    std::shared_ptr<SpriteManager> spriteManager = Engine::getSingleton()->getManagers()->spriteManager;
-    std::shared_ptr<ShaderManager> shaderManager = Engine::getSingleton()->getManagers()->shaderManager;
-    Shader& tmShader = shaderManager->getShader("_tm_chunk");
+    SpriteManager& spriteManager = Engine::getSingleton()->getManagers()->spriteManager();
+    ShaderManager& shaderManager = Engine::getSingleton()->getManagers()->shaderManager();
+    Shader& tmShader = shaderManager.getShader("_tm_chunk");
 
     int startColumn = getChunkColumn(viewport.x);
     startColumn = startColumn < 0 ? 0 : startColumn;
@@ -274,7 +274,7 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
                         const Tile& tile = tiles[ti];
                         if (tile.spriteId < 0) 
                             continue;
-                        const Sprite* sprite = spriteManager->getSpriteByIndex(tile.spriteId);
+                        const Sprite* sprite = spriteManager.getSpriteByIndex(tile.spriteId);
                         float x = static_cast<float>(jj) / CHUNK_SIZE * 2.0f - 1.0f;
                         float y = static_cast<float>(ii) / CHUNK_SIZE * 2.0f - 1.0f;
                         tmShader.setVec4("rect", glm::vec4(x, y, TILE_SIZE, TILE_SIZE));

@@ -36,22 +36,23 @@ Engine::Engine(std::string const& gameName) {
 
     managers = std::make_shared<Managers>();
 
-    managers->shaderManager->loadShader(
-        "_scene", 
+    ShaderManager& shaderManager = managers->shaderManager();
+    shaderManager.loadShader(
+        "_scene",
         "assets/shaders/scene_vs.glsl", "assets/shaders/scene_fs.glsl"
     );
 
-    managers->shaderManager->loadShader(
-        "_tm_chunk", 
+    shaderManager.loadShader(
+        "_tm_chunk",
         "assets/shaders/tm_chunk_vs.glsl", "assets/shaders/tm_chunk_fs.glsl"
     );
 
-    managers->shaderManager->loadShader(
+    shaderManager.loadShader(
         "_lighting",
         "assets/shaders/light_vs.glsl", "assets/shaders/light_fs.glsl"
     );
 
-    managers->shaderManager->loadShader(
+    shaderManager.loadShader(
         "_text",
         "assets/shaders/text_vs.glsl", "assets/shaders/text_fs.glsl"
     );
@@ -60,14 +61,15 @@ Engine::Engine(std::string const& gameName) {
 }
 
 void Engine::checkForNewScene() {
-    if (managers->sceneManager->isDirty()) {
-        scene = managers->sceneManager->getCurrentScene();
+    SceneManager& sceneManager = managers->sceneManager();
+    if (sceneManager.isDirty()) {
+        scene = sceneManager.getCurrentScene();
 
         if (!scene->isInitialized()) {
             scene->init();
         }
 
-        managers->sceneManager->makeClean();
+        sceneManager.makeClean();
     }
 }
 
@@ -95,13 +97,13 @@ void Engine::renderLoop() {
             if (event.type == SDL_QUIT) {
                 this->halt();
             }
-            managers->inputManager->update(event);
+            managers->inputManager().update(event);
         }
 
         scene->update(dt);
         scene->render(window.get());
 
-        Shader& textShader = managers->shaderManager->getShader("_text");
+        Shader& textShader = managers->shaderManager().getShader("_text");
         font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);
 
         SDL_GL_SwapWindow(window->window);        

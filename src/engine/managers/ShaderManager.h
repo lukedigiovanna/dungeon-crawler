@@ -11,6 +11,7 @@ private:
     std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
 public:
     ShaderManager();
+    ShaderManager(const ShaderManager&) = delete;
 
     Shader& loadShader(std::string const& shaderId, std::string const& vsPath, std::string const& fsPath);
     Shader& getShader(std::string const& shaderId) const;

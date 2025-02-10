@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 #include "../utils/Math.h"
 #include "../utils/Shader.h"
@@ -31,6 +32,8 @@ public:
     std::vector<std::unique_ptr<UIElement>> children;
     // Reference to the parent, if it has one
     std::weak_ptr<UIElement> parent;
+
+    UIElement();
 
     virtual void render(Shader const& uiShader);
 };

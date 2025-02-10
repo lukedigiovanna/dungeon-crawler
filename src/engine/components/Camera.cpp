@@ -16,7 +16,7 @@
 
 #define MAX_NUM_LIGHTS 15
 
-Camera::Camera() : scale(10.0f), rotation(0.0f), windowDimension{640.0f, 480.0f} {
+Camera::Camera() : scale(20.0f), rotation(0.0f), windowDimension{640.0f, 480.0f} {
     aspectRatio = windowDimension.x / windowDimension.y;
 }
 
@@ -74,7 +74,7 @@ void Camera::render(Window* window) {
     // glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), rotation, glm::vec3(0.0f, 0.0f, 1.0f));
     // glm::mat4 translationMatrix = glm::translate(glm::mat4(1.0f), -thisPos);
 
-    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager->getShader("_scene");
+    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_scene");
 
     shader.use();
 

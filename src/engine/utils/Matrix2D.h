@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <stdexcept>
 
 class Matrix2D {
 private:
