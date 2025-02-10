@@ -4,6 +4,9 @@
 #include <SDL.h>
 
 class Window {
+public:
+    static int DEFAULT_WINDOW_WIDTH;
+    static int DEFAULT_WINDOW_HEIGHT;
 private:
     int scWidth, scHeight;
     static int resizeEventWatcher(void* data, SDL_Event* event);

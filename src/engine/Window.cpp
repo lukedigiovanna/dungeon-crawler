@@ -4,9 +4,12 @@
 
 #include <glad/glad.h>
 
+int Window::DEFAULT_WINDOW_WIDTH = 640;
+int Window::DEFAULT_WINDOW_HEIGHT = 480;
+
 Window::Window(std::string name) {
-    scWidth = 640;
-    scHeight = 480;
+    scWidth = DEFAULT_WINDOW_WIDTH;
+    scHeight = DEFAULT_WINDOW_HEIGHT;
     window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scWidth, scHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
     gl = SDL_GL_CreateContext(window);
     SDL_AddEventWatch(Window::resizeEventWatcher, this);

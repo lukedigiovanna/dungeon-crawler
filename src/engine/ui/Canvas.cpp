@@ -4,8 +4,8 @@ Canvas::Canvas() {
     root = std::make_unique<UIElement>();
 }
 
-UIElement* Canvas::getElementById(const std::string& id) const {
-    return root->getElementById(id);
+UIElement* Canvas::getElementByTag(const std::string& tag) const {
+    return root->getElementByTag(tag);
 }
 
 void Canvas::addElement(std::unique_ptr<UIElement> element) {

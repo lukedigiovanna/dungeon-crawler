@@ -67,9 +67,10 @@ void scenes::SampleScene::setup() {
 
     FontManager& fontManager = Engine::getSingleton()->getManagers()->fontManager();
     const Font* mcFont = fontManager.getFont("minecraft");
-    std::unique_ptr<UIElement> something = std::make_unique<TextElement>(mcFont, "MINECRAFT");
-    something->setID("something");
-    getCanvas().addElement(std::move(something));
+    std::unique_ptr<UIElement> debugInfo = std::make_unique<UIElement>();
+    std::unique_ptr<UIElement> playerPos = std::make_unique<TextElement>(mcFont, "<player  pos>");
+    playerPos->setTag("_debug_player_pos");
+    getCanvas().addElement(std::move(debugInfo));
 }
 
 void scenes::MainMenuScene::setup() {

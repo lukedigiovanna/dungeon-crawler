@@ -44,4 +44,8 @@ public:
 
     void renderLoop();
     void gameLoop();
+
+    inline const Window* getWindow() const {
+        return window.get();
+    }
 };

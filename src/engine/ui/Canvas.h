@@ -10,7 +10,7 @@ private:
 public:
     Canvas();
 
-    UIElement* getElementById(const std::string& id) const;
+    UIElement* getElementByTag(const std::string& tag) const;
 
     void addElement(std::unique_ptr<UIElement> element);
 

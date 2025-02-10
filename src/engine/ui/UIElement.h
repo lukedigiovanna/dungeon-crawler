@@ -20,10 +20,12 @@ enum Anchor {
     BOTTOM_RIGHT,
 };
 
+// TODO: add cycle detection in UI tree to prevent cycle  bugs which could cause fatal bugs
+
 class UIElement {
 private:
-    // Optional string to identify the element for access from component scripts.
-    std::string id;
+    // String to identify the element for access from component scripts.
+    std::string tag;
     // Dictates position element should fix itself relative to on screen resize
     Anchor anchor;
     // Child elements
@@ -40,15 +42,19 @@ public:
     virtual void render() const;
 
     // Performs a DFS on the canvas tree for the element with the given ID.
-    UIElement* getElementById(const std::string& id);
+    UIElement* getElementByTag(const std::string& tag);
 
+    // Adds the given element as a child to this element
     void addChild(std::unique_ptr<UIElement> element);
 
-    inline void setID(const std::string& id) {
-        this->id = id;
+    // Computes the position based on the transform and the screen dimensions
+    math::vec2 getComputedPosition() const;
+
+    inline void setTag(const std::string& tag) {
+        this->tag = tag;
     }
 
-    inline const std::string getID() const {
-        return id;
+    inline const std::string getTag() const {
+        return tag;
     }
 };
