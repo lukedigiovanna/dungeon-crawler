@@ -25,8 +25,6 @@ private:
 
     std::atomic<bool> active;
 
-    std::unique_ptr<Font> font;
-
     void checkForNewScene();
 public:
     static const unsigned int TARGET_TPS = 60;

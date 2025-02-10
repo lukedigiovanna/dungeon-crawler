@@ -25,7 +25,8 @@ private:
 
     // Order of maps dictates render order (first gets rendered first)
     std::vector<std::unique_ptr<Tilemap>> tilemaps;
-    std::vector<std::unique_ptr<Canvas>> canvases;
+    
+    Canvas canvas;
 
     Light ambientLight;
 protected:
@@ -39,6 +40,10 @@ public:
     bool hasTilemap() const;
     void addTilemap(std::unique_ptr<Tilemap> tilemap);
     std::vector<std::unique_ptr<Tilemap>>& getTilemaps();
+
+    inline Canvas& getCanvas() {
+        return canvas;
+    }
 
     void addGameObject(std::shared_ptr<GameObject> gameObject);
     void destroyGameObject(std::shared_ptr<GameObject> gameObject);

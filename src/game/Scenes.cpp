@@ -4,6 +4,8 @@
 #include "../engine/components/SpriteAnimator.h"
 #include "../engine/components/renderers/SpriteRenderer.h"
 #include "../engine/utils/Matrix2D.h"
+#include "../engine/ui/Canvas.h"
+#include "../engine/ui/TextElement.h"
 
 #include "components/EnterListener.h"
 
@@ -62,6 +64,12 @@ void scenes::SampleScene::setup() {
     setAmbientLightLuminance(0.1f);
 
     addGameObject(prefabs::playerPrefab());
+
+    FontManager& fontManager = Engine::getSingleton()->getManagers()->fontManager();
+    const Font* mcFont = fontManager.getFont("minecraft");
+    std::unique_ptr<UIElement> something = std::make_unique<TextElement>(mcFont, "MINECRAFT");
+    something->setID("something");
+    getCanvas().addElement(std::move(something));
 }
 
 void scenes::MainMenuScene::setup() {

@@ -21,19 +21,34 @@ enum Anchor {
 };
 
 class UIElement {
-public:
-    // String to identify the element for access from component scripts.
-    std::string tag;
+private:
+    // Optional string to identify the element for access from component scripts.
+    std::string id;
     // Dictates position element should fix itself relative to on screen resize
     Anchor anchor;
-    // Position relative to the parent in dimensions of the default screen size.
-    math::Transform transform;
     // Child elements
     std::vector<std::unique_ptr<UIElement>> children;
     // Reference to the parent, if it has one
-    std::weak_ptr<UIElement> parent;
+    const UIElement* parent;
+public:
+    // Position relative to the parent in dimensions of the default screen size.
+    math::Transform transform;
 
     UIElement();
+    UIElement(float x, float y);
 
-    virtual void render(Shader const& uiShader);
+    virtual void render() const;
+
+    // Performs a DFS on the canvas tree for the element with the given ID.
+    UIElement* getElementById(const std::string& id);
+
+    void addChild(std::unique_ptr<UIElement> element);
+
+    inline void setID(const std::string& id) {
+        this->id = id;
+    }
+
+    inline const std::string getID() const {
+        return id;
+    }
 };

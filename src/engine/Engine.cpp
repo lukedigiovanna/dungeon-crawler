@@ -26,9 +26,6 @@ Engine::Engine(std::string const& gameName) {
 
     Font::initFreeType();
 
-    // font = std::make_unique<Font>("assets/fonts/arial.ttf");
-    font = std::make_unique<Font>("assets/fonts/Minecraft.ttf");
-
     meshes::init();
 
     ComponentOrder::initializeEngineDependencies();
@@ -104,7 +101,9 @@ void Engine::renderLoop() {
         scene->render(window.get());
 
         Shader& textShader = managers->shaderManager().getShader("_text");
-        font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);
+        
+        // const Font* font = managers->fontManager().getFont("arial");
+        // font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);
 
         SDL_GL_SwapWindow(window->window);        
 

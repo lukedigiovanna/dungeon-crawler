@@ -49,7 +49,7 @@ PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     physics->gravity = 10;
     physics->bounciness = 0.5f;
-    physics->innateDragCoefficient = 0.0f;
+    // physics->innateDragCoefficient = 0.0f;
     player->addComponent(physics);
     player->transform.position.y = 2.0f;
     player->transform.scale = {2.0f, 2.0f};

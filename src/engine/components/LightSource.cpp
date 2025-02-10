@@ -35,7 +35,9 @@ void LightSource::initializeVertexObject() {
 }
 
 LightSource::LightSource(gfx::color const& color, float luminance, bool castsShadow) :
-    light{luminance, color}, castsShadow(castsShadow), shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
+    light{luminance, color}, 
+    castsShadow(castsShadow), 
+    shadowFBO(Framebuffer(SHADOW_MAP_SIZE, SHADOW_MAP_SIZE)) {
     if (!initialized) {
         initializeVertexObject();
     }

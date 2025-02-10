@@ -39,7 +39,11 @@ int program() {
 
     std::shared_ptr<Managers> managers = engine->getManagers();
 
-    SpriteManager& spriteManager = engine->getManagers()->spriteManager();
+    FontManager& fontManager = managers->fontManager();
+    fontManager.registerFont("minecraft", "assets/fonts/Minecraft.ttf");
+    fontManager.registerFont("arial", "assets/fonts/arial.ttf");
+
+    SpriteManager& spriteManager = managers->spriteManager();
     spriteManager.registerSprite("smile", "assets/smile.png");
     int nf = 12;
     std::array<std::string, 4> dirs = {"down", "left", "right", "up"};

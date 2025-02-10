@@ -4,6 +4,7 @@
 #include "../../engine/Scene.h"
 #include "../../engine/Engine.h"
 #include "../../engine/managers/InputManager.h"
+#include "../../engine/ui/TextElement.h"
 
 PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 
@@ -73,4 +74,16 @@ void PlayerMovement::update(float dt) {
     //     animator->setAnimation("player-walk-up");
     // else if (physics->velocity.y < 0)
     //     animator->setAnimation("player-walk-down");
+
+    UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementById("something");
+    if (something) {
+        TextElement* textSomething = dynamic_cast<TextElement*>(something);
+        if (textSomething) {
+            std::string pos = 
+                std::to_string(static_cast<int>(obj->transform.position.x)) 
+                + ", " + 
+                std::to_string(static_cast<int>(obj->transform.position.y));
+            textSomething->setText(pos);
+        }
+    }
 }

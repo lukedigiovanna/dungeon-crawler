@@ -99,6 +99,7 @@ void Scene::setAmbientLightColor(gfx::color const& color) {
 
 void Scene::render(Window* window) const {
     this->camera->render(window);
+    canvas.render();
 }
 
 std::shared_ptr<Camera> Scene::getCamera() const {
