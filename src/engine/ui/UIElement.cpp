@@ -9,6 +9,8 @@ UIElement::UIElement() : UIElement(0, 0) {
 
 UIElement::UIElement(float x, float y) :
     transform{math::vec2{x, y}, math::vec2{1, 1}, 0},
+    scaleMode(ScaleMode::CONSTANT),
+    anchor(math::vec2{0,0}),
     tag("untagged") {
 
 }

@@ -20,6 +20,12 @@ enum AnchorPreset {
     BOTTOM_RIGHT,
 };
 
+enum ScaleMode {
+    CONSTANT, // No scaling with screen size change
+    SCALE_WITH_WIDTH, // Match the width scaling factor
+    SCALE_WITH_HEIGHT, // Match the height scaling factor
+};
+
 // TODO: add cycle detection in UI tree to prevent cycle  bugs which could cause fatal bugs
 
 class UIElement {
@@ -28,6 +34,9 @@ private:
     std::string tag;
     // Dictates position element should fix itself relative to on screen resize
     math::vec2 anchor;
+    // Dictates how the scale of the element should change with screen size changes
+    // implementation is dependent on the element type
+    ScaleMode scaleMode;
     // Child elements
     std::vector<std::unique_ptr<UIElement>> children;
     // Reference to the parent, if it has one
@@ -64,4 +73,12 @@ public:
 
     // Compute the anchor based on a preset
     void setAnchor(AnchorPreset anchorPreset);
+
+    inline void setScaleMode(ScaleMode scaleMode) {
+        this->scaleMode = scaleMode;
+    }
+
+    inline ScaleMode getScaleMode() const {
+        return scaleMode;
+    } 
 };

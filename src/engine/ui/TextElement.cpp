@@ -15,7 +15,15 @@ void TextElement::render() const {
     if (font) {
         Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui");
         math::vec2 computed = getComputedPosition();
-        font->renderText(shader, text, color, alignment, computed.x, computed.y, size / 20.0f);
+        float scale = size / 20.0f;
+        ScaleMode sm = getScaleMode();
+        if (sm == ScaleMode::SCALE_WITH_WIDTH) {
+            scale *= Engine::getSingleton()->getWindow()->width() / Window::DEFAULT_WIDTH;
+        }
+        else if (sm == ScaleMode::SCALE_WITH_HEIGHT) {
+            scale *= Engine::getSingleton()->getWindow()->height() / Window::DEFAULT_HEIGHT;
+        }
+        font->renderText(shader, text, color, alignment, computed.x, computed.y, scale);
     }
     UIElement::render();
 }

@@ -114,6 +114,7 @@ void scenes::MainMenuScene::setup() {
         mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 30.0f, "OUBLIETTE"
     );
     title->setAnchor(AnchorPreset::TOP_CENTER);
+    title->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     title->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 70.0f };
     canvas.addElement(std::move(title));
 
@@ -121,6 +122,7 @@ void scenes::MainMenuScene::setup() {
         mcFont, gfx::color{ 0.7f, 0.7f, 0.74f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
     );
     enterToPlay->setAnchor(AnchorPreset::TOP_CENTER);
+    enterToPlay->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     enterToPlay->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 150.0f };
     canvas.addElement(std::move(enterToPlay));
 
