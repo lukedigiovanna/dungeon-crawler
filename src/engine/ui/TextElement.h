@@ -7,9 +7,10 @@
 class TextElement : public UIElement {
 private:
     std::string text;
+    gfx::color color;
     const Font* font;
 public:
-    TextElement(const Font* font, const std::string& text);
+    TextElement(const Font* font, const gfx::color& color, const std::string& text);
 
     void render() const override;
 

@@ -78,11 +78,9 @@ Font::Font(const std::string& filepath) {
 
 #include <iostream>
 
-void Font::renderText(const Shader& shader, const std::string& text, float x, float y, float scale) const {
+void Font::renderText(const Shader& shader, const std::string& text, const gfx::color& color, float x, float y, float scale) const {
     shader.use();
-    glm::mat4 projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f);
-    shader.setMatrix4("projection", projection);
-    shader.setVec3("textColor", 0.9f, 0.9f, 0.9f);
+    shader.setVec3("color", color.r, color.g, color.b);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(vao);

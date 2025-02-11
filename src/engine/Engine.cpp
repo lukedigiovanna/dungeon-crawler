@@ -50,8 +50,8 @@ Engine::Engine(std::string const& gameName) {
     );
 
     shaderManager.loadShader(
-        "_text",
-        "assets/shaders/text_vs.glsl", "assets/shaders/text_fs.glsl"
+        "_ui",
+        "assets/shaders/ui_vs.glsl", "assets/shaders/ui_fs.glsl"
     );
 
     scene = nullptr;
@@ -100,7 +100,6 @@ void Engine::renderLoop() {
         scene->update(dt);
         scene->render(window.get());
 
-        Shader& textShader = managers->shaderManager().getShader("_text");
         
         // const Font* font = managers->fontManager().getFont("arial");
         // font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);

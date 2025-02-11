@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.h"
+#include "Graphics.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H   
@@ -15,7 +16,6 @@ struct Character {
     unsigned int advance;
     glm::ivec2 size;
     glm::ivec2 bearing;
-
 };
 
 
@@ -30,5 +30,5 @@ public:
 
     Font(const std::string& filepath);
 
-    void renderText(const Shader& shader, const std::string& text, float x, float y, float scale) const;
+    void renderText(const Shader& shader, const std::string& text, const gfx::color& color, float x, float y, float scale) const;
 };

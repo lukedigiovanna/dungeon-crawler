@@ -75,7 +75,7 @@ void PlayerMovement::update(float dt) {
     // else if (physics->velocity.y < 0)
     //     animator->setAnimation("player-walk-down");
 
-    UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementById("something");
+    UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementByTag("_debug_player_pos");
     if (something) {
         TextElement* textSomething = dynamic_cast<TextElement*>(something);
         if (textSomething) {
