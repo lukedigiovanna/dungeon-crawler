@@ -78,13 +78,45 @@ Font::Font(const std::string& filepath) {
 
 #include <iostream>
 
-void Font::renderText(const Shader& shader, const std::string& text, const gfx::color& color, float x, float y, float scale) const {
+float Font::textWidth(const std::string& text, float scale) const {
+    float width = 0.0f;
+    for (auto c : text) {
+        auto f = characters.find(c);
+        if (f == characters.end()) {
+            throw std::runtime_error("Font::textWidth: Unsupported character in string");
+        }
+        Character glyph = f->second;
+        width += ((glyph.advance >> 6) + glyph.bearing.x) * scale;
+    }
+    return width;
+}
+
+void Font::renderText(
+        const Shader& shader, 
+        const std::string& text, 
+        const gfx::color& color, 
+        TextAlignment alignment,
+        float x, float y, 
+        float scale) const {
     shader.use();
     shader.setVec3("color", color.r, color.g, color.b);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(vao);
     
+    float dx = 0;
+    if (alignment != TextAlignment::JUSTIFY_LEFT) {
+        float width = textWidth(text, scale);
+        if (alignment == TextAlignment::JUSTIFY_CENTER) {
+            dx -= width / 2.0f;
+        }
+        else if (alignment == TextAlignment::JUSTIFY_RIGHT) {
+            dx -= width;
+        }
+    }
+
+    x += dx;
+
     for (auto c : text) {
         auto f = characters.find(c);
         if (f == characters.end()) {

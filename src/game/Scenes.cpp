@@ -73,31 +73,56 @@ void scenes::SampleScene::setup() {
     // playerPos->setTag("_debug_player_pos");
     // canvas.addElement(std::move(playerPos));
 
-    std::unique_ptr<UIElement> t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    std::unique_ptr<UIElement> t = std::make_unique<TextElement>(
+        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_LEFT, 12.0f, "TOP_LEFT"
+    );
     t->setAnchor(AnchorPreset::TOP_LEFT);
     t->transform.position = { 0, 0 };
     canvas.addElement(std::move(t));
 
-    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t = std::make_unique<TextElement>(
+        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_CENTER, 12.0f, "TOP_CENTER"
+    );
     t->setAnchor(AnchorPreset::TOP_CENTER);
     t->transform.position = { Window::DEFAULT_WIDTH /  2.0f, 0 };
     canvas.addElement(std::move(t));
 
-    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t = std::make_unique<TextElement>(
+        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_RIGHT, 12.0f, "TOP_RIGHT"
+    );
     t->setAnchor(AnchorPreset::TOP_RIGHT);
-    t->transform.position = { Window::DEFAULT_WIDTH - 30.0f, 0 };
+    t->transform.position = { Window::DEFAULT_WIDTH, 0 };
     canvas.addElement(std::move(t));
 
-    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
-    t->setAnchor(AnchorPreset::CENTER_LEFT);
-    t->transform.position = { 0, Window::DEFAULT_HEIGHT / 2.0f };
-    canvas.addElement(std::move(t));
+    // t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    // t->setAnchor(AnchorPreset::CENTER_LEFT);
+    // t->transform.position = { 0, Window::DEFAULT_HEIGHT / 2.0f };
+    // canvas.addElement(std::move(t));
 }
 
 void scenes::MainMenuScene::setup() {
     std::shared_ptr<GameObject> background = std::make_shared<GameObject>();
-    background->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft0"));
+    background->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft233"));
     background->transform.scale = { 5.0f, 5.0f };
     background->addComponent(std::make_shared<EnterListener>());
+
+    FontManager& fontManager = Engine::getSingleton()->getManagers()->fontManager();
+    Canvas& canvas = getCanvas();
+    const Font* mcFont = fontManager.getFont("minecraft");
+    
+    std::unique_ptr<UIElement> title = std::make_unique<TextElement>(
+        mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 30.0f, "OUBLIETTE"
+    );
+    title->setAnchor(AnchorPreset::TOP_CENTER);
+    title->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 70.0f };
+    canvas.addElement(std::move(title));
+
+    std::unique_ptr<UIElement> enterToPlay = std::make_unique<TextElement>(
+        mcFont, gfx::color{ 0.7f, 0.7f, 0.74f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
+    );
+    enterToPlay->setAnchor(AnchorPreset::TOP_CENTER);
+    enterToPlay->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 150.0f };
+    canvas.addElement(std::move(enterToPlay));
+
     addGameObject(background);
 }
