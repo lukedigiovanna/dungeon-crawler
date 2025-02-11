@@ -13,7 +13,7 @@ PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 void PlayerMovement::init() {
     std::shared_ptr<GameObject> obj = getGameObject();
     this->physics = obj->getComponent<Physics>();
-    // this->animator = obj->getComponent<SpriteAnimator>();
+    this->animator = obj->getComponent<SpriteAnimator>();
     obj->getScene()->getCamera()->getGameObject()->transform.position = obj->transform.position;
 }
 
@@ -59,21 +59,12 @@ void PlayerMovement::update(float dt) {
         Engine::getSingleton()->getManagers()->sceneManager().loadScene("main_menu");
     }
 
-    // if (physics->velocity.x < 0)
-    //     animator->setAnimation("player-walk-left");
-    // else if (physics->velocity.x > 0)
-    //     animator->setAnimation("player-walk-right");
-
-    // float xspeed = std::abs(physics->velocity.x);
-    // animator->speedScale =  xspeed / speed;
-    // if (xspeed <= 1e-4) {
-    //     animator->reset();
-    // }    
-
-    // else if (physics->velocity.y > 0)
-    //     animator->setAnimation("player-walk-up");
-    // else if (physics->velocity.y < 0)
-    //     animator->setAnimation("player-walk-down");
+    if (std::abs(physics->velocity.x) > 1e-4) {
+        animator->setAnimation("player-run");
+    }
+    else {
+        animator->setAnimation("player-idle");
+    }
 
     UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementByTag("_debug_player_pos");
     if (something) {

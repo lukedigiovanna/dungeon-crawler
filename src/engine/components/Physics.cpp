@@ -5,7 +5,7 @@
 Physics::Physics() : 
     velocity{0.0f, 0.0f}, 
     angularVelocity(0.0f),
-    innateDragCoefficient(0.0f),
+    innateDragCoefficient(1.0f),
     gravity(0.0f),
     gravityDirection{0.0f, -1.0f},
     bounciness(0.5f) {

@@ -40,8 +40,8 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
 
 PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> player = std::make_shared<GameObject>("Player");
-    player->setRendererComponent(std::make_unique<SpriteRenderer>("minecraft32"));
-    // player->addComponent(std::make_shared<SpriteAnimator>("player-walk-right"));
+    player->setRendererComponent(std::make_unique<SpriteRenderer>("idle0"));
+    player->addComponent(std::make_shared<SpriteAnimator>("player-idle"));
     player->addComponent(std::make_shared<Spawner>());
     player->addComponent(std::make_shared<LightSource>(gfx::COLOR_WHITE, 0.5f, true));
     player->addComponent(std::make_shared<PlayerMovement>(5.0f));
@@ -49,7 +49,6 @@ PrefabConstructor prefabs::playerPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<Physics> physics = std::make_shared<Physics>();
     physics->gravity = 10;
     physics->bounciness = 0.5f;
-    // physics->innateDragCoefficient = 0.0f;
     player->addComponent(physics);
     player->transform.position.y = 2.0f;
     player->transform.scale = {2.0f, 2.0f};

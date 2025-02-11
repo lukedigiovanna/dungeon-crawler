@@ -45,9 +45,9 @@ int program() {
 
     SpriteManager& spriteManager = managers->spriteManager();
     spriteManager.registerSprite("smile", "assets/smile.png");
-    int nf = 12;
-    std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
-    spriteManager.registerSpriteSheet("character", "assets/character3.png", nf, 4);
+    // int nf = 12;
+    // std::array<std::string, 4> dirs = {"down", "left", "right", "up"};
+    // spriteManager.registerSpriteSheet("character", "assets/character3.png", nf, 4);
     // int nf = 9;
     // std::array<std::string, 4> dirs = {"up", "left", "down", "right"};
     // spriteManager->registerSpriteSheet("character", "assets/character2.png", nf, 4);
@@ -57,17 +57,31 @@ int program() {
 
     spriteManager.registerSpriteSheet("minecraft", "assets/minecraft.png", 24, 34);
     spriteManager.registerSprite("background", "assets/topdown.png");
-    
+    spriteManager.registerSpriteSheet("run", "assets/_Run.png", 10, 1);
+    spriteManager.registerSpriteSheet("idle", "assets/_Idle.png", 10, 1);
+
     AnimationManager& animationManager = engine->getManagers()->animationManager();
     
-    int walkIndex = 0;
-    for (std::string const& dir : dirs) {
-        std::shared_ptr<Animation> ani = std::make_shared<Animation>(14.0f);
-        for (int i = 0; i < nf; i++) {
-            ani->addFrame(managers->spriteManager().getSprite("character" + std::to_string(walkIndex++)));
-        }
-        managers->animationManager().registerAnimation("player-walk-" + dir, ani);
+    // int walkIndex = 0;
+    // for (std::string const& dir : dirs) {
+    //     std::shared_ptr<Animation> ani = std::make_shared<Animation>(14.0f);
+    //     for (int i = 0; i < nf; i++) {
+    //         ani->addFrame(managers->spriteManager().getSprite("character" + std::to_string(walkIndex++)));
+    //     }
+    //     managers->animationManager().registerAnimation("player-walk-" + dir, ani);
+    // }
+
+    std::shared_ptr<Animation> playerIdle = std::make_shared<Animation>(10.0f);
+    for (int i = 0; i < 10; i++) {
+        playerIdle->addFrame(spriteManager.getSprite("idle" + std::to_string(i)));
     }
+    animationManager.registerAnimation("player-idle", playerIdle);
+
+    std::shared_ptr<Animation> playerRun = std::make_shared<Animation>(10.0f);
+    for (int i = 0; i < 10; i++) {
+        playerRun->addFrame(spriteManager.getSprite("run" + std::to_string(i)));
+    }
+    animationManager.registerAnimation("player-run", playerRun);
 
     std::shared_ptr<Animation> minecraftAnimation = std::make_shared<Animation>(20.0f);
     for (int i = 0; i < 800; i++) {
