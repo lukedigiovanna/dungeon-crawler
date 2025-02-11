@@ -12,7 +12,8 @@ TextElement::TextElement(const Font* font, const gfx::color& color, const std::s
 void TextElement::render() const {
     if (font) {
         Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui");
-        font->renderText(shader, text, color, transform.position.x, transform.position.y, 1.0f);
+        math::vec2 computed = getComputedPosition();
+        font->renderText(shader, text, color, computed.x, computed.y, 1.0f);
     }
     UIElement::render();
 }

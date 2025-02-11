@@ -8,7 +8,7 @@
 
 // Dictates how the UIElement should respond to changes
 // in the screen dimensions.
-enum Anchor {
+enum AnchorPreset {
     TOP_LEFT,
     TOP_CENTER,
     TOP_RIGHT,
@@ -27,7 +27,7 @@ private:
     // String to identify the element for access from component scripts.
     std::string tag;
     // Dictates position element should fix itself relative to on screen resize
-    Anchor anchor;
+    math::vec2 anchor;
     // Child elements
     std::vector<std::unique_ptr<UIElement>> children;
     // Reference to the parent, if it has one
@@ -57,4 +57,11 @@ public:
     inline const std::string getTag() const {
         return tag;
     }
+
+    inline void setAnchor(const math::vec2& anchor) {
+        this->anchor = anchor;
+    }
+
+    // Compute the anchor based on a preset
+    void setAnchor(AnchorPreset anchorPreset);
 };

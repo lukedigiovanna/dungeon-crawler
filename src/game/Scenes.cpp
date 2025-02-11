@@ -66,11 +66,32 @@ void scenes::SampleScene::setup() {
     addGameObject(prefabs::playerPrefab());
 
     FontManager& fontManager = Engine::getSingleton()->getManagers()->fontManager();
+    Canvas& canvas = getCanvas();
     const Font* mcFont = fontManager.getFont("minecraft");
-    std::unique_ptr<UIElement> debugInfo = std::make_unique<UIElement>();
-    std::unique_ptr<UIElement> playerPos = std::make_unique<TextElement>(mcFont, gfx::COLOR_RED, "<player  pos>");
-    playerPos->setTag("_debug_player_pos");
-    getCanvas().addElement(std::move(playerPos));
+    // std::unique_ptr<UIElement> debugInfo = std::make_unique<UIElement>();
+    // std::unique_ptr<UIElement> playerPos = std::make_unique<TextElement>(mcFont, gfx::COLOR_RED, "<player  pos>");
+    // playerPos->setTag("_debug_player_pos");
+    // canvas.addElement(std::move(playerPos));
+
+    std::unique_ptr<UIElement> t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t->setAnchor(AnchorPreset::TOP_LEFT);
+    t->transform.position = { 0, 0 };
+    canvas.addElement(std::move(t));
+
+    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t->setAnchor(AnchorPreset::TOP_CENTER);
+    t->transform.position = { Window::DEFAULT_WIDTH /  2.0f, 0 };
+    canvas.addElement(std::move(t));
+
+    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t->setAnchor(AnchorPreset::TOP_RIGHT);
+    t->transform.position = { Window::DEFAULT_WIDTH - 30.0f, 0 };
+    canvas.addElement(std::move(t));
+
+    t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
+    t->setAnchor(AnchorPreset::CENTER_LEFT);
+    t->transform.position = { 0, Window::DEFAULT_HEIGHT / 2.0f };
+    canvas.addElement(std::move(t));
 }
 
 void scenes::MainMenuScene::setup() {

@@ -23,8 +23,7 @@ void Canvas::render() const {
     shader.use();
     const Window* window = Engine::getSingleton()->getWindow();
     glm::mat4 projection = glm::ortho(
-        0.0f, static_cast<float>(window->width()), 
-        static_cast<float>(window->height()), 0.0f
+        0.0f, window->width(), window->height(), 0.0f
     );
     shader.setMatrix4("projection", projection);
     root->render();

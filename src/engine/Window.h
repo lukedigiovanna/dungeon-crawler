@@ -5,10 +5,10 @@
 
 class Window {
 public:
-    static int DEFAULT_WINDOW_WIDTH;
-    static int DEFAULT_WINDOW_HEIGHT;
+    static float DEFAULT_WIDTH;
+    static float DEFAULT_HEIGHT;
 private:
-    int scWidth, scHeight;
+    float scWidth, scHeight;
     static int resizeEventWatcher(void* data, SDL_Event* event);
 public:
     SDL_Window* window;
@@ -18,10 +18,10 @@ public:
 
     void updateWindowSize();
 
-    inline int width() const {
+    inline float width() const {
         return scWidth;
     }
-    inline int height() const {
+    inline float height() const {
         return scHeight;
     }
 };
