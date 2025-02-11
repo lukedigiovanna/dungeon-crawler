@@ -10,7 +10,17 @@ Will include a homebrewed game engine. Plan on going with an entity-component sy
 Dependencies:
 
 SDL2
+
 GLFW
+
 Freetype 2.13.2
+
 glad
+
 glm
+
+tinyxml2
+
+- Add `src/engine/glad.c`
+- Add `src/engine/stb_image.h`
+- Add `src/engine/utils/tinyxml2.h` and `src/engine/utils/tinyxml2.cpp`

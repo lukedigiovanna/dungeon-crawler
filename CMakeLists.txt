@@ -51,6 +51,7 @@ add_executable(dungeon
   src/engine/utils/Shader.cpp
   src/engine/utils/Sprite.cpp
   src/engine/utils/Texture.cpp
+  src/engine/utils/tinyxml2.cpp
   src/engine/utils/Wall.cpp
 
   src/game/scenes.cpp

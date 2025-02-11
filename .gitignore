@@ -6,6 +6,8 @@
 
 src/engine/glad.c
 src/engine/stb_image.h
+src/engine/utils/tinyxml2.h
+src/engine/utils/tinyxml2.cpp
 
 # Ignore files from Tiled project (level editor) 
 /tiled
