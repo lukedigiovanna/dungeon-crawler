@@ -66,6 +66,13 @@ void PlayerMovement::update(float dt) {
         animator->setAnimation("player-idle");
     }
 
+    if (physics->velocity.x < 0) {
+        obj->transform.scale.x = -std::abs(obj->transform.scale.x);
+    }
+    else if (physics->velocity.x > 0) {
+        obj->transform.scale.x = std::abs(obj->transform.scale.x);
+    }
+
     UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementByTag("_debug_player_pos");
     if (something) {
         TextElement* textSomething = dynamic_cast<TextElement*>(something);

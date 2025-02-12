@@ -99,7 +99,7 @@ void Font::renderText(
         float x, float y, 
         float scale) const {
     shader.use();
-    shader.setVec3("color", color.r, color.g, color.b);
+    shader.setVec4("color", color.r, color.g, color.b, color.a);
 
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(vao);

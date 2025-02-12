@@ -13,7 +13,7 @@ TextElement::TextElement(const Font* font, const gfx::color& color, TextAlignmen
 
 void TextElement::render() const {
     if (font) {
-        Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui");
+        Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_text");
         math::vec2 computed = getComputedPosition();
         float scale = size / 20.0f;
         ScaleMode sm = getScaleMode();

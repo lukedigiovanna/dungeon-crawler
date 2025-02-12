@@ -50,8 +50,8 @@ Engine::Engine(std::string const& gameName) {
     );
 
     shaderManager.loadShader(
-        "_ui",
-        "assets/shaders/ui_vs.glsl", "assets/shaders/ui_fs.glsl"
+        "_ui_text",
+        "assets/shaders/ui_text_vs.glsl", "assets/shaders/ui_text_fs.glsl"
     );
 
     scene = nullptr;

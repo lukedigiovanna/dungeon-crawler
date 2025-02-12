@@ -119,7 +119,7 @@ void scenes::MainMenuScene::setup() {
     canvas.addElement(std::move(title));
 
     std::unique_ptr<UIElement> enterToPlay = std::make_unique<TextElement>(
-        mcFont, gfx::color{ 0.7f, 0.7f, 0.74f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
+        mcFont, gfx::color{ 0.7f, 0.7f, 0.74f, 0.5f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
     );
     enterToPlay->setAnchor(AnchorPreset::TOP_CENTER);
     enterToPlay->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);

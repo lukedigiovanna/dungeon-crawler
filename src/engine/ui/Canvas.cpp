@@ -19,7 +19,7 @@ void Canvas::addElement(std::unique_ptr<UIElement> element) {
 
 void Canvas::render() const {
     // Set up the UI shader first
-    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui");
+    Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_text");
     shader.use();
     const Window* window = Engine::getSingleton()->getWindow();
     glm::mat4 projection = glm::ortho(

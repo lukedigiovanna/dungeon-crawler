@@ -20,7 +20,7 @@
 
 PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObject> {
     std::shared_ptr<GameObject> cat = std::make_shared<GameObject>("Spinning");
-    gfx::color color{math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), math::random(0.0f, 1.0f)};
+    gfx::color color{math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), math::random(0.0f, 1.0f), 1.0f};
     cat->setRendererComponent(
         std::make_unique<SpriteRenderer>("minecraft" + std::to_string(rand() % 816), color)
     );
@@ -32,6 +32,8 @@ PrefabConstructor prefabs::spinningCatPrefab = []() -> std::shared_ptr<GameObjec
     float speed = 2.5f;
     physics->angularVelocity = 90.0f;
     physics->innateDragCoefficient = 0.95f;
+    physics->gravity = 10.0f;
+    physics->bounciness = 1.0f;
     cat->addComponent(physics);
     cat->addComponent(std::make_shared<Shrink>());
     cat->transform.scale = { 0.25f, 0.25f };
