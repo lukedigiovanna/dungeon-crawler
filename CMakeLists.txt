@@ -38,6 +38,7 @@ add_executable(dungeon
   src/engine/managers/SceneManager.cpp
   src/engine/ui/Canvas.cpp
   src/engine/ui/UIElement.cpp
+  src/engine/ui/SpriteElement.cpp
   src/engine/ui/TextElement.cpp
   src/engine/utils/io.cpp
   src/engine/utils/meshes.cpp

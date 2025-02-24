@@ -54,6 +54,11 @@ Engine::Engine(std::string const& gameName) {
         "assets/shaders/ui_text_vs.glsl", "assets/shaders/ui_text_fs.glsl"
     );
 
+    shaderManager.loadShader(
+        "_ui_sprite",
+        "assets/shaders/ui_sprite_vs.glsl", "assets/shaders/ui_sprite_fs.glsl"
+    );
+
     scene = nullptr;
 }
 

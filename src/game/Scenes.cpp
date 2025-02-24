@@ -6,6 +6,7 @@
 #include "../engine/utils/Matrix2D.h"
 #include "../engine/ui/Canvas.h"
 #include "../engine/ui/TextElement.h"
+#include "../engine/ui/SpriteElement.h"
 
 #include "components/EnterListener.h"
 
@@ -92,6 +93,11 @@ void scenes::SampleScene::setup() {
     );
     t->setAnchor(AnchorPreset::TOP_RIGHT);
     t->transform.position = { Window::DEFAULT_WIDTH, 0 };
+    canvas.addElement(std::move(t));
+
+    t = std::make_unique<SpriteElement>(
+        spriteManager.getSprite("minecraft60")
+    );
     canvas.addElement(std::move(t));
 
     // t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");

@@ -9,4 +9,4 @@ void main()
 {    
     vec4 sampled = vec4(1.0, 1.0, 1.0, texture(tex, TexCoords).r);
     outColor = color * sampled;
-}  
+}
