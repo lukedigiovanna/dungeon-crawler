@@ -46,6 +46,9 @@ void PlayerMovement::update(float dt) {
         targetSpeed += speed;
     if (targetSpeed != 0) 
         physics->velocity.x = targetSpeed;
+    else {
+        physics->velocity.x *= std::exp(-10 * dt);
+    }
 
     physics->angularVelocity = 0;
     if (input.isKeyDown(SDLK_e)) {
