@@ -8,15 +8,16 @@
 
 #include <glad/glad.h>
 
-Scene::Scene() : ambientLight{ 1.0f, gfx::COLOR_WHITE } {
+Scene::Scene(const std::string& id) : id(id), ambientLight{ 1.0f, gfx::COLOR_WHITE } {
     // Do not construct any part of the scene prior to full construction of a scene
     // This is to ensure it is managed by a shared ptr before any calls to
     // addGameObject
 }
 
 void Scene::init() {
+    std::cout << "Initializing Scene: " << id << std::endl;
     // Every scene requires a camera on initialization
-    std::shared_ptr<GameObject> cameraObj = std::make_shared<GameObject>();
+    std::shared_ptr<GameObject> cameraObj = std::make_shared<GameObject>("main_camera");
     camera = std::make_shared<Camera>();
     cameraObj->addComponent(camera);
     addGameObject(cameraObj);

@@ -6,7 +6,8 @@ SceneManager::SceneManager() : dirty(false) {
     
 }
 
-void SceneManager::registerScene(std::string const& sceneId, std::shared_ptr<Scene> scene) {
+void SceneManager::registerScene(std::shared_ptr<Scene> scene) {
+    const std::string& sceneId = scene->getID();
     auto f = sceneMap.find(sceneId);
     if (f != sceneMap.end()) {
         throw std::runtime_error("SceneManager::registerScene: Scene id already used: " + sceneId);

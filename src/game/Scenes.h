@@ -4,6 +4,7 @@
 
 #define declareScene(name) \
 class name: public Scene { \
+    using Scene::Scene; \
     protected: \
         void setup() override; \
 }

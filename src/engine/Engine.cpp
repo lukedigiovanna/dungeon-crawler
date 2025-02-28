@@ -13,6 +13,8 @@
 
 #include <glad/glad.h>
 
+const float Engine::FRAME_RESOLUTION = 1.0f / 60.0f;
+
 Engine::Engine(std::string const& gameName) {
     window = std::make_unique<Window>(gameName);
     
@@ -80,7 +82,11 @@ std::shared_ptr<Managers> Engine::getManagers() const {
 }
 
 void Engine::renderLoop() {
+    checkForNewScene();
+    scene->update(0.0f);
+
     auto last = std::chrono::system_clock::now();
+    float accumulator = 0.0f;
     while (this->active) {
         checkForNewScene();
 
@@ -92,7 +98,10 @@ void Engine::renderLoop() {
         auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(start - last);
         last = start;
 
+        // The real time since last frame
         float dt = static_cast<float>(elapsed.count()) / 1000000.0f;
+
+        accumulator += dt;
 
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
@@ -102,16 +111,17 @@ void Engine::renderLoop() {
             managers->inputManager().update(event);
         }
 
-        scene->update(dt);
-        scene->render(window.get());
+        while (accumulator >= FRAME_RESOLUTION) {
+            scene->update(FRAME_RESOLUTION);
+            accumulator -= FRAME_RESOLUTION;
+        }
 
-        
-        // const Font* font = managers->fontManager().getFont("arial");
-        // font->renderText(textShader, "FPS: " + std::to_string(static_cast<int>(1.0f / dt)), 50, 50, 0.5f);
+        scene->render(window.get());
 
         SDL_GL_SwapWindow(window->window);        
 
         auto end = std::chrono::system_clock::now();
+        // Sleep for estimated amount of time to stabilize FPS
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         auto sleepTime = std::chrono::microseconds(1000000 / Engine::TARGET_TPS) - elapsed;
         if (sleepTime.count() > 0) {

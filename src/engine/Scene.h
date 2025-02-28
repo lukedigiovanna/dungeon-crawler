@@ -17,6 +17,8 @@ class Scene: public std::enable_shared_from_this<Scene> {
 private:
     bool initialized = false;
 
+    std::string id;
+
     std::shared_ptr<Camera> camera;
     std::vector<std::shared_ptr<GameObject>> gameObjects;
 
@@ -33,7 +35,7 @@ protected:
     virtual void setup();
 
 public:
-    Scene();
+    Scene(const std::string& id);
     
     void init();
 
@@ -65,4 +67,8 @@ public:
 
     void render(Window* window) const;
     void update(float dt);
+
+    inline const std::string& getID() const {
+        return id;
+    }
 };

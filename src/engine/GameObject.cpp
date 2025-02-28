@@ -42,12 +42,14 @@ RendererComponent& GameObject::getRendererComponent() const {
 
 void GameObject::setScene(std::shared_ptr<Scene> scene) {
     this->scene = scene;
+    std::cout << "debug: set [tag=" << tag << "] to scene " << scene->getID() << std::endl;
 }
 
 std::shared_ptr<Scene> GameObject::getScene() const {
     std::shared_ptr<Scene> scenePtr = this->scene.lock();
-    if (scenePtr == nullptr)
-        throw std::runtime_error("GameObject::getScene: Cannot acquire scene from a GameObject which is not in a scene");
+    if (scenePtr == nullptr) {
+        throw std::runtime_error("GameObject::getScene: Cannot acquire scene from a GameObject which is not in a scene. [tag=" + tag + "]");
+    }
     return scenePtr;
 }
 

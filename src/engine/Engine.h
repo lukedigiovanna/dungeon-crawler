@@ -12,7 +12,10 @@
 #include <thread>
 #include <atomic>
 
+
 class Engine {
+public:
+    static const float FRAME_RESOLUTION;
 private:
     static std::unique_ptr<Engine> singleton;
     // Managers

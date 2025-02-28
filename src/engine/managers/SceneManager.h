@@ -15,7 +15,7 @@ public:
     SceneManager();
     SceneManager(const SceneManager&) = delete;
     
-    void registerScene(std::string const& sceneId, std::shared_ptr<Scene> scene);
+    void registerScene(std::shared_ptr<Scene> scene);
     void loadScene(std::string const& sceneId);
 
     inline std::shared_ptr<Scene> getCurrentScene() const {
