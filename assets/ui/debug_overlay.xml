@@ -1,0 +1,14 @@
+<text 
+    color="0x332211" 
+    x="480" y="320"
+    alignment="center" 
+    anchor="top_center"
+    size=13
+>
+    DEBUG!
+</text>
+<container x="0" y="0" anchor="top_left" width="480" height="320">
+    <sprite sprite_id="minecraft22" />
+    <text id="player_x" x="0" y="0" alignment="left"> x: 0 </text>
+    <text id="player_y" x="0" y="20" alignment="left"> y: 0</text>
+</container>

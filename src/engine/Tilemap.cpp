@@ -55,8 +55,10 @@ Tilemap::Tilemap(int width, int height, float scale) : scale(scale) {
     }
     tiles = std::make_unique<Tile[]>(width * height);
     for (int i = 0; i < width * height; i++) {
-        float x = static_cast<float>(i % width) / width * worldWidth - worldWidth / 2.0f;
-        float y = worldHeight / 2.0f - static_cast<float>(i / width) / height * worldHeight;
+        int col = i % width;
+        int row = i / width;
+        float x = getWorldX(col);
+        float y = getWorldY(row);
         tiles[i] = Tile(x, y, scale);
     }
 }
@@ -181,8 +183,8 @@ void Tilemap::setTile(int row, int col, int spriteId, bool wall) {
 
 void Tilemap::setTileFromWorldPosition(float x, float y, int spriteId, bool wall) {
     // Convert x, y to row, pos
-    int row = static_cast<int>((worldHeight / 2.0f - y) / worldHeight * height);
-    int col = static_cast<int>((x + worldWidth / 2.0f) / worldWidth * width);
+    int row = getTileRow(y);
+    int col = getTileColumn(x);
     if (row < 0 || row >= height || col < 0 || col >= width)
         return;
     setTile(row, col, spriteId, wall);
@@ -207,7 +209,8 @@ Tile const& Tilemap::getTileFromWorldPosition(float x, float y) const {
 }
 
 int Tilemap::getTileRow(float worldY) const {
-    int row = static_cast<int>((worldHeight / 2.0f - worldY) / worldHeight * height);
+    // int row = static_cast<int>((worldHeight / 2.0f - worldY) / worldHeight * height);
+    int row = static_cast<int>((worldHeight - worldY) / worldHeight * height);
     if (row < 0 || row >= height) {
         return -1;
     }
@@ -215,7 +218,8 @@ int Tilemap::getTileRow(float worldY) const {
 }
 
 int Tilemap::getTileColumn(float worldX) const { 
-    int col = static_cast<int>((worldX + worldWidth / 2.0f) / worldWidth * width);
+    // int col = static_cast<int>((worldX + worldWidth / 2.0f) / worldWidth * width);
+    int col = static_cast<int>(worldX / worldWidth * width);
     if (col < 0 || col >= width) {
         return -1;
     }
@@ -233,11 +237,13 @@ int Tilemap::getChunkColumn(float worldX) const {
 }
 
 float Tilemap::getWorldY(int tileRow) const {
-    return worldHeight / 2.0f - static_cast<float>(tileRow) / height * worldHeight;
+    // return worldHeight / 2.0f - static_cast<float>(tileRow) / height * worldHeight;
+    return worldHeight - static_cast<float>(tileRow) / height * worldHeight;
 }
 
 float Tilemap::getWorldX(int tileColumn) const {
-   return  static_cast<float>(tileColumn) / width * worldWidth - worldWidth / 2.0f;
+//    return  static_cast<float>(tileColumn) / width * worldWidth - worldWidth / 2.0f;
+   return  static_cast<float>(tileColumn) / width * worldWidth;
 }
 
 void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) const {
@@ -288,8 +294,10 @@ void Tilemap::render(Shader const& shader, math::Rectangle const& viewport) cons
             // render the chunk to the world
             shader.use();
             
-            float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * worldHeight - worldHeight / 2.0f + CHUNK_SIZE * scale / 2.0f; 
-            float x = static_cast<float>(j) / nChunksWidth * worldWidth - worldWidth / 2.0f + CHUNK_SIZE * scale / 2.0f; 
+            // float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * worldHeight - worldHeight / 2.0f + CHUNK_SIZE * scale / 2.0f; 
+            // float x = static_cast<float>(j) / nChunksWidth * worldWidth - worldWidth / 2.0f + CHUNK_SIZE * scale / 2.0f; 
+            float y = static_cast<float>(nChunksHeight - i - 1) / nChunksHeight * worldHeight + CHUNK_SIZE * scale / 2.0f; 
+            float x = static_cast<float>(j) / nChunksWidth * worldWidth + CHUNK_SIZE * scale / 2.0f; 
             glm::mat4 trans(1.0f);
             trans = glm::translate(trans, glm::vec3(x, y, 0.0f));
             trans = glm::scale(trans, glm::vec3(scale * CHUNK_SIZE, scale * CHUNK_SIZE, 1.0f));

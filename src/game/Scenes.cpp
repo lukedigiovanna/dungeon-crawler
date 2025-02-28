@@ -70,35 +70,39 @@ void scenes::SampleScene::setup() {
     Canvas& canvas = getCanvas();
     const Font* mcFont = fontManager.getFont("minecraft");
     // std::unique_ptr<UIElement> debugInfo = std::make_unique<UIElement>();
-    // std::unique_ptr<UIElement> playerPos = std::make_unique<TextElement>(mcFont, gfx::COLOR_RED, "<player  pos>");
-    // playerPos->setTag("_debug_player_pos");
-    // canvas.addElement(std::move(playerPos));
-
-    std::unique_ptr<UIElement> t = std::make_unique<TextElement>(
-        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_LEFT, 12.0f, "TOP_LEFT"
+    std::unique_ptr<UIElement> playerPos = std::make_unique<TextElement>(
+        mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_LEFT, 18.0f, "<player  pos>"
     );
-    t->setAnchor(AnchorPreset::TOP_LEFT);
-    t->transform.position = { 0, 0 };
-    canvas.addElement(std::move(t));
+    playerPos->setAnchor(AnchorPreset::TOP_LEFT);
+    playerPos->transform.position = { 10, 10 };
+    playerPos->setTag("_debug_player_pos");
+    canvas.addElement(std::move(playerPos));
 
-    t = std::make_unique<TextElement>(
-        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_CENTER, 12.0f, "TOP_CENTER"
-    );
-    t->setAnchor(AnchorPreset::TOP_CENTER);
-    t->transform.position = { Window::DEFAULT_WIDTH /  2.0f, 0 };
-    canvas.addElement(std::move(t));
+    // std::unique_ptr<UIElement> t = std::make_unique<TextElement>(
+    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_LEFT, 12.0f, "TOP_LEFT"
+    // );
+    // t->setAnchor(AnchorPreset::TOP_LEFT);
+    // t->transform.position = { 0, 0 };
+    // canvas.addElement(std::move(t));
 
-    t = std::make_unique<TextElement>(
-        mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_RIGHT, 12.0f, "TOP_RIGHT"
-    );
-    t->setAnchor(AnchorPreset::TOP_RIGHT);
-    t->transform.position = { Window::DEFAULT_WIDTH, 0 };
-    canvas.addElement(std::move(t));
+    // t = std::make_unique<TextElement>(
+    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_CENTER, 12.0f, "TOP_CENTER"
+    // );
+    // t->setAnchor(AnchorPreset::TOP_CENTER);
+    // t->transform.position = { Window::DEFAULT_WIDTH /  2.0f, 0 };
+    // canvas.addElement(std::move(t));
 
-    t = std::make_unique<SpriteElement>(
-        spriteManager.getSprite("minecraft60")
-    );
-    canvas.addElement(std::move(t));
+    // t = std::make_unique<TextElement>(
+    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_RIGHT, 12.0f, "TOP_RIGHT"
+    // );
+    // t->setAnchor(AnchorPreset::TOP_RIGHT);
+    // t->transform.position = { Window::DEFAULT_WIDTH, 0 };
+    // canvas.addElement(std::move(t));
+
+    // t = std::make_unique<SpriteElement>(
+    //     spriteManager.getSprite("minecraft60")
+    // );
+    // canvas.addElement(std::move(t));
 
     // t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
     // t->setAnchor(AnchorPreset::CENTER_LEFT);

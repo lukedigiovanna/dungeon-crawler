@@ -76,15 +76,17 @@ void PlayerMovement::update(float dt) {
         obj->transform.scale.x = std::abs(obj->transform.scale.x);
     }
 
-    UIElement* something = this->getGameObject()->getScene()->getCanvas().getElementByTag("_debug_player_pos");
-    if (something) {
-        TextElement* textSomething = dynamic_cast<TextElement*>(something);
-        if (textSomething) {
-            std::string pos = 
-                std::to_string(static_cast<int>(obj->transform.position.x)) 
-                + ", " + 
+    Canvas& canvas = obj->getScene()->getCanvas();
+    UIElement* playerPos = canvas.getElementByTag("_debug_player_pos");
+    if (playerPos) {
+        TextElement* textPlayerPos = dynamic_cast<TextElement*>(playerPos);
+        if (textPlayerPos) {
+            std::string pos =
+                "x, y = " +
+                std::to_string(static_cast<int>(obj->transform.position.x)) +
+                ", " + 
                 std::to_string(static_cast<int>(obj->transform.position.y));
-            textSomething->setText(pos);
+            textPlayerPos->setText(pos);
         }
     }
 }
