@@ -62,8 +62,9 @@ void PlayerMovement::update(float dt) {
         Engine::getSingleton()->getManagers()->sceneManager().loadScene("main_menu");
     }
 
-    if (std::abs(physics->velocity.x) > 1e-4) {
+    if (std::abs(physics->velocity.x) > 1e-1) {
         animator->setAnimation("player-run");
+        animator->speedScale = 1 - std::exp(-std::abs(physics->velocity.x));
     }
     else {
         animator->setAnimation("player-idle");
