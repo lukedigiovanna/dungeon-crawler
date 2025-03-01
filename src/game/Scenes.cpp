@@ -78,36 +78,21 @@ void scenes::SampleScene::setup() {
     playerPos->setTag("_debug_player_pos");
     canvas.addElement(std::move(playerPos));
 
-    // std::unique_ptr<UIElement> t = std::make_unique<TextElement>(
-    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_LEFT, 12.0f, "TOP_LEFT"
-    // );
-    // t->setAnchor(AnchorPreset::TOP_LEFT);
-    // t->transform.position = { 0, 0 };
-    // canvas.addElement(std::move(t));
-
-    // t = std::make_unique<TextElement>(
-    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_CENTER, 12.0f, "TOP_CENTER"
-    // );
-    // t->setAnchor(AnchorPreset::TOP_CENTER);
-    // t->transform.position = { Window::DEFAULT_WIDTH /  2.0f, 0 };
-    // canvas.addElement(std::move(t));
-
-    // t = std::make_unique<TextElement>(
-    //     mcFont, gfx::COLOR_BLUE, TextAlignment::JUSTIFY_RIGHT, 12.0f, "TOP_RIGHT"
-    // );
-    // t->setAnchor(AnchorPreset::TOP_RIGHT);
-    // t->transform.position = { Window::DEFAULT_WIDTH, 0 };
-    // canvas.addElement(std::move(t));
-
-    // t = std::make_unique<SpriteElement>(
-    //     spriteManager.getSprite("minecraft60")
-    // );
-    // canvas.addElement(std::move(t));
-
-    // t = std::make_unique<TextElement>(mcFont, gfx::COLOR_BLUE, "X");
-    // t->setAnchor(AnchorPreset::CENTER_LEFT);
-    // t->transform.position = { 0, Window::DEFAULT_HEIGHT / 2.0f };
-    // canvas.addElement(std::move(t));
+    AnchorPreset presets[9] = {
+        TOP_LEFT, TOP_CENTER, TOP_RIGHT,
+        CENTER_LEFT, CENTER, CENTER_RIGHT,
+        BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
+    };
+    for (int i = 0; i < 9; i++) {
+        int xi = i % 3, yi = i / 3;
+        float x = xi / 2.0f * Window::DEFAULT_WIDTH;
+        float y = yi / 2.0f * Window::DEFAULT_HEIGHT;
+        std::unique_ptr<UIElement> t = std::make_unique<SpriteElement>("minecraft" + std::to_string(i));
+        t->transform.position = { x, y };
+        t->transform.scale = { 30.0f, 30.0f };
+        t->setAnchor(presets[i]);
+        canvas.addElement(std::move(t));
+    }
 }
 
 void scenes::MainMenuScene::setup() {

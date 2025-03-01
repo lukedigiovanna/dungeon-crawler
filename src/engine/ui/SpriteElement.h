@@ -10,6 +10,7 @@ private:
     const Sprite* sprite;
     gfx::color color;
 public:
+    SpriteElement(const std::string& spriteId);
     SpriteElement(const Sprite* sprite);
 
     void render() const override;
