@@ -14,7 +14,7 @@ TextElement::TextElement(const Font* font, const gfx::color& color, TextAlignmen
 void TextElement::render() const {
     if (font) {
         Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_text");
-        math::vec2 computed = getComputedPosition();
+        math::vec2 position = getComputedPosition();
         float scale = size / 20.0f;
         ScaleMode sm = getScaleMode();
         if (sm == ScaleMode::SCALE_WITH_WIDTH) {
@@ -23,7 +23,7 @@ void TextElement::render() const {
         else if (sm == ScaleMode::SCALE_WITH_HEIGHT) {
             scale *= Engine::getSingleton()->getWindow()->height() / Window::DEFAULT_HEIGHT;
         }
-        font->renderText(shader, text, color, alignment, computed.x, computed.y, scale);
+        font->renderText(shader, text, color, alignment, position.x, position.y, scale);
     }
     UIElement::render();
 }
