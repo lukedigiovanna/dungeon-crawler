@@ -13,6 +13,7 @@ Canvas::Canvas() {
         math::vec2{ 0, 0 },
         math::vec2{ Window::DEFAULT_WIDTH, Window::DEFAULT_HEIGHT }
     );
+    root->setAlignment(PositionAlignment::POSITION_TOP_LEFT);
     root->setTag("root");
 }
 

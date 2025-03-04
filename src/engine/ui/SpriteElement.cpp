@@ -18,9 +18,9 @@ SpriteElement::SpriteElement(const std::string& spriteId) :
 
 void SpriteElement::render() const {
     if (sprite) {
-        Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_sprite");
         math::vec2 position = getComputedPosition();
         math::vec2 dimension = getComputedDimension();
+        Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_sprite");
         shader.use();
         glm::mat4 trans(1.0f);
         trans = glm::translate(trans, glm::vec3(position.x + dimension.x / 2, position.y + dimension.y / 2, 0.0f));

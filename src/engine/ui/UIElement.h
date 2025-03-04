@@ -9,21 +9,26 @@
 // Dictates how the UIElement should respond to changes
 // in the screen dimensions.
 enum Anchor {
-    TOP_LEFT,
-    TOP_CENTER,
-    TOP_RIGHT,
-    CENTER_LEFT,
-    CENTER,
-    CENTER_RIGHT,
-    BOTTOM_LEFT,
-    BOTTOM_CENTER,
-    BOTTOM_RIGHT,
+    ANCHOR_TOP_LEFT,
+    ANCHOR_TOP_CENTER,
+    ANCHOR_TOP_RIGHT,
+    ANCHOR_CENTER_LEFT,
+    ANCHOR_CENTER,
+    ANCHOR_CENTER_RIGHT,
+    ANCHOR_BOTTOM_LEFT,
+    ANCHOR_BOTTOM_CENTER,
+    ANCHOR_BOTTOM_RIGHT,
 };
 
 enum ScaleMode {
-    CONSTANT, // No scaling with screen size change
+    SCALE_CONSTANT, // No scaling with screen size change
     SCALE_WITH_WIDTH, // Match the width scaling factor
     SCALE_WITH_HEIGHT, // Match the height scaling factor
+};
+
+enum PositionAlignment {
+    POSITION_CENTER,
+    POSITION_TOP_LEFT,
 };
 
 // TODO: add cycle detection in UI tree to prevent cycle  bugs which could cause fatal bugs
@@ -32,14 +37,20 @@ class UIElement {
 private:
     // String to identify the element for access from component scripts.
     std::string tag;
+    
     // Dictates position element should fix itself relative to on screen resize
     Anchor anchor;
     math::vec2 anchorPosition;
+
     // Dictates how the scale of the element should change with screen size changes
     // implementation is dependent on the element type
     ScaleMode scaleMode;
+
+    PositionAlignment alignment;
+
     // Child elements
     std::vector<std::unique_ptr<UIElement>> children;
+
     // Reference to the parent, if it has one
     const UIElement* parent;
 
@@ -96,7 +107,15 @@ public:
         this->scaleMode = scaleMode;
     }
 
+    inline void setAlignment(PositionAlignment alignment) {
+        this->alignment = alignment;
+    }
+
     inline ScaleMode getScaleMode() const {
         return scaleMode;
-    } 
+    }
+
+    inline PositionAlignment getAlignment() const {
+        return alignment;
+    }
 };

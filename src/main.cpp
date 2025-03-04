@@ -16,7 +16,7 @@
 
 #include "engine/Engine.h"
 #include "engine/Scene.h"
-#include "game/scenes.h"
+#include "game/Scenes.h"
 #include "engine/utils/Math.h"
 #include "engine/components/ComponentOrder.h"
 #include "engine/components/Collider.h"

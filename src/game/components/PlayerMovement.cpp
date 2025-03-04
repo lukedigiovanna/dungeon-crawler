@@ -95,6 +95,6 @@ void PlayerMovement::update(float dt) {
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
     UIElement* container = canvas.getElementByTag("container");
     if (container) {
-        container->transform.position.x = 250 + std::sin(lifetime->getAge()) * 100;
+        // container->transform.position.x = 250 + std::sin(lifetime->getAge()) * 100;
     }
 }

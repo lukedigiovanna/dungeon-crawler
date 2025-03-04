@@ -9,10 +9,11 @@ UIElement::UIElement() : UIElement(0, 0) {
 
 UIElement::UIElement(float x, float y) :
     transform{math::vec2{x, y}, math::vec2{1, 1}, 0},
-    scaleMode(ScaleMode::CONSTANT),
-    anchor(Anchor::TOP_LEFT),
+    scaleMode(ScaleMode::SCALE_CONSTANT),
+    anchor(Anchor::ANCHOR_TOP_LEFT),
     tag("untagged"),
-    parent(nullptr) {
+    parent(nullptr),
+    alignment(PositionAlignment::POSITION_CENTER) {
 
 }
 
@@ -42,7 +43,7 @@ void UIElement::recomputeDimension() {
         computedDimension = { window->width(), window->height() };
         return;
     }
-    if (scaleMode == ScaleMode::CONSTANT) {
+    if (scaleMode == ScaleMode::SCALE_CONSTANT) {
         computedDimension = transform.scale;
         return;
     }
@@ -73,23 +74,23 @@ void UIElement::recomputeAnchor() {
         dimension = { Window::DEFAULT_WIDTH, Window::DEFAULT_HEIGHT };
     }
     switch (anchor) {
-    case Anchor::TOP_LEFT:
+    case Anchor::ANCHOR_TOP_LEFT:
         anchorPosition = { 0.0f, 0.0f }; break;
-    case Anchor::TOP_CENTER:
+    case Anchor::ANCHOR_TOP_CENTER:
         anchorPosition = { dimension.x / 2.0f, 0.0f }; break;
-    case Anchor::TOP_RIGHT:
+    case Anchor::ANCHOR_TOP_RIGHT:
         anchorPosition = { dimension.x, 0.0f }; break;
-    case Anchor::CENTER_LEFT:
+    case Anchor::ANCHOR_CENTER_LEFT:
         anchorPosition = { 0.0f, dimension.y / 2.0f }; break;
-    case Anchor::CENTER:
+    case Anchor::ANCHOR_CENTER:
         anchorPosition = { dimension.x / 2.0f, dimension.y / 2.0f }; break;
-    case Anchor::CENTER_RIGHT:
+    case Anchor::ANCHOR_CENTER_RIGHT:
         anchorPosition = { dimension.x, dimension.y / 2.0f }; break;
-    case Anchor::BOTTOM_LEFT:
+    case Anchor::ANCHOR_BOTTOM_LEFT:
         anchorPosition = { 0.0f, dimension.y }; break;
-    case Anchor::BOTTOM_CENTER:
+    case Anchor::ANCHOR_BOTTOM_CENTER:
         anchorPosition = { dimension.x / 2.0f, dimension.y }; break;
-    case Anchor::BOTTOM_RIGHT:
+    case Anchor::ANCHOR_BOTTOM_RIGHT:
         anchorPosition = { dimension.x, dimension.y }; break;
     }
 }
@@ -115,6 +116,9 @@ void UIElement::recomputePosition() {
     };
     math::vec2 relativeOffset = transform.position - anchorPosition;
     computedPosition = p_position + computedAnchorPosition + relativeOffset;
+    if (alignment == PositionAlignment::POSITION_CENTER) {
+        computedPosition -= computedDimension / 2;
+    }
 }
 
 void UIElement::recomputePositionAndDimension() {

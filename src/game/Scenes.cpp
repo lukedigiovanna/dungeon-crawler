@@ -1,4 +1,4 @@
-#include "scenes.h"
+#include "Scenes.h"
 
 #include "../engine/Engine.h"
 #include "../engine/components/SpriteAnimator.h"
@@ -80,15 +80,15 @@ void scenes::SampleScene::setup() {
 
     std::unique_ptr<UIElement> container = std::make_unique<SpriteElement>("minecraft0");
     container->transform.scale = { 100.0f, 100.0f };
-    container->transform.position = { Window::DEFAULT_WIDTH / 2 - container->transform.scale.x / 2, Window::DEFAULT_HEIGHT / 2 - container->transform.scale.y / 2 };
-    container->setAnchor(Anchor::CENTER);
-    container->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
+    container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2};
+    container->setAnchor(Anchor::ANCHOR_CENTER);
+    container->setScaleMode(ScaleMode::SCALE_CONSTANT);
     container->setTag("container");
 
     Anchor presets[9] = {
-        TOP_LEFT, TOP_CENTER, TOP_RIGHT,
-        CENTER_LEFT, CENTER, CENTER_RIGHT,
-        BOTTOM_LEFT, BOTTOM_CENTER, BOTTOM_RIGHT
+        ANCHOR_TOP_LEFT, ANCHOR_TOP_CENTER, ANCHOR_TOP_RIGHT,
+        ANCHOR_CENTER_LEFT, ANCHOR_CENTER, ANCHOR_CENTER_RIGHT,
+        ANCHOR_BOTTOM_LEFT, ANCHOR_BOTTOM_CENTER, ANCHOR_BOTTOM_RIGHT
     };
     for (int i = 0; i < 9; i++) {
         int xi = i % 3, yi = i / 3;
@@ -98,7 +98,7 @@ void scenes::SampleScene::setup() {
         std::unique_ptr<UIElement> t = std::make_unique<SpriteElement>(id);
         t->setTag(id);
         t->transform.scale = { 30.0f, 30.0f };
-        t->transform.position = { x - t->transform.scale.x / 2, y - t->transform.scale.y / 2};
+        t->transform.position = { x, y };
         t->setAnchor(presets[i]);
         t->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
         container->addChild(std::move(t));
@@ -119,7 +119,7 @@ void scenes::MainMenuScene::setup() {
     std::unique_ptr<UIElement> title = std::make_unique<TextElement>(
         mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 30.0f, "OUBLIETTE"
     );
-    title->setAnchor(Anchor::TOP_CENTER);
+    title->setAnchor(Anchor::ANCHOR_TOP_CENTER);
     title->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     title->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 70.0f };
     canvas.addElement(std::move(title));
@@ -127,7 +127,7 @@ void scenes::MainMenuScene::setup() {
     std::unique_ptr<UIElement> enterToPlay = std::make_unique<TextElement>(
         mcFont, gfx::color{ 0.7f, 0.7f, 0.74f, 0.5f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
     );
-    enterToPlay->setAnchor(Anchor::TOP_CENTER);
+    enterToPlay->setAnchor(Anchor::ANCHOR_TOP_CENTER);
     enterToPlay->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     enterToPlay->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 150.0f };
     canvas.addElement(std::move(enterToPlay));
