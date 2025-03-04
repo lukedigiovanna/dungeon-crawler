@@ -62,11 +62,16 @@ public:
     // By convention, the position should always be the top-left position of the element.
     // The dimension extends down and right
     math::Transform transform;
+    bool active;
 
     UIElement();
     UIElement(float x, float y);
 
-    virtual void render() const;
+private:
+    virtual void renderElement() const;
+
+public:
+    void render() const;
 
     // Performs a DFS on the canvas tree for the first element with the given ID.
     UIElement* getElementByTag(const std::string& tag);

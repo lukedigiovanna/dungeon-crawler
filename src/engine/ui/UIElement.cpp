@@ -13,7 +13,8 @@ UIElement::UIElement(float x, float y) :
     anchor(Anchor::ANCHOR_TOP_LEFT),
     tag("untagged"),
     parent(nullptr),
-    alignment(PositionAlignment::POSITION_CENTER) {
+    alignment(PositionAlignment::POSITION_CENTER),
+    active(true) {
 
 }
 
@@ -136,7 +137,17 @@ void UIElement::recomputePositionAndDimension() {
     }
 }
 
+void UIElement::renderElement() const {
+
+}
+
 void UIElement::render() const {
+    if (!active) {
+        return;
+    }
+
+    renderElement();
+    
     for (const auto& child : children) {
         child->render();
     }

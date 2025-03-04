@@ -79,11 +79,12 @@ void scenes::SampleScene::setup() {
     // canvas.addElement(std::move(playerPos));
 
     std::unique_ptr<UIElement> container = std::make_unique<SpriteElement>("minecraft0");
-    container->transform.scale = { 100.0f, 100.0f };
-    container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2};
+    container->transform.scale = { 250.0f, 250.0f };
+    container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2 - 50};
     container->setAnchor(Anchor::ANCHOR_CENTER);
     container->setScaleMode(ScaleMode::SCALE_CONSTANT);
     container->setTag("container");
+    container->active = false;
 
     Anchor presets[9] = {
         ANCHOR_TOP_LEFT, ANCHOR_TOP_CENTER, ANCHOR_TOP_RIGHT,

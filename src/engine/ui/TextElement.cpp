@@ -11,7 +11,7 @@ TextElement::TextElement(const Font* font, const gfx::color& color, TextAlignmen
 
 }
 
-void TextElement::render() const {
+void TextElement::renderElement() const {
     if (font) {
         Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_text");
         math::vec2 position = getComputedPosition();
@@ -25,5 +25,4 @@ void TextElement::render() const {
         }
         font->renderText(shader, text, color, alignment, position.x, position.y, scale);
     }
-    UIElement::render();
 }

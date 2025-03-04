@@ -12,13 +12,13 @@ private:
     gfx::color color;
     TextAlignment alignment;
     float size;
+
+    void renderElement() const override;
 public:
     TextElement(const Font* font, const gfx::color& color, TextAlignment alignment, float size, const std::string& text);
 
     // Text elements can not have children
     void addChild(std::unique_ptr<UIElement> element) = delete;
-
-    void render() const override;
 
     inline void setText(const std::string& text) {
         this->text = text;

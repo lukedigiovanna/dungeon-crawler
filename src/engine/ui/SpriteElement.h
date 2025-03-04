@@ -9,9 +9,10 @@ class SpriteElement: public UIElement {
 private:
     const Sprite* sprite;
     gfx::color color;
+
+    void renderElement() const override;
 public:
     SpriteElement(const std::string& spriteId);
     SpriteElement(const Sprite* sprite);
 
-    void render() const override;
 };

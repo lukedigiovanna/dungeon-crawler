@@ -16,7 +16,7 @@ SpriteElement::SpriteElement(const std::string& spriteId) :
     sprite = spriteManager.getSprite(spriteId);
 }
 
-void SpriteElement::render() const {
+void SpriteElement::renderElement() const {
     if (sprite) {
         math::vec2 position = getComputedPosition();
         math::vec2 dimension = getComputedDimension();
@@ -30,5 +30,4 @@ void SpriteElement::render() const {
         shader.setVec4("color", color.r, color.g, color.b, color.a);
         sprite->render(shader);
     }
-    UIElement::render();
 }

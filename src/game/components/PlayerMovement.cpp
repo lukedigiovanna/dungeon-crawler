@@ -51,14 +51,6 @@ void PlayerMovement::update(float dt) {
         physics->velocity.x *= std::exp(-10 * dt);
     }
 
-    physics->angularVelocity = 0;
-    if (input.isKeyDown(SDLK_e)) {
-        physics->angularVelocity += 180;
-    }
-    if (input.isKeyDown(SDLK_q)) {
-        physics->angularVelocity -= 180;
-    }
-
     if (input.isKeyPressed(SDLK_ESCAPE)) {
         Engine::getSingleton()->getManagers()->sceneManager().loadScene("main_menu");
     }
@@ -95,6 +87,9 @@ void PlayerMovement::update(float dt) {
     std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
     UIElement* container = canvas.getElementByTag("container");
     if (container) {
+        if (input.isKeyPressed(SDLK_e)) {
+            container->active = !container->active;
+        }
         // container->transform.position.x = 250 + std::sin(lifetime->getAge()) * 100;
     }
 }
