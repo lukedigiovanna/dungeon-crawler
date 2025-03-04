@@ -7,7 +7,7 @@ uniform vec4 clipRect;
 uniform vec4 color;
 
 void main() {
-    vec2 transformedTexCoord = clipRect.xy + vec2(TexCoord.x, 1.0 - TexCoord.y) * clipRect.zw;
+    vec2 transformedTexCoord = clipRect.xy + vec2(TexCoord.x, TexCoord.y) * clipRect.zw;
     vec4 sampled = texture(ourTexture, transformedTexCoord);
 
     if (sampled.a < 0.1)
