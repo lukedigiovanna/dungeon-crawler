@@ -5,8 +5,15 @@
 
 #include "../Engine.h"
 
+#include "ContainerElement.h"
+
 Canvas::Canvas() {
-    root = std::make_unique<UIElement>();
+    // The root is a container across the whole screen
+    root = std::make_unique<ContainerElement>(
+        math::vec2{ 0, 0 },
+        math::vec2{ Window::DEFAULT_WIDTH, Window::DEFAULT_HEIGHT }
+    );
+    root->setTag("root");
 }
 
 UIElement* Canvas::getElementByTag(const std::string& tag) const {
@@ -18,6 +25,7 @@ void Canvas::addElement(std::unique_ptr<UIElement> element) {
 }
 
 void Canvas::render() const {
+    root->recomputePositionAndDimension();
     // Set up the UI shader first
     const Window* window = Engine::getSingleton()->getWindow();
     glm::mat4 projection = glm::ortho(

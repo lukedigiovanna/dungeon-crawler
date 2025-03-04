@@ -5,6 +5,7 @@
 #include "../../engine/Engine.h"
 #include "../../engine/managers/InputManager.h"
 #include "../../engine/ui/TextElement.h"
+#include "../../engine/components/Lifetime.h"
 
 PlayerMovement::PlayerMovement(float speed) : speed(speed) {
 
@@ -89,5 +90,11 @@ void PlayerMovement::update(float dt) {
                 std::to_string(static_cast<int>(obj->transform.position.y));
             textPlayerPos->setText(pos);
         }
+    }
+
+    std::shared_ptr<Lifetime> lifetime = obj->getComponent<Lifetime>();
+    UIElement* container = canvas.getElementByTag("container");
+    if (container) {
+        container->transform.position.x = 250 + std::sin(lifetime->getAge()) * 100;
     }
 }

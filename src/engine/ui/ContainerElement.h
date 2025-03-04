@@ -5,5 +5,5 @@
 class ContainerElement: public UIElement {
 private:
 public:
-    ContainerElement();
+    ContainerElement(const math::vec2& position, const math::vec2& dimension);
 };

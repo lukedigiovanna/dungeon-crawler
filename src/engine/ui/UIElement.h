@@ -8,7 +8,7 @@
 
 // Dictates how the UIElement should respond to changes
 // in the screen dimensions.
-enum AnchorPreset {
+enum Anchor {
     TOP_LEFT,
     TOP_CENTER,
     TOP_RIGHT,
@@ -33,7 +33,8 @@ private:
     // String to identify the element for access from component scripts.
     std::string tag;
     // Dictates position element should fix itself relative to on screen resize
-    math::vec2 anchor;
+    Anchor anchor;
+    math::vec2 anchorPosition;
     // Dictates how the scale of the element should change with screen size changes
     // implementation is dependent on the element type
     ScaleMode scaleMode;
@@ -41,8 +42,14 @@ private:
     std::vector<std::unique_ptr<UIElement>> children;
     // Reference to the parent, if it has one
     const UIElement* parent;
+
+    math::vec2 computedDimension;
+    math::vec2 computedAnchorPosition;
+    math::vec2 computedPosition;
 public:
     // Position relative to the parent in dimensions of the default screen size.
+    // By convention, the position should always be the top-left position of the element.
+    // The dimension extends down and right
     math::Transform transform;
 
     UIElement();
@@ -50,14 +57,28 @@ public:
 
     virtual void render() const;
 
-    // Performs a DFS on the canvas tree for the element with the given ID.
+    // Performs a DFS on the canvas tree for the first element with the given ID.
     UIElement* getElementByTag(const std::string& tag);
 
     // Adds the given element as a child to this element
     void addChild(std::unique_ptr<UIElement> element);
 
-    // Computes the position based on the transform and the screen dimensions
-    math::vec2 getComputedPosition() const;
+    // Should be performed before render.
+    // Will also update the position and dimension of any child elements.
+    void recomputePositionAndDimension();
+private:
+    void recomputeDimension();
+    void recomputeAnchor();
+    void recomputePosition();
+public:
+// inline methods
+    inline const math::vec2& getComputedPosition() const {
+        return this->computedPosition;
+    }
+
+    inline const math::vec2& getComputedDimension() const {
+        return this->computedDimension;
+    }
 
     inline void setTag(const std::string& tag) {
         this->tag = tag;
@@ -67,12 +88,9 @@ public:
         return tag;
     }
 
-    inline void setAnchor(const math::vec2& anchor) {
+    inline void setAnchor(Anchor anchor) {
         this->anchor = anchor;
     }
-
-    // Compute the anchor based on a preset
-    void setAnchor(AnchorPreset anchorPreset);
 
     inline void setScaleMode(ScaleMode scaleMode) {
         this->scaleMode = scaleMode;

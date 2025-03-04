@@ -37,6 +37,7 @@ add_executable(dungeon
   src/engine/managers/SpriteManager.cpp
   src/engine/managers/SceneManager.cpp
   src/engine/ui/Canvas.cpp
+  src/engine/ui/ContainerElement.cpp
   src/engine/ui/UIElement.cpp
   src/engine/ui/SpriteElement.cpp
   src/engine/ui/TextElement.cpp
