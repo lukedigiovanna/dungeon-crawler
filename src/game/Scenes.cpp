@@ -82,7 +82,7 @@ void scenes::SampleScene::setup() {
     container->transform.scale = { 250.0f, 250.0f };
     container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2 - 50};
     container->setAnchor(Anchor::ANCHOR_CENTER);
-    container->setScaleMode(ScaleMode::SCALE_CONSTANT);
+    container->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     container->setTag("container");
     container->active = false;
 
@@ -102,6 +102,15 @@ void scenes::SampleScene::setup() {
         t->transform.position = { x, y };
         t->setAnchor(presets[i]);
         t->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
+
+        std::unique_ptr<UIElement> txt = std::make_unique<TextElement>(
+            mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 5, id
+        );
+        txt->setTag(id + "_text");
+        txt->transform.position = { x, y };
+        txt->setAnchor(Anchor::ANCHOR_CENTER);
+        t->addChild(std::move(txt));
+
         container->addChild(std::move(t));
     }
     canvas.addElement(std::move(container));

@@ -146,8 +146,10 @@ void UIElement::render() const {
         return;
     }
 
+    std::cout << this->tag << std::endl;
+
     renderElement();
-    
+
     for (const auto& child : children) {
         child->render();
     }

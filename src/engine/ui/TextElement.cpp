@@ -8,7 +8,8 @@ TextElement::TextElement(const Font* font, const gfx::color& color, TextAlignmen
     alignment(alignment),
     size(size),
     text(text) {
-
+    transform.position = { 0, 0 };
+    transform.scale = { 0, 0 };
 }
 
 void TextElement::renderElement() const {
