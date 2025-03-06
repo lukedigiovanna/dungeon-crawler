@@ -80,7 +80,7 @@ void scenes::SampleScene::setup() {
 
     std::unique_ptr<UIElement> container = std::make_unique<SpriteElement>("minecraft0");
     container->transform.scale = { 250.0f, 250.0f };
-    container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2 - 50};
+    container->transform.position = { Window::DEFAULT_WIDTH / 2, Window::DEFAULT_HEIGHT / 2 };
     container->setAnchor(Anchor::ANCHOR_CENTER);
     container->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     container->setTag("container");
@@ -90,6 +90,9 @@ void scenes::SampleScene::setup() {
         ANCHOR_TOP_LEFT, ANCHOR_TOP_CENTER, ANCHOR_TOP_RIGHT,
         ANCHOR_CENTER_LEFT, ANCHOR_CENTER, ANCHOR_CENTER_RIGHT,
         ANCHOR_BOTTOM_LEFT, ANCHOR_BOTTOM_CENTER, ANCHOR_BOTTOM_RIGHT
+    };
+    TextAlignment alignmentPresets[3] = {
+        JUSTIFY_LEFT, JUSTIFY_CENTER, JUSTIFY_RIGHT
     };
     for (int i = 0; i < 9; i++) {
         int xi = i % 3, yi = i / 3;
@@ -104,11 +107,13 @@ void scenes::SampleScene::setup() {
         t->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
 
         std::unique_ptr<UIElement> txt = std::make_unique<TextElement>(
-            mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 5, id
+            mcFont, gfx::COLOR_BLUE, alignmentPresets[i % 3], 8.0f, id + "y"
         );
+        txt->transform.scale = { t->transform.scale.x * 2, t->transform.scale.y / 2};
+        txt->transform.position = t->transform.scale / 2;
         txt->setTag(id + "_text");
-        txt->transform.position = { x, y };
         txt->setAnchor(Anchor::ANCHOR_CENTER);
+        txt->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
         t->addChild(std::move(txt));
 
         container->addChild(std::move(t));
@@ -127,18 +132,23 @@ void scenes::MainMenuScene::setup() {
     const Font* mcFont = fontManager.getFont("minecraft");
     
     std::unique_ptr<UIElement> title = std::make_unique<TextElement>(
-        mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 30.0f, "OUBLIETTE"
+        mcFont, gfx::COLOR_WHITE, TextAlignment::JUSTIFY_CENTER, 48.0f, "OUBLIETTE"
     );
     title->setAnchor(Anchor::ANCHOR_TOP_CENTER);
-    title->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
+    // title->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
+    title->transform.scale = { 300, 48 };
     title->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 70.0f };
     canvas.addElement(std::move(title));
 
     std::unique_ptr<UIElement> enterToPlay = std::make_unique<TextElement>(
-        mcFont, gfx::color{ 0.7f, 0.7f, 0.74f, 0.5f }, TextAlignment::JUSTIFY_CENTER, 12.0f, "Pree <enter> to play"
+        mcFont, 
+        gfx::COLOR_GREEN, 
+        TextAlignment::JUSTIFY_CENTER, 
+        12.0f, 
+        "Press <enter> to play... or don't i don't really care. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     );
     enterToPlay->setAnchor(Anchor::ANCHOR_TOP_CENTER);
-    enterToPlay->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
+    // enterToPlay->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
     enterToPlay->transform.position = { Window::DEFAULT_WIDTH / 2.0f, 150.0f };
     canvas.addElement(std::move(enterToPlay));
 

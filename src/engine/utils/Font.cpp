@@ -9,6 +9,8 @@ FT_Library Font::ft;
 unsigned int Font::vao;
 unsigned int Font::vbo;
 
+const int Font::FONT_HEIGHT = 48;
+
 void Font::initFreeType() {
     if (FT_Init_FreeType(&ft))
     {
@@ -34,7 +36,7 @@ Font::Font(const std::string& filepath) {
         throw std::runtime_error("Font::Font: Could not init given font: " + filepath);
     }
 
-    FT_Set_Pixel_Sizes(face, 0, 48);
+    FT_Set_Pixel_Sizes(face, 0, FONT_HEIGHT);
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1); 
     // supported chars are from the space key to space + 128
@@ -75,8 +77,6 @@ Font::Font(const std::string& filepath) {
 
     glPixelStorei(GL_UNPACK_ALIGNMENT, 4); 
 }
-
-#include <iostream>
 
 float Font::textWidth(const std::string& text, float scale) const {
     float width = 0.0f;

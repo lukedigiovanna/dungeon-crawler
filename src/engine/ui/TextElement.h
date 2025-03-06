@@ -10,12 +10,13 @@ private:
 
     const Font* font;
     gfx::color color;
-    TextAlignment alignment;
+    TextAlignment textAlignment;
     float size;
+    float lineSpacing;
 
     void renderElement() const override;
 public:
-    TextElement(const Font* font, const gfx::color& color, TextAlignment alignment, float size, const std::string& text);
+    TextElement(const Font* font, const gfx::color& color, TextAlignment textAlignment, float size, const std::string& text);
 
     // Text elements can not have children
     void addChild(std::unique_ptr<UIElement> element) = delete;
@@ -36,12 +37,12 @@ public:
         return color;
     }
 
-    inline void setAlignment(TextAlignment alignment) {
-        this->alignment = alignment;
+    inline void setAlignment(TextAlignment textAlignment) {
+        this->textAlignment = textAlignment;
     }
 
-    inline TextAlignment getAlignment() const {
-        return alignment;
+    inline TextAlignment getTextAlignment() const {
+        return textAlignment;
     }
 
     inline void setFont(const Font* font) {

@@ -32,6 +32,7 @@ public:
     static unsigned int vao;
     static unsigned int vbo;
     static void initFreeType();
+    static const int FONT_HEIGHT;
 
     Font(const std::string& filepath);
 

@@ -146,7 +146,7 @@ void UIElement::render() const {
         return;
     }
 
-    std::cout << this->tag << std::endl;
+    // std::cout << this->tag << std::endl;
 
     renderElement();
 
