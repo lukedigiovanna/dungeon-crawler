@@ -94,7 +94,7 @@ void scenes::SampleScene::setup() {
     TextAlignment alignmentPresets[3] = {
         JUSTIFY_LEFT, JUSTIFY_CENTER, JUSTIFY_RIGHT
     };
-    for (int i = 0; i < 9; i++) {
+    for (int i = 0; i < 1; i++) {
         int xi = i % 3, yi = i / 3;
         float x = xi / 2.0f * container->transform.scale.x;
         float y = yi / 2.0f * container->transform.scale.y;
@@ -107,9 +107,9 @@ void scenes::SampleScene::setup() {
         t->setScaleMode(ScaleMode::SCALE_WITH_WIDTH);
 
         std::unique_ptr<UIElement> txt = std::make_unique<TextElement>(
-            mcFont, gfx::COLOR_BLUE, alignmentPresets[i % 3], 8.0f, id + "y"
+            mcFont, gfx::COLOR_BLUE, JUSTIFY_CENTER, 8.0f, id + "\n" + id + "\n" + id + "Press <enter> to play... or don't i don't really care. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
         );
-        txt->transform.scale = { t->transform.scale.x * 2, t->transform.scale.y / 2};
+        txt->transform.scale = { t->transform.scale.x * 2, t->transform.scale.y * 5};
         txt->transform.position = t->transform.scale / 2;
         txt->setTag(id + "_text");
         txt->setAnchor(Anchor::ANCHOR_CENTER);

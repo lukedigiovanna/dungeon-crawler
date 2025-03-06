@@ -13,7 +13,7 @@ TextElement::TextElement(const Font* font, const gfx::color& color, TextAlignmen
     transform.scale = { 250, 48 };
 }
 
-// #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 void TextElement::renderElement() const {
     if (!font) {
         return;
@@ -34,14 +34,15 @@ void TextElement::renderElement() const {
     // sprite->render(sShader);
 
     Shader& shader = Engine::getSingleton()->getManagers()->shaderManager().getShader("_ui_text");
-    float scale = size / Font::FONT_HEIGHT;
     ScaleMode sm = getScaleMode();
+    float m = 1;
     if (sm == ScaleMode::SCALE_WITH_WIDTH) {
-        scale *= Engine::getSingleton()->getWindow()->width() / Window::DEFAULT_WIDTH;
+        m = Engine::getSingleton()->getWindow()->width() / Window::DEFAULT_WIDTH;
     }
     else if (sm == ScaleMode::SCALE_WITH_HEIGHT) {
-        scale *= Engine::getSingleton()->getWindow()->height() / Window::DEFAULT_HEIGHT;
+        m = Engine::getSingleton()->getWindow()->height() / Window::DEFAULT_HEIGHT;
     }
+    float scale = m * size / Font::FONT_HEIGHT;
 
     if (textAlignment == JUSTIFY_CENTER) {
         position.x += dimension.x / 2;
@@ -51,21 +52,22 @@ void TextElement::renderElement() const {
     }
 
     // render line by line until the text doesn't fit anymore
-    float lineHeight = size + lineSpacing;
+    float lineHeight = m * (size + lineSpacing);
     int maxLines = static_cast<int>(dimension.y / lineHeight);
     int numLines = 0;
     int start = 0, count = 1;
     while (numLines + 1 <= maxLines && start + count < text.size()) {
         while (start + count <= text.size() && 
+               text[start + count] != '\n' &&
                font->textWidth(text.substr(start, count), scale) <= dimension.x) {
             count++;
         }
         int startCount = count;
         // delete word until whitespace
-        while (count > 0 && text[start + count] != ' ') count--;
+        while (count > 0 && text[start + count] != ' ' && text[start + count] != '\n') count--;
         // delete whitespace
         while (count > 0 && text[start + count] == ' ') count--;
-        if (count == 0) 
+        if (count == 0)
             count = startCount - 1;
         else
             count++;

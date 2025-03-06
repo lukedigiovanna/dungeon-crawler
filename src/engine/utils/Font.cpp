@@ -81,6 +81,9 @@ Font::Font(const std::string& filepath) {
 float Font::textWidth(const std::string& text, float scale) const {
     float width = 0.0f;
     for (auto c : text) {
+        if (c == '\n') {
+            continue;
+        }
         auto f = characters.find(c);
         if (f == characters.end()) {
             throw std::runtime_error("Font::textWidth: Unsupported character in string");
@@ -118,9 +121,12 @@ void Font::renderText(
     x += dx;
 
     for (auto c : text) {
+        if (c == '\n') {
+            continue;
+        }
         auto f = characters.find(c);
         if (f == characters.end()) {
-            throw std::runtime_error("Font::renderText: Unsupported character in string");
+            throw std::runtime_error("Font::renderText: Unsupported character in string: " + std::string(c, 1));
         }
         Character glyph = f->second;
 
